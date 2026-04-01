@@ -38,7 +38,7 @@ export default function HaberlerClient({ categories, posts }: { categories: Cate
       </div>
       <div className="np-grid">
         {filtered.map((post, i) => (
-          <a key={post.slug} href={`/post/${post.slug}`} className="np-card" style={{ transitionDelay: `${i * 0.08}s` }}>
+          <a key={post.slug} href={`/haberler/${post.slug}`} className="np-card" style={{ transitionDelay: `${i * 0.08}s` }}>
             <div className="np-card-img" style={{ backgroundImage: `url('${post.image}')` }} />
             <div className="np-card-overlay" />
             <div className="np-card-body">

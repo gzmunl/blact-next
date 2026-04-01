@@ -2,27 +2,29 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Navbar from '@/components/Navbar'
 import NavScript from '@/components/NavScript'
-import { newsPosts, getNewsPost } from '@/data/news'
+import Footer from '@/components/Footer'
 import { blogPosts, getBlogPost } from '@/data/blog'
 
 type Props = { params: Promise<{ slug: string }> }
 
 export async function generateStaticParams() {
-  const allSlugs = [
-    ...newsPosts.map(p => ({ slug: p.slug })),
-    ...blogPosts.map(p => ({ slug: p.slug })),
-  ];
-  return allSlugs;
+  return blogPosts.map(p => ({ slug: p.slug }))
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
-  const post = getNewsPost(slug) || getBlogPost(slug);
-  if (!post) return { title: '404 - Blact Systems' };
+  const { slug } = await params
+  const post = getBlogPost(slug)
+  if (!post) return { title: '404 - Blact Systems' }
   return {
-    title: `${post.title} - Blact Systems`,
+    title: `${post.title} - Blact Systems Blog`,
     description: post.excerpt,
-  };
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      type: 'article',
+      images: [post.image],
+    },
+  }
 }
 
 const pageStyles = `
@@ -40,28 +42,28 @@ const pageStyles = `
   .sp-body a { color: #e2771d; }
   .sp-back { display: inline-flex; align-items: center; gap: 0.5rem; max-width: 750px; margin: 0 auto; padding: 0 2.5rem; color: #e2771d; font-size: 0.85rem; font-weight: 600; width: 100%; background: #050507; text-decoration: none; }
   .sp-back:hover { color: #f0943e; }
-  @media (max-width: 768px) { .sp-hero { height: 40vh; min-height: 300px; } .sp-body { padding: 2rem 1.5rem 4rem; font-size: 1rem; } .sp-back { padding: 0 1.5rem; } }
-`;
+  .sp-share { max-width: 750px; margin: 0 auto; padding: 2rem 2.5rem; background: #050507; border-top: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; gap: 1rem; }
+  .sp-share-label { font-size: 0.75rem; color: #666; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
+  .sp-share a { color: #888; font-size: 0.85rem; text-decoration: none; transition: color 0.3s; }
+  .sp-share a:hover { color: #e2771d; }
+  @media (max-width: 768px) { .sp-hero { height: 40vh; min-height: 300px; } .sp-body { padding: 2rem 1.5rem 4rem; font-size: 1rem; } .sp-back { padding: 0 1.5rem; } .sp-share { padding: 2rem 1.5rem; } }
+`
 
 function formatDate(dateStr: string) {
-  const months = ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'];
-  const d = new Date(dateStr);
-  return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+  const months = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık']
+  const d = new Date(dateStr)
+  return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear()
 }
 
-export default async function PostPage({ params }: Props) {
-  const { slug } = await params;
-  const newsPost = getNewsPost(slug);
-  const blogPost = getBlogPost(slug);
-  const post = newsPost || blogPost;
-  const isNews = !!newsPost;
-
-  if (!post) notFound();
+export default async function BlogPostPage({ params }: Props) {
+  const { slug } = await params
+  const post = getBlogPost(slug)
+  if (!post) notFound()
 
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: pageStyles }} />
-      <Navbar active="post" transparent />
+      <Navbar active="blog" transparent />
       <NavScript />
 
       <section className="sp-hero">
@@ -72,16 +74,21 @@ export default async function PostPage({ params }: Props) {
           <h1>{post.title}</h1>
           <div className="sp-meta">
             <span>{formatDate(post.date)}</span>
-            {'readTime' in post && <span>{(post as any).readTime} dk okuma</span>}
+            <span>{post.readTime} dk okuma</span>
           </div>
         </div>
       </section>
 
-      <a href={isNews ? '/haberler' : '/blog'} className="sp-back">
-        &larr; {isNews ? 'Haberlere' : "Blog'a"} Dön
-      </a>
-
+      <a href="/blog" className="sp-back">&larr; Blog&apos;a Dön</a>
       <article className="sp-body" dangerouslySetInnerHTML={{ __html: post.content }} />
+
+      <div className="sp-share">
+        <span className="sp-share-label">Paylaş:</span>
+        <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}`} target="_blank" rel="noopener noreferrer">Twitter</a>
+        <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://blactsystems.com/blog/' + post.slug)}`} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </div>
+
+      <Footer />
     </>
   )
 }

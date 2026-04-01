@@ -1,0 +1,208 @@
+'use client'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import SeoScore from './SeoScore'
+
+interface PostFormProps {
+  type: 'blog' | 'news'
+  initialData?: {
+    id?: number
+    title: string
+    slug: string
+    excerpt: string
+    image: string
+    category: string
+    categorySlug: string
+    date: string
+    readTime?: number
+    content: string
+    metaTitle: string
+    metaDescription: string
+    metaKeywords: string
+    published: boolean
+  }
+}
+
+const categories = [
+  { slug: 'eklemeli-imalat', name: 'Eklemeli İmalat' },
+  { slug: 'kompozit', name: 'Kompozit' },
+  { slug: 'insansiz-araclar', name: 'İnsansız Araçlar' },
+  { slug: 'surdurulebilirlik', name: 'Sürdürülebilirlik' },
+]
+
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's')
+    .replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ç/g, 'c')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+}
+
+export default function PostForm({ type, initialData }: PostFormProps) {
+  const router = useRouter()
+  const isEdit = !!initialData?.id
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState('')
+
+  const [form, setForm] = useState({
+    title: initialData?.title || '',
+    slug: initialData?.slug || '',
+    excerpt: initialData?.excerpt || '',
+    image: initialData?.image || '',
+    category: initialData?.category || categories[0].name,
+    categorySlug: initialData?.categorySlug || categories[0].slug,
+    date: initialData?.date ? initialData.date.split('T')[0] : new Date().toISOString().split('T')[0],
+    readTime: initialData?.readTime || 5,
+    content: initialData?.content || '',
+    metaTitle: initialData?.metaTitle || '',
+    metaDescription: initialData?.metaDescription || '',
+    metaKeywords: initialData?.metaKeywords || '',
+    published: initialData?.published ?? true,
+  })
+
+  const updateField = (field: string, value: string | number | boolean) => {
+    setForm(prev => {
+      const updated = { ...prev, [field]: value }
+      if (field === 'title' && !isEdit) {
+        updated.slug = slugify(value as string)
+      }
+      if (field === 'category') {
+        const cat = categories.find(c => c.name === value)
+        if (cat) updated.categorySlug = cat.slug
+      }
+      return updated
+    })
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setSaving(true)
+    setError('')
+
+    const endpoint = isEdit ? `/api/${type === 'blog' ? 'blog' : 'news'}/${initialData!.id}` : `/api/${type === 'blog' ? 'blog' : 'news'}`
+    const method = isEdit ? 'PUT' : 'POST'
+
+    try {
+      const res = await fetch(endpoint, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+
+      if (res.ok) {
+        router.push(`/admin/${type === 'blog' ? 'blog' : 'news'}`)
+        router.refresh()
+      } else {
+        const data = await res.json()
+        setError(data.error || 'Kaydetme hatası')
+      }
+    } catch {
+      setError('Bağlantı hatası')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  return (
+    <form className="admin-form" onSubmit={handleSubmit}>
+      {error && <div style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', color: '#ef4444', padding: '0.7rem 1rem', fontSize: '0.8rem', marginBottom: '1rem' }}>{error}</div>}
+
+      <div className="admin-form-row">
+        <div className="admin-form-group">
+          <label className="admin-form-label">Başlık</label>
+          <input className="admin-form-input" value={form.title} onChange={e => updateField('title', e.target.value)} required />
+        </div>
+        <div className="admin-form-group">
+          <label className="admin-form-label">URL Slug</label>
+          <input className="admin-form-input" value={form.slug} onChange={e => updateField('slug', e.target.value)} required />
+        </div>
+      </div>
+
+      <div className="admin-form-group">
+        <label className="admin-form-label">Özet</label>
+        <textarea className="admin-form-input admin-form-textarea" style={{ minHeight: '80px' }} value={form.excerpt} onChange={e => updateField('excerpt', e.target.value)} required />
+      </div>
+
+      <div className="admin-form-row">
+        <div className="admin-form-group">
+          <label className="admin-form-label">Kategori</label>
+          <select className="admin-form-input" value={form.category} onChange={e => updateField('category', e.target.value)}>
+            {categories.map(c => <option key={c.slug} value={c.name}>{c.name}</option>)}
+          </select>
+        </div>
+        <div className="admin-form-group">
+          <label className="admin-form-label">Tarih</label>
+          <input type="date" className="admin-form-input" value={form.date} onChange={e => updateField('date', e.target.value)} required />
+        </div>
+      </div>
+
+      <div className="admin-form-row">
+        <div className="admin-form-group">
+          <label className="admin-form-label">Görsel URL</label>
+          <input className="admin-form-input" value={form.image} onChange={e => updateField('image', e.target.value)} placeholder="/images/..." />
+        </div>
+        {type === 'blog' && (
+          <div className="admin-form-group">
+            <label className="admin-form-label">Okuma Süresi (dk)</label>
+            <input type="number" className="admin-form-input" value={form.readTime} onChange={e => updateField('readTime', parseInt(e.target.value) || 0)} />
+          </div>
+        )}
+      </div>
+
+      <div className="admin-form-group">
+        <label className="admin-form-label">İçerik (HTML)</label>
+        <textarea className="admin-form-input admin-form-textarea" style={{ minHeight: '250px', fontFamily: 'monospace', fontSize: '0.85rem' }} value={form.content} onChange={e => updateField('content', e.target.value)} required />
+        <div className="admin-form-hint">HTML formatında yazın. Örn: &lt;h2&gt;Başlık&lt;/h2&gt;&lt;p&gt;Paragraf&lt;/p&gt;</div>
+      </div>
+
+      <div className="admin-form-group">
+        <label style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', cursor: 'pointer' }}>
+          <input type="checkbox" checked={form.published} onChange={e => updateField('published', e.target.checked)} />
+          <span style={{ fontSize: '0.85rem', color: '#ccc' }}>Yayında</span>
+        </label>
+      </div>
+
+      <div className="admin-seo-section">
+        <h3 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: '1.1rem', fontWeight: 700, color: '#fff', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '1.5rem' }}>
+          SEO Ayarları
+        </h3>
+
+        <div className="admin-form-group">
+          <label className="admin-form-label">Meta Başlık</label>
+          <input className="admin-form-input" value={form.metaTitle} onChange={e => updateField('metaTitle', e.target.value)} placeholder="Arama sonuçlarında görünecek başlık" />
+          <div className="admin-form-hint">{form.metaTitle.length}/60 karakter (ideal: 50-60)</div>
+        </div>
+
+        <div className="admin-form-group">
+          <label className="admin-form-label">Meta Açıklama</label>
+          <textarea className="admin-form-input admin-form-textarea" style={{ minHeight: '80px' }} value={form.metaDescription} onChange={e => updateField('metaDescription', e.target.value)} placeholder="Arama sonuçlarında görünecek açıklama" />
+          <div className="admin-form-hint">{form.metaDescription.length}/160 karakter (ideal: 150-160)</div>
+        </div>
+
+        <div className="admin-form-group">
+          <label className="admin-form-label">Anahtar Kelimeler</label>
+          <input className="admin-form-input" value={form.metaKeywords} onChange={e => updateField('metaKeywords', e.target.value)} placeholder="Virgülle ayırın: eklemeli imalat, metal, SLM" />
+        </div>
+
+        <SeoScore data={{
+          metaTitle: form.metaTitle,
+          metaDescription: form.metaDescription,
+          metaKeywords: form.metaKeywords,
+          title: form.title,
+          slug: form.slug,
+          content: form.content,
+          image: form.image,
+          excerpt: form.excerpt,
+        }} />
+      </div>
+
+      <div style={{ marginTop: '2rem', display: 'flex', gap: '1rem' }}>
+        <button type="submit" className="admin-btn admin-btn-primary" disabled={saving}>
+          {saving ? 'Kaydediliyor...' : isEdit ? 'Güncelle' : 'Yayınla'}
+        </button>
+        <a href={`/admin/${type === 'blog' ? 'blog' : 'news'}`} className="admin-btn admin-btn-outline">İptal</a>
+      </div>
+    </form>
+  )
+}

@@ -21,10 +21,10 @@ const pageStyles = `
   .np-section { background: #f5f5f7; padding: 0 0 5rem; }
   .np-section .container { max-width: 1200px; margin: 0 auto; padding: 0 2.5rem; }
   .np-filters { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 2.5rem; padding-top: 2rem; }
-  .np-filter { padding: 0.5rem 1.2rem; border-radius: 8px; border: 1px solid #ddd; background: transparent; color: #666; font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+  .np-filter { padding: 0.5rem 1.2rem; border-radius: 0; border: 1px solid #ddd; background: transparent; color: #666; font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: all 0.3s; }
   .np-filter:hover, .np-filter.active { background: #e2771d; color: #fff; border-color: #e2771d; }
   .np-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
-  .np-card { position: relative; overflow: hidden; border-radius: 14px; min-height: 280px; display: flex; align-items: flex-end; text-decoration: none; color: #fff; opacity: 0; transform: translateY(20px); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+  .np-card { position: relative; overflow: hidden; border-radius: 0; min-height: 280px; display: flex; align-items: flex-end; text-decoration: none; color: #fff; opacity: 0; transform: translateY(20px); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
   .np-card.visible { opacity: 1; transform: translateY(0); }
   .np-card:hover { transform: translateY(-4px); color: #fff; }
   .np-card-img { position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }

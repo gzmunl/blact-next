@@ -7,14 +7,46 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Blact Systems — İleri Teknoloji Mühendislik",
+  metadataBase: new URL("https://blactsystems.com"),
+  title: {
+    default: "Blact Systems — İleri Teknoloji Mühendislik",
+    template: "%s | Blact Systems",
+  },
   description:
     "Blact Systems — Eklemeli imalat, kompozit teknolojisi, insansız araçlar ve sürdürülebilirlik alanlarında yenilikçi mühendislik çözümleri.",
+  keywords: [
+    "eklemeli imalat",
+    "SLM",
+    "WAAM",
+    "kompozit teknolojisi",
+    "karbon fiber",
+    "insansız hava araçları",
+    "İHA",
+    "insansız deniz araçları",
+    "sürdürülebilirlik",
+    "mühendislik",
+    "Blact Systems",
+  ],
+  authors: [{ name: "Blact Systems" }],
+  creator: "Blact Systems",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
+  },
   openGraph: {
     title: "Blact Systems — İleri Teknoloji Mühendislik",
     description:
       "Eklemeli imalat, kompozit teknolojisi, insansız araçlar ve sürdürülebilirlik alanlarında yenilikçi mühendislik çözümleri.",
     type: "website",
+    locale: "tr_TR",
+    siteName: "Blact Systems",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blact Systems — İleri Teknoloji Mühendislik",
+    description:
+      "Eklemeli imalat, kompozit teknolojisi, insansız araçlar ve sürdürülebilirlik alanlarında yenilikçi mühendislik çözümleri.",
   },
   icons: {
     icon: "/images/favicon.svg",
