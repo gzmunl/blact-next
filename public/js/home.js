@@ -1,0 +1,1451 @@
+    // ============================================
+    // BLACT SYSTEMS — ULTRA INTERACTIVE ENGINE
+    // ============================================
+
+    // --- Cinematic Loading Screen ---
+    (function() {
+      const ls = document.getElementById('loadingScreen');
+      const pct = document.getElementById('loadingPercent');
+      const bar = document.getElementById('loadingBar');
+      let p = 0;
+      const iv = setInterval(() => {
+        p += Math.random() * 8 + 2;
+        if (p >= 100) {
+          p = 100; clearInterval(iv);
+          setTimeout(() => ls.classList.add('done'), 500);
+        }
+        pct.textContent = Math.floor(p) + '%';
+        bar.style.width = Math.floor(p) + '%';
+      }, 60);
+    })();
+
+    // Title animation is triggered by loading screen block below
+
+    // --- Mobile: move engrave-wrap to hero-inner ---
+    if (window.innerWidth <= 768) {
+      const ew = document.querySelector('.hero-visual .engrave-wrap');
+      const hi = document.querySelector('.hero-inner');
+      if (ew && hi) hi.appendChild(ew);
+    }
+
+    // --- Smooth Cursor Glow with lerp ---
+    const cursorGlow = document.getElementById('cursorGlow');
+    const heroReveal = document.getElementById('heroReveal');
+    let mouseX = 0, mouseY = 0, glowX = 0, glowY = 0;
+
+    if (window.innerWidth > 768) {
+      document.addEventListener('mousemove', e => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        cursorGlow.classList.add('active');
+
+        // Hero reveal: show background image around cursor
+        if (heroReveal) {
+          heroReveal.style.setProperty('--mx', e.clientX + 'px');
+          heroReveal.style.setProperty('--my', e.clientY + 'px');
+        }
+      });
+      document.addEventListener('mouseleave', () => cursorGlow.classList.remove('active'));
+
+      function animateCursor() {
+        glowX += (mouseX - glowX) * 0.08;
+        glowY += (mouseY - glowY) * 0.08;
+        cursorGlow.style.left = glowX + 'px';
+        cursorGlow.style.top = glowY + 'px';
+        requestAnimationFrame(animateCursor);
+      }
+      animateCursor();
+    }
+
+    // --- Button Spark Burst Effect ---
+    document.querySelectorAll('.btn').forEach(btn => {
+      btn.addEventListener('mouseenter', () => {
+        // Spark burst from edges
+        for (let i = 0; i < 12; i++) {
+          const spark = document.createElement('div');
+          spark.className = 'btn-spark';
+          const angle = (Math.PI * 2 / 12) * i + (Math.random() - 0.5) * 0.5;
+          const dist = 30 + Math.random() * 40;
+          const dur = 0.3 + Math.random() * 0.25;
+          spark.style.left = (50 + (Math.random() - 0.5) * 80) + '%';
+          spark.style.top = (50 + (Math.random() - 0.5) * 60) + '%';
+          spark.style.height = (5 + Math.random() * 10) + 'px';
+          spark.style.setProperty('--tx', (Math.cos(angle) * dist) + 'px');
+          spark.style.setProperty('--ty', (Math.sin(angle) * dist) + 'px');
+          spark.style.setProperty('--rot', (Math.atan2(Math.sin(angle), Math.cos(angle)) * 180 / Math.PI + 90) + 'deg');
+          spark.style.setProperty('--dur', dur + 's');
+          btn.appendChild(spark);
+          setTimeout(() => spark.remove(), dur * 1000 + 50);
+        }
+      });
+    });
+
+    // --- 3D Tilt Effect on Solution Cards ---
+    document.querySelectorAll('.solution-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - 0.5;
+        const y = (e.clientY - r.top) / r.height - 0.5;
+        card.style.transform = `perspective(1000px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg) translateY(-8px)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+      });
+    });
+
+    // --- Navbar + Scroll Top + Progress ---
+    const navbar = document.getElementById('navbar');
+    const scrollTopBtn = document.getElementById('scrollTop');
+    const scrollProgress = document.getElementById('scrollProgress');
+
+    const heroWrapperEl = document.getElementById('heroWrapper');
+    window.addEventListener('scroll', () => {
+      const heroEnd = heroWrapperEl ? heroWrapperEl.offsetHeight : 50;
+      // Engrave "BLACT SYSTEMS" yazıldığında sticky olsun (~%65 scroll)
+      const engravePoint = heroEnd * 0.65;
+      navbar.classList.toggle('scrolled', window.scrollY > engravePoint);
+      // Hangi section'ın sticky'si ekranda görünüyor? En yüksek z-index kazanır.
+      // Sıra: about(2) → solutions(3) → blog(4) → news(5) → contact(6)
+      const wrappers = [
+        { id: 'aboutWrapper', white: true },
+        { id: 'solutionsWrapper', white: false },
+        { id: 'blogWrapper', white: true },
+        { id: 'newsWrapper', white: false },
+        { id: 'contactWrapper', white: true }
+      ];
+      let onWhiteBg = false;
+      const sy = window.scrollY;
+      for (const w of wrappers) {
+        const el = document.getElementById(w.id);
+        if (!el) continue;
+        const wTop = el.offsetTop;
+        const wEnd = wTop + el.offsetHeight;
+        // sticky section aktif olduğunda: scroll wrapper'ın içindeyken
+        if (sy >= wTop && sy < wEnd) {
+          onWhiteBg = w.white;
+        }
+      }
+      navbar.classList.toggle('dark-mode', onWhiteBg);
+      scrollTopBtn.classList.toggle('visible', window.scrollY > 600);
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      if (h > 0) scrollProgress.style.width = (window.scrollY / h * 100) + '%';
+    });
+    scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    // --- Mobile Nav Toggle ---
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => { navLinks.classList.toggle('open'); navToggle.classList.toggle('open'); });
+    // Mobile dropdown toggle
+    document.querySelectorAll('.nav-dropdown > a').forEach(function(a) {
+      a.addEventListener('click', function(e) {
+        if (window.innerWidth <= 1024) {
+          e.preventDefault();
+          a.parentElement.classList.toggle('dropdown-open');
+        }
+      });
+    });
+    navLinks.querySelectorAll('a').forEach(l => l.addEventListener('click', function() {
+      // Dropdown parent'a tıklayınca menüyü kapatma — sadece dropdown açılsın
+      if (window.innerWidth <= 1024 && this.parentElement && this.parentElement.classList.contains('nav-dropdown')) return;
+      navLinks.classList.remove('open'); navToggle.classList.remove('open');
+    }));
+
+    // Smooth scroll: wrapper'ın animasyonlar tamamlanmış noktasına git
+    const sectionNavConfig = {
+      'hakkimizda': { wrapper: 'aboutWrapper', offset: 0.55, preScroll: 0 },
+      'cozumlerimiz': { wrapper: 'solutionsWrapper', offset: 0.3, preScroll: 0 },
+      'blog': { wrapper: 'blogWrapper', offset: 0.3, preScroll: 0 },
+      'haberler': { wrapper: 'newsWrapper', offset: 0.3, preScroll: 0 },
+      'iletisim': { wrapper: 'contactWrapper', offset: 0.25, preScroll: 0 }
+    };
+    // Yavaş scroll: animasyonlar oynayarak gitsin
+    var _scrollAnimId = null;
+    function slowScrollTo(target, duration) {
+      if (_scrollAnimId) cancelAnimationFrame(_scrollAnimId);
+      document.documentElement.style.scrollBehavior = 'auto';
+      var start = window.pageYOffset;
+      var distance = target - start;
+      var startTime = null;
+      function step(ts) {
+        if (!startTime) startTime = ts;
+        var p = Math.min((ts - startTime) / duration, 1);
+        var ease = p < 0.5 ? 4*p*p*p : 1 - Math.pow(-2*p+2, 3) / 2;
+        window.scrollTo(0, start + distance * ease);
+        if (p < 1) _scrollAnimId = requestAnimationFrame(step);
+        else { _scrollAnimId = null; document.documentElement.style.scrollBehavior = ''; }
+      }
+      _scrollAnimId = requestAnimationFrame(step);
+    }
+
+    // Geçiş overlay
+    var _navOverlay = document.createElement('div');
+    _navOverlay.style.cssText = 'position:fixed;inset:0;background:#050507;z-index:9999;opacity:0;pointer-events:none;transition:opacity 0.2s ease;';
+    document.body.appendChild(_navOverlay);
+
+    document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var hash = this.getAttribute('href').replace('#', '');
+        if (!hash || !sectionNavConfig[hash]) return;
+        // Mobil/tablet: dropdown parent link'e tıklayınca scroll yapma, dropdown açılsın
+        if (window.innerWidth <= 1024 && this.parentElement && this.parentElement.classList.contains('nav-dropdown')) { e.preventDefault(); return; }
+        var config = sectionNavConfig[hash];
+        var wrapper = document.getElementById(config.wrapper);
+        if (wrapper) {
+          e.preventDefault();
+          // Önceki scroll'u hemen durdur
+          if (_scrollAnimId) { cancelAnimationFrame(_scrollAnimId); _scrollAnimId = null; }
+          document.documentElement.style.scrollBehavior = 'auto';
+
+          if (window.innerWidth <= 1024) {
+            // --- MOBİL/TABLET: overlay + reset + scroll ---
+            var _mobileWrapper = wrapper;
+            var _mobileHash = hash;
+            _navOverlay.style.opacity = '1';
+            _navOverlay.style.pointerEvents = 'all';
+            window.__mobileNavPaused = true;
+            setTimeout(function() {
+              // About fixed ve tüm transform'ları kaldır
+              ['hakkimizda','cozumlerimiz','blog','haberler'].forEach(function(id) {
+                var s = document.getElementById(id);
+                if (s) {
+                  s.style.transform = 'none';
+                  s.style.setProperty('position', 'relative', 'important');
+                  s.style.removeProperty('top');
+                  s.style.removeProperty('left');
+                }
+              });
+              window.scrollTo(0, 0);
+              requestAnimationFrame(function() {
+                requestAnimationFrame(function() {
+                  var targetY = _mobileWrapper.getBoundingClientRect().top + 10;
+                  if (_mobileHash === 'iletisim') {
+                    var _label = _mobileWrapper.querySelector('.section-label');
+                    if (_label) {
+                      var el = _label, off = 0;
+                      while (el && el !== _mobileWrapper) { off += el.offsetTop; el = el.offsetParent; }
+                      targetY = _mobileWrapper.getBoundingClientRect().top + off - 60;
+                    }
+                  }
+                  window.__mobileNavPaused = false;
+                  window.scrollTo(0, targetY);
+                  requestAnimationFrame(function() {
+                    requestAnimationFrame(function() {
+                      var correction = _mobileWrapper.getBoundingClientRect().top;
+                      if (_mobileHash === 'iletisim') {
+                        var _label2 = _mobileWrapper.querySelector('.section-label');
+                        if (_label2) correction = _label2.getBoundingClientRect().top - 60;
+                      }
+                      if (Math.abs(correction) > 5) window.scrollTo(0, window.scrollY + correction);
+                      _navOverlay.style.opacity = '0';
+                      _navOverlay.style.pointerEvents = 'none';
+                    });
+                  });
+                });
+              });
+            }, 200);
+          } else {
+            // --- DESKTOP: fade overlay + anında jump + yavaş scroll ---
+            _navOverlay.style.opacity = '1';
+            _navOverlay.style.pointerEvents = 'all';
+            var wrapperAbsTop = wrapper.offsetTop;
+            var wrapperHeight = wrapper.offsetHeight;
+            setTimeout(function() {
+              window.scrollTo(0, wrapperAbsTop);
+              setTimeout(function() {
+                _navOverlay.style.opacity = '0';
+                _navOverlay.style.pointerEvents = 'none';
+                var targetScroll = wrapperAbsTop + (wrapperHeight * config.offset);
+                slowScrollTo(targetScroll, 2500);
+              }, 100);
+            }, 200);
+          }
+        }
+      });
+    });
+
+    // --- Intersection Observer with stagger ---
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
+    document.querySelectorAll('.fade-in, .slide-left, .slide-right, .pop-in, .rotate-in-left, .rotate-in-right, .scale-rotate-in, .flip-in-y, .flip-in-x, .section-divider').forEach(el => observer.observe(el));
+
+    // ============================================
+    // MEGA SCROLL EFFECTS ENGINE
+    // ============================================
+
+    // --- Master scroll loop: drives ALL scroll-based effects ---
+    (function() {
+      const heroWrapper = document.getElementById('heroWrapper');
+      const heroTitle = document.getElementById('heroTitle');
+      const heroDesc = document.querySelector('.hero-desc');
+      const heroButtons = document.querySelector('.hero-buttons');
+      const heroStats = document.querySelector('.hero-stats');
+      const heroAreas = document.querySelector('.hero-areas');
+      const heroAreaItems = document.querySelectorAll('.hero-area');
+      const heroVisual = document.querySelector('.hero-visual');
+      const heroLaser = document.querySelector('.hero-laser-img');
+      const engraveLines = document.querySelectorAll('.engrave-line');
+      const sparkZone = document.getElementById('sparkZone');
+      const dividers = document.querySelectorAll('.section-divider');
+      const allSections = document.querySelectorAll('.about, .solutions, .blog-section, .news-section, .contact-unified');
+      const solutionCards = document.querySelectorAll('.solution-card');
+      const blogCards = document.querySelectorAll('.blog-card');
+      const newsItems = document.querySelectorAll('.news-item');
+      const viewH = () => window.innerHeight;
+
+      // Mobile sticky header state
+      const _solHeader = document.querySelector('.solutions-header');
+      const _solHeaderParent = _solHeader ? _solHeader.parentNode : null;
+      const _solHeaderNext = _solHeader ? _solHeader.nextElementSibling : null;
+      let _solHeaderFixed = false, _solSpacer = null;
+
+      const _blogHeader = document.querySelector('.blog-header');
+      const _blogHeaderParent = _blogHeader ? _blogHeader.parentNode : null;
+      const _blogHeaderNext = _blogHeader ? _blogHeader.nextElementSibling : null;
+      let _blogHeaderFixed = false, _blogSpacer = null;
+
+      const _newsHeader = document.querySelector('.news-header');
+      const _newsHeaderParent = _newsHeader ? _newsHeader.parentNode : null;
+      const _newsHeaderNext = _newsHeader ? _newsHeader.nextElementSibling : null;
+      let _newsHeaderFixed = false, _newsSpacer = null;
+
+      // Helper: how far element is through viewport (0 = bottom edge, 1 = top edge)
+      function scrollProgress(el) {
+        const rect = el.getBoundingClientRect();
+        return 1 - (rect.top + rect.height / 2) / viewH();
+      }
+      // Clamp
+      function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+
+      // --- 1. Divider shapes: continuous rotation tied to scroll ---
+      function updateDividers() {
+        dividers.forEach(div => {
+          const p = scrollProgress(div);
+          const rot = p * 720; // 2 full rotations through viewport
+          div.style.setProperty('--scroll-rot', rot + 'deg');
+          div.style.setProperty('--scroll-rot-rev', (-rot * 1.5) + 'deg');
+          // Scale shapes based on proximity to center
+          const scale = 0.3 + clamp(1 - Math.abs(p - 0.5) * 2, 0, 1) * 0.7;
+          div.querySelectorAll('.divider-shape').forEach((s, i) => {
+            s.style.transform = `rotate(${rot * (i % 2 === 0 ? 1 : -1.3)}deg) scale(${scale})`;
+            s.style.opacity = clamp(scale, 0, 1);
+          });
+        });
+      }
+
+      // --- About: scroll-driven visual rotation + text stagger ---
+      const aboutBg = document.getElementById('aboutBg');
+      const aboutVisual = document.getElementById('aboutVisual');
+      const aboutWrapper = document.getElementById('aboutWrapper');
+      const aboutSection = document.getElementById('hakkimizda');
+      const aboutLabel = aboutSection ? aboutSection.querySelector('.section-label') : null;
+      const aboutTitleEl = document.getElementById('aboutTitle');
+      const aboutP1 = aboutSection ? aboutSection.querySelector('.about-p1') : null;
+      const aboutP2 = aboutSection ? aboutSection.querySelector('.about-p2') : null;
+      const aboutValueItems = aboutSection ? aboutSection.querySelectorAll('.value-item') : [];
+
+      function updateAbout() {
+        if (!aboutWrapper) return;
+        const wRect = aboutWrapper.getBoundingClientRect();
+        const scrollable = wRect.height - viewH();
+        if (scrollable <= 0) return;
+        const rawP = clamp(-wRect.top / scrollable, 0, 1);
+
+        // Background: slow pan
+        if (aboutBg) {
+          const bgX = rawP * 40 - 20;
+          aboutBg.style.transform = `translateX(${bgX}px) scale(1.1)`;
+          aboutBg.style.opacity = 0.1 + rawP * 0.15;
+        }
+
+        // Visual: rotate in from left — starts immediately
+        if (aboutVisual) {
+          const vP = clamp(rawP / 0.4, 0, 1);
+          const ease = 1 - Math.pow(1 - vP, 3);
+          const rotY = (1 - ease) * -35;
+          const tx = (1 - ease) * -150;
+          aboutVisual.style.transform = `perspective(1200px) rotateY(${rotY}deg) translateX(${tx}px)`;
+          aboutVisual.style.opacity = 0.2 + ease * 0.8;
+        }
+
+        // Label — starts early
+        if (aboutLabel) {
+          const lP = clamp(rawP / 0.25, 0, 1);
+          aboutLabel.style.opacity = 0.3 + lP * 0.7;
+          aboutLabel.style.transform = `translateY(${(1 - lP) * 15}px)`;
+        }
+
+        // Title
+        if (aboutTitleEl) {
+          const tP = clamp((rawP - 0.05) / 0.3, 0, 1);
+          const ease = tP * tP;
+          aboutTitleEl.style.opacity = 0.3 + ease * 0.7;
+          aboutTitleEl.style.transform = `translateY(${(1 - ease) * 20}px)`;
+        }
+
+        // Paragraphs
+        if (aboutP1) {
+          const p1P = clamp((rawP - 0.15) / 0.3, 0, 1);
+          aboutP1.style.opacity = 0.2 + p1P * 0.8;
+          aboutP1.style.transform = `translateY(${(1 - p1P) * 15}px)`;
+        }
+        if (aboutP2) {
+          const p2P = clamp((rawP - 0.25) / 0.3, 0, 1);
+          aboutP2.style.opacity = 0.2 + p2P * 0.8;
+          aboutP2.style.transform = `translateY(${(1 - p2P) * 15}px)`;
+        }
+
+        // Value items
+        aboutValueItems.forEach((item, i) => {
+          const iP = clamp((rawP - 0.35 - i * 0.06) / 0.25, 0, 1);
+          const ease = 1 - Math.pow(1 - iP, 3);
+          const tx = (1 - ease) * 40;
+          item.style.opacity = 0.2 + ease * 0.8;
+          item.style.transform = `translateX(${tx}px)`;
+        });
+      }
+
+      // --- 2. Section parallax: children move at different speeds ---
+      function updateSectionParallax() {
+        allSections.forEach(section => {
+          const rect = section.getBoundingClientRect();
+          const p = clamp(-rect.top / (rect.height + viewH()) + 0.5, 0, 1);
+
+          // Background glow orbs move with parallax
+          const glow = section.querySelector('.section-bg-glow');
+          if (glow) {
+            const glowY = (p - 0.5) * 200;
+            const glowX = Math.sin(p * Math.PI) * 100;
+            glow.style.transform = `translate(${glowX}px, ${glowY}px) scale(${0.5 + p * 0.8})`;
+            glow.style.opacity = clamp(Math.sin(p * Math.PI) * 1.5, 0, 1);
+          }
+
+          // Floating particles react to scroll
+          const particles = section.querySelector('.floating-particles');
+          if (particles) {
+            particles.style.transform = `translateY(${(p - 0.5) * -60}px)`;
+          }
+        });
+      }
+
+      // --- 3. Solution cards: scroll in with 3D flip, then slide open to reveal bg ---
+      const solutionsWrapper = document.getElementById('solutionsWrapper');
+      const solutionsSection = document.getElementById('cozumlerimiz');
+      const solHeader = solutionsSection ? solutionsSection.querySelector('.solutions-header') : null;
+
+      // Each card flies in from a different direction
+      const cardDirections = [
+        { tx: -800, ty: -400, rot: -30, rotY: -50 },
+        { tx: 800, ty: -400, rot: 30, rotY: 50 },
+        { tx: -800, ty: 400, rot: 20, rotY: -40 },
+        { tx: 800, ty: 400, rot: -20, rotY: 40 },
+      ];
+
+      function updateSolutionCards() {
+        if (!solutionsWrapper || !solutionsSection) return;
+        const wRect = solutionsWrapper.getBoundingClientRect();
+        // rawP: 0 = wrapper top at viewport bottom, 1 = wrapper bottom at viewport top
+        // Since wrapper is 250vh and section is sticky, this gives us scroll range
+        const scrollable = wRect.height - viewH();
+        const rawP = clamp(-wRect.top / scrollable, 0, 1);
+
+        // Background: zoom in as you scroll (1.4 → 1.0)
+        const bgScale = 1.4 - rawP * 0.4;
+        solutionsSection.style.backgroundSize = (bgScale * 100) + '%';
+
+        // Overlay darkens then lightens
+        const overlayOpacity = 0.7 - rawP * 0.25;
+        solutionsSection.style.setProperty('--overlay-opacity', overlayOpacity);
+
+        // Header: appears first (0 → 0.15)
+        if (solHeader) {
+          const hP = clamp(rawP / 0.15, 0, 1);
+          const easeH = 1 - Math.pow(1 - hP, 3);
+          solHeader.style.transform = `translateY(${(1 - easeH) * 80}px)`;
+          solHeader.style.opacity = easeH;
+        }
+
+        // Cards: fly in from 4 corners (0.08 → 0.38)
+        const cardP = clamp((rawP - 0.08) / 0.30, 0, 1);
+
+        solutionCards.forEach((card, i) => {
+          const stagger = i * 0.15;
+          const myP = clamp((cardP - stagger) / (1 - stagger), 0, 1);
+          const ease = 1 - Math.pow(1 - myP, 4);
+          const dir = cardDirections[i] || cardDirections[0];
+
+          const tx = dir.tx * (1 - ease);
+          const ty = dir.ty * (1 - ease);
+          const rot = dir.rot * (1 - ease);
+          const rotY = dir.rotY * (1 - ease);
+          const scale = 0.2 + ease * 0.8;
+
+          card.style.transform = `perspective(1200px) translate(${tx}px, ${ty}px) rotate(${rot}deg) rotateY(${rotY}deg) scale(${scale})`;
+          card.style.opacity = clamp(ease * 1.5, 0, 1);
+
+          const bg = card.querySelector('.solution-card-bg');
+          if (bg) bg.style.opacity = 0.1 + ease * 0.4;
+        });
+      }
+
+      // --- 4. Blog cards: stagger cascade from sides ---
+      function updateBlogCards() {
+        blogCards.forEach((card, i) => {
+          const rect = card.getBoundingClientRect();
+          const p = clamp(1 - rect.top / viewH(), -0.2, 1.2);
+          if (p > 0 && p < 1) {
+            const dir = i === 0 ? -1 : i === 2 ? 1 : 0;
+            const translateX = (1 - p) * dir * 150;
+            const rotate = (1 - p) * dir * 15;
+            const scale = 0.6 + p * 0.4;
+            card.style.transform = `translateX(${translateX}px) rotate(${rotate}deg) scale(${scale})`;
+            card.style.opacity = clamp(p * 2.5, 0, 1);
+          }
+        });
+      }
+
+      // --- 5. News items: horizontal slide with stagger ---
+      function updateNewsItems() {
+        newsItems.forEach((item, i) => {
+          const rect = item.getBoundingClientRect();
+          const p = clamp(1 - rect.top / viewH(), -0.2, 1.2);
+          if (p > 0 && p < 1) {
+            const translateX = (1 - p) * (-200 - i * 50);
+            const skew = (1 - p) * -5;
+            item.style.transform = `translateX(${translateX}px) skewX(${skew}deg)`;
+            item.style.opacity = clamp(p * 3, 0, 1);
+          }
+        });
+      }
+
+      // --- 6. Section titles: handled by spark animation, no scroll effect ---
+      function updateTitles() {}
+
+      // --- 7. Hero: scroll-driven cinematic entrance ---
+      let lastHeroSparkTime = 0;
+      function updateHero() {
+        if (!heroWrapper) return;
+        const wRect = heroWrapper.getBoundingClientRect();
+        const scrollable = wRect.height - viewH();
+        if (scrollable <= 0) return;
+        const rawP = clamp(-wRect.top / scrollable, 0, 1);
+
+        // Title + Visual: always visible (appear on page load)
+        // Scroll only drives: desc, buttons, stats, engrave, areas
+
+        // Description — gentle fade over long scroll range
+        if (heroDesc) {
+          const dP = clamp(rawP / 0.3, 0, 1);
+          const ease = dP * dP;
+          heroDesc.style.opacity = ease;
+          heroDesc.style.transform = `translateY(${(1 - ease) * 25}px)`;
+        }
+
+        // Buttons — smooth
+        if (heroButtons) {
+          const bP = clamp((rawP - 0.15) / 0.3, 0, 1);
+          const ease = bP * bP;
+          heroButtons.style.opacity = ease;
+          heroButtons.style.transform = `translateY(${(1 - ease) * 20}px)`;
+        }
+
+        // Stats — smooth
+        if (heroStats) {
+          const sP = clamp((rawP - 0.30) / 0.3, 0, 1);
+          const ease = sP * sP;
+          heroStats.style.opacity = ease;
+          heroStats.style.transform = `translateY(${(1 - ease) * 20}px)`;
+        }
+
+        // Engrave stages
+        if (engraveLines.length) {
+          const eP = clamp((rawP - 0.35) / 0.35, 0, 1);
+          const stages = ['stage-dots', 'stage-dashed', 'stage-full'];
+          let stageIdx = -1;
+          if (eP > 0.1) stageIdx = 0;
+          if (eP > 0.45) stageIdx = 1;
+          if (eP > 0.8) stageIdx = 2;
+          engraveLines.forEach(line => {
+            stages.forEach(s => line.classList.remove(s));
+            if (stageIdx >= 0) line.classList.add(stages[stageIdx]);
+          });
+        }
+
+        // Sparks during engrave
+        if (sparkZone && rawP > 0.35 && rawP < 0.75) {
+          const now = Date.now();
+          if (now - lastHeroSparkTime > 100) {
+            lastHeroSparkTime = now;
+            for (let i = 0; i < 4; i++) {
+              const spark = document.createElement('div');
+              spark.className = 'spark-particle';
+              const a = -Math.PI/2 + (Math.random() - 0.5) * 2.8;
+              const dist = 25 + Math.random() * 70;
+              const dur = 0.2 + Math.random() * 0.35;
+              spark.style.left = 'calc(50% + ' + ((Math.random()-0.5)*20) + 'px)';
+              spark.style.setProperty('--tx', (Math.cos(a)*dist)+'px');
+              spark.style.setProperty('--ty', (Math.sin(a)*dist)+'px');
+              spark.style.setProperty('--rot', (Math.atan2(Math.sin(a),Math.cos(a))*180/Math.PI+90)+'deg');
+              spark.style.setProperty('--dur', dur+'s');
+              spark.style.height = (6+Math.random()*12)+'px';
+              spark.style.width = (1+Math.random()*1.5)+'px';
+              sparkZone.appendChild(spark);
+              setTimeout(() => spark.remove(), dur*1000+50);
+            }
+          }
+        }
+
+        // Laser sway after engrave
+        if (heroLaser && rawP > 0.55) {
+          if (!heroLaser.classList.contains('sway')) heroLaser.classList.add('sway');
+        }
+
+        // Areas bar — smooth
+        if (heroAreas) {
+          const aP = clamp((rawP - 0.55) / 0.3, 0, 1);
+          const ease = aP * aP;
+          heroAreas.style.opacity = ease;
+          heroAreas.style.transform = `translateY(${(1 - ease) * 15}px)`;
+        }
+        heroAreaItems.forEach((item, i) => {
+          const iP = clamp((rawP - 0.58 - i * 0.04) / 0.25, 0, 1);
+          const ease = iP * iP;
+          item.style.opacity = ease;
+          item.style.transform = `translateY(${(1 - ease) * 12}px)`;
+        });
+      }
+
+      // --- 8. Tech Strip: bands scroll in from sides ---
+      const techWrapper = document.getElementById('techstripWrapper');
+      const techBand1 = document.querySelector('.tech-band-1');
+      const techBand2 = document.querySelector('.tech-band-2');
+
+      function updateTechStrip() {
+        if (!techWrapper) return;
+        const wRect = techWrapper.getBoundingClientRect();
+        const scrollable = wRect.height - viewH();
+        if (scrollable <= 0) return;
+        const rawP = clamp(-wRect.top / scrollable, 0, 1);
+
+        // Band 1: slides in from left + rotates
+        if (techBand1) {
+          const p1 = clamp(rawP / 0.5, 0, 1);
+          const ease = 1 - Math.pow(1 - p1, 3);
+          const tx = (1 - ease) * -110;
+          techBand1.style.transform = `rotate(-3deg) translateX(${tx}%)`;
+          techBand1.style.opacity = ease;
+        }
+
+        // Band 2: slides in from right + rotates
+        if (techBand2) {
+          const p2 = clamp((rawP - 0.15) / 0.5, 0, 1);
+          const ease = 1 - Math.pow(1 - p2, 3);
+          const tx = (1 - ease) * 110;
+          techBand2.style.transform = `rotate(3deg) translateX(${tx}%)`;
+          techBand2.style.opacity = ease;
+        }
+      }
+
+      // --- 9. Blog: scroll-driven magazine cards ---
+      const blogWrapperEl = document.getElementById('blogWrapper');
+      const blogSection = document.getElementById('blog');
+      const blogHeader = blogSection ? blogSection.querySelector('.blog-header') : null;
+      const blogMagMain = blogSection ? blogSection.querySelector('.blog-mag-main') : null;
+      const blogMagCards = blogSection ? blogSection.querySelectorAll('.blog-mag-card') : [];
+
+      function updateBlog() {
+        if (!blogWrapperEl) return;
+        const wRect = blogWrapperEl.getBoundingClientRect();
+        const scrollable = wRect.height - viewH();
+        if (scrollable <= 0) return;
+        const rawP = clamp(-wRect.top / scrollable, 0, 1);
+
+        // Header: title + button
+        if (blogHeader) {
+          const hP = clamp(rawP / 0.15, 0, 1);
+          const ease = hP * hP;
+          blogHeader.style.opacity = ease;
+          blogHeader.style.transform = `translateY(${(1 - ease) * 30}px)`;
+        }
+
+        // Main card: slides in from left
+        if (blogMagMain) {
+          const mP = clamp((rawP - 0.05) / 0.25, 0, 1);
+          const ease = 1 - Math.pow(1 - mP, 3);
+          const tx = (1 - ease) * -300;
+          const rotY = (1 - ease) * -15;
+          blogMagMain.style.transform = `perspective(1200px) translateX(${tx}px) rotateY(${rotY}deg)`;
+          blogMagMain.style.opacity = clamp(ease * 1.5, 0, 1);
+        }
+
+        // Side cards: slide in from right, together
+        blogMagCards.forEach((card) => {
+          const cP = clamp((rawP - 0.05) / 0.25, 0, 1);
+          const ease = 1 - Math.pow(1 - cP, 3);
+          const tx = (1 - ease) * 300;
+          const rotY = (1 - ease) * 15;
+          card.style.transform = `perspective(1200px) translateX(${tx}px) rotateY(${rotY}deg)`;
+          card.style.opacity = clamp(ease * 1.5, 0, 1);
+        });
+      }
+
+      // --- 10. News: scroll-driven cards ---
+      const newsWrapperEl = document.getElementById('newsWrapper');
+      const newsHeaderEl = newsWrapperEl ? newsWrapperEl.querySelector('.news-header') : null;
+      const newsCardEls = newsWrapperEl ? newsWrapperEl.querySelectorAll('.news-card') : [];
+
+      function updateNews() {
+        if (!newsWrapperEl) return;
+        const wRect = newsWrapperEl.getBoundingClientRect();
+        const scrollable = wRect.height - viewH();
+        if (scrollable <= 0) return;
+        const rawP = clamp(-wRect.top / scrollable, 0, 1);
+
+        // Header
+        if (newsHeaderEl) {
+          const hP = clamp(rawP / 0.12, 0, 1);
+          const ease = hP * hP;
+          newsHeaderEl.style.opacity = ease;
+          newsHeaderEl.style.transform = `translateY(${(1 - ease) * 30}px)`;
+        }
+
+        // Cards: left/right rotate in, center from bottom
+        const newsDirections = [
+          { tx: -400, rot: -20, rotY: -30 }, // left card
+          { tx: 0, ty: 250, rot: 0, rotY: 0 },   // center card — from bottom
+          { tx: 400, rot: 20, rotY: 30 },    // right card
+        ];
+        newsCardEls.forEach((card, i) => {
+          const cP = clamp((rawP - 0.05 - i * 0.07) / 0.25, 0, 1);
+          const ease = 1 - Math.pow(1 - cP, 4);
+          const dir = newsDirections[i] || newsDirections[1];
+          const tx = (dir.tx || 0) * (1 - ease);
+          const ty = (dir.ty || 0) * (1 - ease);
+          const rot = (dir.rot || 0) * (1 - ease);
+          const rotY = (dir.rotY || 0) * (1 - ease);
+          card.style.transform = `perspective(1200px) translate(${tx}px, ${ty}px) rotate(${rot}deg) rotateY(${rotY}deg)`;
+          card.style.opacity = clamp(ease * 1.5, 0, 1);
+        });
+      }
+
+      // --- 11. Contact: scroll-driven entrance ---
+      const contactWrapperEl = document.getElementById('contactWrapper');
+      const contactLeft = contactWrapperEl ? contactWrapperEl.querySelector('.nu-contact-left') : null;
+      const contactRight = contactWrapperEl ? contactWrapperEl.querySelector('.nu-contact-right') : null;
+      const contactNewsletter = contactWrapperEl ? contactWrapperEl.querySelector('.newsletter-inner') : null;
+      const contactMap = contactWrapperEl ? contactWrapperEl.querySelector('.footer-map') : null;
+
+      function updateContact() {
+        if (!contactWrapperEl) return;
+        const wRect = contactWrapperEl.getBoundingClientRect();
+        const scrollable = wRect.height - viewH();
+        if (scrollable <= 0) return;
+        const rawP = clamp(-wRect.top / scrollable, 0, 1);
+
+        // Newsletter: slide down from top
+        if (contactNewsletter) {
+          const p = clamp(rawP / 0.2, 0, 1);
+          const ease = 1 - Math.pow(1 - p, 3);
+          contactNewsletter.style.transform = `translateY(${(1 - ease) * -60}px)`;
+          contactNewsletter.style.opacity = clamp(ease * 1.5, 0, 1);
+        }
+
+        // Left info: slide from left
+        if (contactLeft) {
+          const p = clamp((rawP - 0.08) / 0.25, 0, 1);
+          const ease = 1 - Math.pow(1 - p, 3);
+          contactLeft.style.transform = `translateX(${(1 - ease) * -200}px)`;
+          contactLeft.style.opacity = clamp(ease * 1.5, 0, 1);
+        }
+
+        // Right form: slide from right
+        if (contactRight) {
+          const p = clamp((rawP - 0.12) / 0.25, 0, 1);
+          const ease = 1 - Math.pow(1 - p, 3);
+          contactRight.style.transform = `translateX(${(1 - ease) * 200}px)`;
+          contactRight.style.opacity = clamp(ease * 1.5, 0, 1);
+        }
+
+        // Map: fade up from bottom
+        if (contactMap) {
+          const p = clamp((rawP - 0.2) / 0.25, 0, 1);
+          const ease = 1 - Math.pow(1 - p, 3);
+          contactMap.style.transform = `translateY(${(1 - ease) * 80}px)`;
+          contactMap.style.opacity = clamp(ease * 1.5, 0, 1);
+        }
+      }
+
+      // Master animation frame
+      function masterScrollLoop() {
+        if (window.__mobileNavPaused) { requestAnimationFrame(masterScrollLoop); return; }
+        // Hero animations run on ALL screen sizes
+        updateHero();
+
+        if (window.innerWidth > 1024) {
+          updateAbout();
+          updateDividers();
+          updateSectionParallax();
+          updateSolutionCards();
+          updateBlog();
+          updateNews();
+          updateContact();
+          updateTitles();
+        } else {
+          // Mobile: lock sections after content scrolled
+          var vh = viewH();
+          var _newsSection = document.getElementById('haberler');
+
+          // mobileLock: section'ı viewport'un altına kilitle
+          function mobileLock(wrapper, section) {
+            if (!wrapper || !section) return;
+            var wRect = wrapper.getBoundingClientRect();
+            var sH = section._cH || (section._cH = section.offsetHeight);
+            var naturalBottom = wRect.top + sH;
+            var newY = 0;
+            if (naturalBottom < vh && wRect.bottom > 0) {
+              newY = Math.round(vh - naturalBottom);
+            }
+            if (section._lastY !== newY) {
+              section._lastY = newY;
+              section.style.transform = 'translate3d(0,' + newY + 'px,0)';
+            }
+          }
+
+          // About: sabit kal, solutions üstüne gelsin
+          if (aboutWrapper && aboutSection) {
+            var aRect = aboutWrapper.getBoundingClientRect();
+            var shouldFix = aRect.top <= 0;
+            if (shouldFix !== aboutSection._wasFixed) {
+              aboutSection._wasFixed = shouldFix;
+              if (shouldFix) {
+                aboutSection.style.setProperty('position', 'fixed', 'important');
+                aboutSection.style.setProperty('top', '0', 'important');
+                aboutSection.style.setProperty('left', '0', 'important');
+                aboutSection.style.setProperty('width', '100%', 'important');
+                aboutSection.style.setProperty('z-index', '2', 'important');
+              } else {
+                aboutSection.style.setProperty('position', 'relative', 'important');
+                aboutSection.style.removeProperty('top');
+                aboutSection.style.removeProperty('left');
+              }
+            }
+          }
+
+          mobileLock(solutionsWrapper, solutionsSection);
+          mobileLock(blogWrapperEl, blogSection);
+          mobileLock(newsWrapperEl, _newsSection);
+
+
+          // Solutions header → body'ye taşı (blog gelmeden önce)
+          if (_solHeader && solutionsWrapper) {
+            var _sw = solutionsWrapper.getBoundingClientRect();
+            var _blogNotYet = blogWrapperEl ? blogWrapperEl.getBoundingClientRect().top > 0 : true;
+            if (_sw.top <= 0 && _sw.bottom > 0 && _blogNotYet && !_solHeaderFixed) {
+              _solSpacer = document.createElement('div');
+              _solSpacer.style.height = _solHeader.offsetHeight + 'px';
+              _solHeaderParent.insertBefore(_solSpacer, _solHeaderNext);
+              _solHeader.classList.add('mobile-fixed');
+              document.body.appendChild(_solHeader);
+              _solHeaderFixed = true;
+            } else if ((_sw.top > 0 || _sw.bottom <= 0) && _solHeaderFixed) {
+              _solHeader.classList.remove('mobile-fixed');
+              if (_solSpacer && _solSpacer.parentNode) {
+                _solHeaderParent.insertBefore(_solHeader, _solSpacer);
+                _solSpacer.remove();
+              }
+              _solHeaderFixed = false;
+            }
+          }
+
+          // Blog geldiğinde solutions header'ı kaldır
+          if (_solHeaderFixed && blogWrapperEl) {
+            var _bwCheck = blogWrapperEl.getBoundingClientRect();
+            if (_bwCheck.top <= 0) {
+              _solHeader.classList.remove('mobile-fixed');
+              if (_solSpacer && _solSpacer.parentNode) {
+                _solHeaderParent.insertBefore(_solHeader, _solSpacer);
+                _solSpacer.remove();
+              }
+              _solHeaderFixed = false;
+            }
+          }
+
+          // News geldiğinde blog header'ı kaldır
+          if (_blogHeaderFixed && newsWrapperEl) {
+            var _nwCheck = newsWrapperEl.getBoundingClientRect();
+            if (_nwCheck.top <= 0) {
+              _blogHeader.classList.remove('mobile-fixed');
+              if (_blogSpacer && _blogSpacer.parentNode) {
+                _blogHeaderParent.insertBefore(_blogHeader, _blogSpacer);
+                _blogSpacer.remove();
+              }
+              _blogHeaderFixed = false;
+            }
+          }
+
+          // Blog header → body'ye taşı (news gelmeden önce)
+          if (_blogHeader && blogWrapperEl) {
+            var _bw = blogWrapperEl.getBoundingClientRect();
+            var _newsNotYet = newsWrapperEl ? newsWrapperEl.getBoundingClientRect().top > 0 : true;
+            if (_bw.top <= 0 && _bw.bottom > 0 && _newsNotYet && !_blogHeaderFixed) {
+              _blogSpacer = document.createElement('div');
+              _blogSpacer.style.height = _blogHeader.offsetHeight + 'px';
+              _blogHeaderParent.insertBefore(_blogSpacer, _blogHeaderNext);
+              _blogHeader.classList.add('mobile-fixed');
+              document.body.appendChild(_blogHeader);
+              _blogHeaderFixed = true;
+            } else if ((_bw.top > 0 || _bw.bottom <= 0) && _blogHeaderFixed) {
+              _blogHeader.classList.remove('mobile-fixed');
+              if (_blogSpacer && _blogSpacer.parentNode) {
+                _blogHeaderParent.insertBefore(_blogHeader, _blogSpacer);
+                _blogSpacer.remove();
+              }
+              _blogHeaderFixed = false;
+            }
+          }
+
+          // Contact geldiğinde news header'ı kaldır
+          var contactWrapperEl = document.querySelector('.contact-wrapper');
+          if (_newsHeaderFixed && contactWrapperEl) {
+            var _cwCheck = contactWrapperEl.getBoundingClientRect();
+            if (_cwCheck.top <= 0) {
+              _newsHeader.classList.remove('mobile-fixed');
+              if (_newsSpacer && _newsSpacer.parentNode) {
+                _newsHeaderParent.insertBefore(_newsHeader, _newsSpacer);
+                _newsSpacer.remove();
+              }
+              _newsHeaderFixed = false;
+            }
+          }
+
+          // News header → body'ye taşı (contact gelmeden önce)
+          if (_newsHeader && newsWrapperEl) {
+            var _nw = newsWrapperEl.getBoundingClientRect();
+            var _contactNotYet = contactWrapperEl ? contactWrapperEl.getBoundingClientRect().top > 0 : true;
+            if (_nw.top <= 0 && _nw.bottom > 0 && _contactNotYet && !_newsHeaderFixed) {
+              _newsSpacer = document.createElement('div');
+              _newsSpacer.style.height = _newsHeader.offsetHeight + 'px';
+              _newsHeaderParent.insertBefore(_newsSpacer, _newsHeaderNext);
+              _newsHeader.classList.add('mobile-fixed');
+              document.body.appendChild(_newsHeader);
+              _newsHeaderFixed = true;
+            } else if ((_nw.top > 0 || _nw.bottom <= 0) && _newsHeaderFixed) {
+              _newsHeader.classList.remove('mobile-fixed');
+              if (_newsSpacer && _newsSpacer.parentNode) {
+                _newsHeaderParent.insertBefore(_newsHeader, _newsSpacer);
+                _newsSpacer.remove();
+              }
+              _newsHeaderFixed = false;
+            }
+          }
+
+          // Navbar: contact gelince beyaz arkaplan
+          var _navbar = document.querySelector('.navbar');
+          if (_navbar && contactWrapperEl) {
+            var _cRect = contactWrapperEl.getBoundingClientRect();
+            if (_cRect.top <= 0) {
+              _navbar.classList.add('navbar-light');
+            } else {
+              _navbar.classList.remove('navbar-light');
+            }
+          }
+        }
+        requestAnimationFrame(masterScrollLoop);
+      }
+      masterScrollLoop();
+    })();
+
+    // --- Floating Particles Generator ---
+    (function() {
+      function createParticles(containerId, count, color) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        for (let i = 0; i < count; i++) {
+          const p = document.createElement('div');
+          p.className = 'float-particle';
+          const size = 2 + Math.random() * 5;
+          p.style.width = size + 'px';
+          p.style.height = size + 'px';
+          p.style.left = (Math.random() * 100) + '%';
+          p.style.top = (50 + Math.random() * 50) + '%';
+          p.style.background = color;
+          p.style.boxShadow = '0 0 ' + (size * 3) + 'px ' + color;
+          p.style.setProperty('--dur', (5 + Math.random() * 8) + 's');
+          p.style.setProperty('--delay', (Math.random() * 6) + 's');
+          container.appendChild(p);
+        }
+      }
+      // aboutParticles removed
+      // contactParticles removed (unified white section)
+    })();
+
+    // --- Solutions Grid Background ---
+    (function() {
+      const grid = document.getElementById('solutionsGrid');
+      if (!grid) return;
+      const gridObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            gridObs.disconnect();
+            for (let i = 0; i < 12; i++) {
+              const h = document.createElement('div');
+              h.className = 'grid-line-h';
+              h.style.top = (5 + i * 8) + '%';
+              h.style.setProperty('--delay', (i * 0.1) + 's');
+              grid.appendChild(h);
+            }
+            for (let i = 0; i < 10; i++) {
+              const v = document.createElement('div');
+              v.className = 'grid-line-v';
+              v.style.left = (5 + i * 10) + '%';
+              v.style.setProperty('--delay', (0.3 + i * 0.1) + 's');
+              grid.appendChild(v);
+            }
+          }
+        });
+      }, { threshold: 0.05 });
+      gridObs.observe(grid);
+    })();
+
+    // --- Section Background Glow Orbs ---
+    (function() {
+      const sections = document.querySelectorAll('.about, .solutions, .blog-section, .news-section, .contact-unified');
+      sections.forEach((section, idx) => {
+        const glow = document.createElement('div');
+        glow.className = 'section-bg-glow ' + (idx % 2 === 0 ? 'glow-orange' : 'glow-blue');
+        glow.style[idx % 2 === 0 ? 'right' : 'left'] = '-150px';
+        glow.style.top = '30%';
+        section.appendChild(glow);
+
+        // Second glow on opposite side
+        const glow2 = document.createElement('div');
+        glow2.className = 'section-bg-glow ' + (idx % 2 === 0 ? 'glow-blue' : 'glow-orange');
+        glow2.style[idx % 2 === 0 ? 'left' : 'right'] = '-100px';
+        glow2.style.top = '60%';
+        section.appendChild(glow2);
+      });
+    })();
+
+    // (Scroll-lock removed — hero is now scroll-driven via masterScrollLoop)
+
+    // --- Language Toggle ---
+    const translations = {
+      en: {
+        'Hakkımızda': 'About',
+        'Çözümlerimiz': 'Solutions',
+        'Blog': 'Blog',
+        'Haberler': 'News',
+        'İletişim': 'Contact',
+        'Çözümlerimiz →': 'Our Solutions →',
+        'İletişime Geç': 'Get in Touch',
+        'Eklemeli İmalat': 'Additive Manufacturing',
+        'Kompozit Teknolojisi': 'Composite Technology',
+        'İnsansız Hava & Deniz Araçları': 'Unmanned Air & Sea Vehicles',
+        'Sürdürülebilirlik': 'Sustainability',
+        'Mühendislik Çözümlerimiz': 'Our Engineering Solutions',
+        'Güncel Yazılar': 'Latest Posts',
+        'Tüm Yazılar →': 'All Posts →',
+        'Sektörden Haberler': 'Industry News',
+        'Tüm Haberler →': 'All News →',
+        'Haftalık Bülten': 'Weekly Newsletter',
+        'Mesaj Gönder →': 'Send Message →',
+        'Keşfet': 'Explore',
+        'Devamını Oku →': 'Read More →',
+        'Detaylı İncele →': 'Learn More →',
+        'Projeleriniz İçin Bizimle İletişime Geçin': 'Contact Us For Your Projects',
+        'Abone Ol': 'Subscribe',
+      }
+    };
+    let currentLang = 'tr';
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const lang = btn.dataset.lang;
+        if (lang === currentLang) return;
+        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentLang = lang;
+        document.documentElement.lang = lang;
+        if (lang === 'en') {
+          document.querySelectorAll('[data-tr]').forEach(el => {
+            const enText = el.getAttribute('data-en');
+            if (enText) { el.setAttribute('data-tr', el.textContent); el.textContent = enText; }
+          });
+        } else {
+          document.querySelectorAll('[data-tr]').forEach(el => {
+            el.textContent = el.getAttribute('data-tr');
+          });
+        }
+      });
+    });
+
+    // --- Chatbot with typing indicator ---
+    const chatAnswers = {
+      'Blact Systems ne yapar?': 'Blact Systems, eklemeli imalat, kompozit teknolojisi, insansız hava ve deniz araçları ile sürdürülebilirlik alanlarında yenilikçi mühendislik çözümleri sunan bir ileri teknoloji şirketidir.',
+      'Hangi teknolojilerle çalışıyorsunuz?': 'SLM (Selective Laser Melting), WAAM (Wire Arc Additive Manufacturing), LSAM (Large Scale Additive Manufacturing), karbon fiber üretimi, kompozit yapısal tasarım ve otonom sistemler ana teknoloji alanlarımızdır.',
+      'Eklemeli imalat nedir?': 'Eklemeli imalat (3D baskı), dijital bir modelden malzemeyi katman katman biriktirerek parça üreten ileri bir üretim teknolojisidir. Geleneksel yöntemlerin aksine malzeme çıkarmak yerine ekler, bu sayede karmaşık geometriler ve iç yapılar üretilebilir.',
+      'İletişime nasıl geçebilirim?': 'info@blactsystems.com adresine e-posta gönderebilir veya sayfanın alt kısmındaki iletişim formunu doldurabilirsiniz. En kısa sürede size dönüş yapacağız.'
+    };
+
+    const chatToggle = document.getElementById('chatbotToggle');
+    const chatWindow = document.getElementById('chatbotWindow');
+    const chatBody = document.getElementById('chatbotBody');
+
+    chatToggle.addEventListener('click', () => {
+      chatToggle.classList.toggle('open');
+      chatWindow.classList.toggle('open');
+    });
+
+    document.querySelectorAll('.chat-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const q = btn.dataset.q;
+        const a = chatAnswers[q];
+
+        const userMsg = document.createElement('div');
+        userMsg.className = 'chat-message chat-user';
+        userMsg.textContent = q;
+        chatBody.appendChild(userMsg);
+        chatBody.scrollTop = chatBody.scrollHeight;
+
+        const typing = document.createElement('div');
+        typing.className = 'chat-message chat-bot';
+        typing.innerHTML = '<span style="opacity:0.5">Yazıyor...</span>';
+        chatBody.appendChild(typing);
+        chatBody.scrollTop = chatBody.scrollHeight;
+
+        setTimeout(() => {
+          typing.innerHTML = a;
+          chatBody.scrollTop = chatBody.scrollHeight;
+        }, 800 + Math.random() * 400);
+      });
+    });
+
+    // --- Hero: Ultra SLM Laser Manufacturing Simulation ---
+    (function() {
+      const canvas = document.getElementById('heroCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let w, h, particles = [], sparks = [], gridPts = [], trails = [];
+      let laserAngle = 0, t = 0;
+
+      function resize() {
+        w = canvas.width = canvas.offsetWidth;
+        h = canvas.height = canvas.offsetHeight;
+        initGrid();
+      }
+
+      function initGrid() {
+        gridPts = []; particles = [];
+        const spacing = 35;
+        for (let x = 0; x < w; x += spacing) {
+          for (let y = 0; y < h; y += spacing) {
+            gridPts.push({ x, y, ox: x, oy: y, o: Math.random() * 0.03 + 0.008 });
+          }
+        }
+        const count = Math.floor(w * h / 12000);
+        for (let i = 0; i < count; i++) {
+          particles.push({
+            x: Math.random() * w, y: Math.random() * h,
+            vx: (Math.random() - 0.5) * 0.2, vy: (Math.random() - 0.5) * 0.2,
+            r: Math.random() * 1.5 + 0.3, pulse: Math.random() * Math.PI * 2
+          });
+        }
+      }
+
+      function emitSparks(x, y) {
+        for (let i = 0; i < 4; i++) {
+          const angle = Math.random() * Math.PI * 2;
+          const speed = Math.random() * 2.5 + 1;
+          sparks.push({
+            x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed - 1.5,
+            life: 1, decay: Math.random() * 0.025 + 0.015,
+            r: Math.random() * 2 + 0.5, hue: Math.random() > 0.5 ? 42 : 35
+          });
+        }
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, w, h);
+        t += 0.006;
+
+        laserAngle += 0.01;
+        const scanR = Math.min(w, h) * 0.28;
+        const lx = w * 0.55 + Math.cos(laserAngle) * scanR * 0.7 + Math.sin(laserAngle * 2.1) * 50;
+        const ly = h * 0.45 + Math.sin(laserAngle * 1.3) * scanR * 0.45 + Math.cos(laserAngle * 1.7) * 35;
+
+        trails.push({ x: lx, y: ly, life: 1 });
+        if (trails.length > 50) trails.shift();
+
+        trails.forEach(tr => {
+          tr.life -= 0.02;
+          if (tr.life > 0) {
+            ctx.beginPath();
+            ctx.arc(tr.x, tr.y, 3 * tr.life, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(226,119,29,${tr.life * 0.5})`;
+            ctx.fill();
+          }
+        });
+        trails = trails.filter(tr => tr.life > 0);
+
+        const grad1 = ctx.createRadialGradient(lx, ly, 0, lx, ly, 80);
+        grad1.addColorStop(0, 'rgba(226,119,29,0.4)');
+        grad1.addColorStop(0.4, 'rgba(226,119,29,0.15)');
+        grad1.addColorStop(1, 'transparent');
+        ctx.fillStyle = grad1;
+        ctx.fillRect(lx - 80, ly - 80, 160, 160);
+
+        const grad2 = ctx.createRadialGradient(lx, ly, 0, lx, ly, 30);
+        grad2.addColorStop(0, 'rgba(255,140,40,0.7)');
+        grad2.addColorStop(1, 'transparent');
+        ctx.fillStyle = grad2;
+        ctx.fillRect(lx - 30, ly - 30, 60, 60);
+
+        ctx.beginPath();
+        ctx.arc(lx, ly, 4, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,150,50,1)';
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(lx, ly, 8, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(226,119,29,0.5)';
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(lx, ly, 16, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(226,119,29,0.15)';
+        ctx.fill();
+
+        // Update hero-bg-layer mask to follow laser
+        const bgLayer = document.getElementById('heroBgLayer');
+        if (bgLayer) {
+          bgLayer.style.setProperty('--lx', lx + 'px');
+          bgLayer.style.setProperty('--ly', ly + 'px');
+        }
+
+        if (Math.random() > 0.4) emitSparks(lx, ly);
+
+        sparks.forEach(s => {
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r * s.life, 0, Math.PI * 2);
+          const r = s.hue === 42 ? 255 : 220;
+          const g = s.hue === 42 ? 200 : 180;
+          ctx.fillStyle = `rgba(${r},${g},80,${s.life})`;
+          ctx.fill();
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r * s.life * 3, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${r},${g},80,${s.life * 0.25})`;
+          ctx.fill();
+          s.x += s.vx; s.y += s.vy; s.vy += 0.04;
+          s.life -= s.decay;
+        });
+        sparks = sparks.filter(s => s.life > 0);
+
+        requestAnimationFrame(draw);
+      }
+
+      window.addEventListener('resize', resize);
+      resize(); draw();
+    })();
+
+    // --- Shake animation keyframes ---
+    const styleSheet = document.createElement('style');
+    styleSheet.textContent = `
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        20% { transform: translateX(-8px); }
+        40% { transform: translateX(8px); }
+        60% { transform: translateX(-4px); }
+        80% { transform: translateX(4px); }
+      }
+    `;
+    document.head.appendChild(styleSheet);
+
+    // (Old title animation removed — hero is now fully scroll-driven)
+
+    // --- SLM Spark Zone (continuous sparks after visual appears) ---
+    (function() {
+      const zone = document.getElementById('sparkZone');
+      if (!zone) return;
+
+
+
+      function emitSpark() {
+        const spark = document.createElement('div');
+        spark.className = 'spark-particle';
+        // Sparks fly upward and outward like SLM welding
+        const angle = -Math.PI/2 + (Math.random() - 0.5) * 2.8;
+        const dist = 25 + Math.random() * 80;
+        const dur = 0.25 + Math.random() * 0.4;
+        const offsetX = (Math.random() - 0.5) * 20; // slight horizontal scatter from center
+        spark.style.left = 'calc(50% + ' + offsetX + 'px)';
+        spark.style.setProperty('--tx', (Math.cos(angle) * dist) + 'px');
+        spark.style.setProperty('--ty', (Math.sin(angle) * dist) + 'px');
+        spark.style.setProperty('--rot', (Math.atan2(Math.sin(angle), Math.cos(angle)) * 180 / Math.PI + 90) + 'deg');
+        spark.style.setProperty('--dur', dur + 's');
+        spark.style.height = (6 + Math.random() * 14) + 'px';
+        spark.style.width = (1 + Math.random() * 1.5) + 'px';
+        // Random brightness
+        const bright = 0.7 + Math.random() * 0.3;
+        spark.style.opacity = bright;
+        zone.appendChild(spark);
+        setTimeout(() => spark.remove(), dur * 1000 + 50);
+      }
+
+      // Continuous burst — like real SLM melt pool (starts after intro)
+      setInterval(() => {
+        if (window.scrollY < 200) return;
+        const count = 3 + Math.floor(Math.random() * 5);
+        for (let i = 0; i < count; i++) {
+          setTimeout(() => emitSpark(), Math.random() * 60);
+        }
+      }, 70);
+    })();
+
+    // --- Hero Title: Letter-by-letter reveal on page load ---
+    (function() {
+      const heroTitle = document.getElementById('heroTitle');
+      if (!heroTitle) return;
+      const originalHTML = heroTitle.innerHTML;
+      let html = '';
+      const parts = originalHTML.split(/(<br\s*\/?>)/i);
+      parts.forEach(part => {
+        if (/<br/i.test(part)) { html += part; return; }
+        part.split('').forEach(char => {
+          if (char === ' ') html += '<span class="hero-char">&nbsp;</span>';
+          else html += '<span class="hero-char">' + char + '</span>';
+        });
+      });
+      heroTitle.innerHTML = html;
+      const chars = [...heroTitle.querySelectorAll('.hero-char')];
+      chars.forEach((ch, i) => {
+        setTimeout(() => { ch.classList.add('visible'); }, 600 + i * 40);
+      });
+    })();
+
+    // --- SLM Spark Animation: all section titles (except hero) ---
+    (function() {
+      if (window.innerWidth <= 1024) return; // Mobil/tablette kıvılcım efekti yok
+      // Step 1: Immediately split ALL target titles into hidden letters
+      // so the raw text is never visible
+      const targets = [
+        document.getElementById('aboutTitle'),
+        ...document.querySelectorAll('.section-title')
+      ].filter(Boolean);
+
+      function splitLetters(el) {
+        const originalHTML = el.innerHTML;
+        let html = '';
+        const parts = originalHTML.split(/(<span[^>]*>|<\/span>)/);
+        parts.forEach(part => {
+          if (/^<span/.test(part)) { html += part; return; }
+          if (part === '</span>') { html += part; return; }
+          part.split('').forEach(char => {
+            if (char === ' ') html += '<span class="about-letter">&nbsp;</span>';
+            else html += '<span class="about-letter">' + char + '</span>';
+          });
+        });
+        el.innerHTML = html;
+      }
+
+      // Split immediately — letters start with opacity:0 via CSS
+      targets.forEach(el => splitLetters(el));
+
+      // Step 2: Spark reveal (just animates existing hidden letters)
+      function sparkReveal(el) {
+        const letters = [...el.querySelectorAll('.about-letter')];
+        const dot = document.createElement('div');
+        dot.className = 'slm-dot';
+        document.body.appendChild(dot);
+        let idx = 0;
+        function revealPass() {
+          if (idx >= letters.length) {
+            dot.classList.remove('on');
+            setTimeout(() => dot.remove(), 200);
+            return;
+          }
+          const letter = letters[idx];
+          const rect = letter.getBoundingClientRect();
+          const cx = rect.left + rect.width / 2;
+          const cy = rect.top + rect.height * 0.5;
+          dot.style.left = cx + 'px';
+          dot.style.top = cy + 'px';
+          dot.classList.add('on');
+          letter.classList.add('about-letter-visible');
+          if (letter.textContent.trim()) {
+            const count = 5 + Math.floor(Math.random() * 4);
+            for (let i = 0; i < count; i++) {
+              const spark = document.createElement('div');
+              spark.className = 'slm-spark';
+              spark.style.left = cx + 'px';
+              spark.style.top = cy + 'px';
+              const angle = -Math.PI / 2 + (Math.random() - 0.5) * 2.2;
+              const dist = 30 + Math.random() * 60;
+              spark.style.setProperty('--sx', (Math.cos(angle) * dist) + 'px');
+              spark.style.setProperty('--sy', (Math.sin(angle) * dist) + 'px');
+              spark.style.setProperty('--dur', (0.2 + Math.random() * 0.3) + 's');
+              const rotDeg = Math.atan2(Math.sin(angle), Math.cos(angle)) * (180 / Math.PI) + 90;
+              spark.style.setProperty('--rot', rotDeg + 'deg');
+              spark.style.height = (6 + Math.random() * 12) + 'px';
+              spark.style.width = (1 + Math.random()) + 'px';
+              document.body.appendChild(spark);
+              setTimeout(() => spark.remove(), 500);
+            }
+          }
+          idx++;
+          setTimeout(revealPass, letter.textContent.trim() ? 35 : 8);
+        }
+        setTimeout(revealPass, 200);
+      }
+
+      // Step 3: Observe — trigger spark only when parent is visible
+      function isParentVisible(el) {
+        let node = el.parentElement;
+        while (node && node !== document.body) {
+          const op = parseFloat(getComputedStyle(node).opacity);
+          if (op < 0.5) return false;
+          node = node.parentElement;
+        }
+        return true;
+      }
+
+      function waitAndReveal(el) {
+        if (isParentVisible(el)) {
+          sparkReveal(el);
+        } else {
+          const check = setInterval(() => {
+            if (isParentVisible(el)) {
+              clearInterval(check);
+              sparkReveal(el);
+            }
+          }, 80);
+        }
+      }
+
+      const sparkObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !entry.target.dataset.sparkDone) {
+            entry.target.dataset.sparkDone = '1';
+            waitAndReveal(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
+
+      targets.forEach(el => sparkObs.observe(el));
+    })();
+
+    // --- Smooth scroll for anchor links ---
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+</body>
