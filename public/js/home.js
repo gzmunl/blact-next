@@ -1,6 +1,7 @@
-    // ============================================
-    // BLACT SYSTEMS — ULTRA INTERACTIVE ENGINE
-    // ============================================
+// ============================================
+// BLACT SYSTEMS — ULTRA INTERACTIVE ENGINE
+// ============================================
+function initBlact() {
 
     // --- Cinematic Loading Screen ---
     (function() {
@@ -1447,5 +1448,11 @@
         }
       });
     });
-  </script>
-</body>
+
+} // end initBlact
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initBlact);
+} else {
+  initBlact();
+}
