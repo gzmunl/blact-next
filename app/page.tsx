@@ -48,6 +48,7 @@ const bodyHTML = `
   <div class="hero-wrapper" id="heroWrapper">
   <section class="hero" id="hero">
     <div class="hero-inner">
+      <img src="/images/hero-laser-mobile.png" alt="" class="hero-laser-mobile-img">
       <!-- Left side -->
       <div class="hero-left">
         <div class="hero-knockout" id="heroKnockout">

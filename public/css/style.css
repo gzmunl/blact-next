@@ -176,6 +176,7 @@ img { max-width: 100%; height: auto; display: block; }
   position: relative; padding-bottom: 6px;
   transition: color var(--transition);
 }
+.navbar.dark-mode { background: #fff !important; border-bottom: 1px solid rgba(0,0,0,0.08) !important; }
 .navbar.dark-mode .nav-links a { color: #111; }
 .navbar.dark-mode .logo { color: #111; }
 .navbar.dark-mode .lang-toggle { border-color: #111; }
@@ -388,8 +389,20 @@ img { max-width: 100%; height: auto; display: block; }
   margin-top: -6rem;
   margin-bottom: -35px;
 }
+/* Mobile laser img — hidden on desktop */
+.hero-laser-mobile-img {
+  display: none;
+}
 .hero-laser-img.sway {
   animation: laserSway 3s ease-in-out infinite;
+}
+.hero-laser-mobile-img.sway {
+  animation: laserSwayMobileSway 3s ease-in-out infinite !important;
+}
+@keyframes laserSwayMobileSway {
+  0%, 100% { transform: translateX(-50%); filter: drop-shadow(0 0 20px rgba(226,119,29,0.4)); }
+  25% { transform: translateX(calc(-50% + 12px)); filter: drop-shadow(0 0 35px rgba(226,119,29,0.7)); }
+  75% { transform: translateX(calc(-50% - 12px)); filter: drop-shadow(0 0 35px rgba(226,119,29,0.7)); }
 }
 @keyframes laserSway {
   0%, 100% {
@@ -2073,10 +2086,36 @@ img { max-width: 100%; height: auto; display: block; }
   .hero-stats { flex-wrap: wrap; gap: 1.5rem; }
   .hero-stat-number { font-size: 1.4rem; }
   .hero-stat-label { font-size: 0.6rem; }
-  .hero-visual { max-height: 350px; }
+  .hero-visual { max-height: 350px; overflow: visible; }
+  .engrave-wrap { width: 100% !important; max-width: 400px; }
   .hero-areas { flex-wrap: wrap; gap: 1.2rem; padding: 1rem 1.5rem 0; }
   .hero-areas a { font-size: 0.7rem; }
+}
 
+@media (max-width: 900px) {
+  .hero-inner {
+    grid-template-columns: 1fr !important;
+    text-align: center;
+    padding: 5rem 2rem 2rem !important;
+  }
+  .hero-knockout h1 { text-align: center; }
+  .hero-content { text-align: center; }
+  .hero-desc { margin-left: auto; margin-right: auto; }
+  .hero-buttons { justify-content: center; }
+  .hero-stats { justify-content: center; }
+  .hero-visual {
+    position: absolute !important;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100% !important; height: 100% !important;
+    max-height: none !important;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .hero-laser-img { display: none !important; }
+  .hero-areas { position: static; justify-content: center; }
+}
+
+@media (max-width: 1024px) {
   /* Nav: hamburger menüye geç */
   .nav-links {
     display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
@@ -2508,14 +2547,14 @@ img { max-width: 100%; height: auto; display: block; }
     justify-content: center !important;
     text-align: center !important;
     padding: 0 1.5rem 0.5rem !important;
-    padding-top: max(18vh, 6rem) !important;
+    padding-top: max(10vh, 4rem) !important;
     gap: 0 !important;
     width: 100% !important;
     max-width: 100% !important;
     flex: 1 !important;
     box-sizing: border-box !important;
   }
-  .hero-left { width: 100%; }
+  .hero-left { width: 100%; position: relative; z-index: 50 !important; }
   .hero-visual {
     position: absolute !important;
     top: 0 !important;
@@ -2533,6 +2572,20 @@ img { max-width: 100%; height: auto; display: block; }
     justify-content: center !important;
   }
   .hero-laser-img { display: none !important; }
+  .hero-laser-mobile-img {
+    display: block !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 50% !important;
+    margin-left: -100px !important;
+    width: 200px !important;
+    height: 65vh !important;
+    object-fit: fill !important;
+    z-index: 10 !important;
+    opacity: 0.6 !important;
+    pointer-events: none !important;
+    animation: laserSwayMobile 4s ease-in-out infinite !important;
+  }
   /* Engrave inside hero-visual: hidden on mobile (JS moves it to hero-inner) */
   .hero-visual .engrave-wrap {
     display: none !important;
@@ -2542,7 +2595,7 @@ img { max-width: 100%; height: auto; display: block; }
     display: block !important;
     position: relative !important;
     width: 280px !important;
-    margin: auto auto 0 !important;
+    margin: 6.5rem auto 0 !important;
     z-index: 5 !important;
     opacity: 1 !important;
   }
@@ -2553,17 +2606,16 @@ img { max-width: 100%; height: auto; display: block; }
     transform: perspective(600px) rotateX(62deg) rotateZ(0deg) skewX(-2deg) !important;
   }
 
-  /* Mobile laser — header to engrave */
+  /* Mobile laser — disabled, using img instead */
   .hero-visual::before {
     content: '' !important;
-    display: block !important;
+    display: none !important;
     position: absolute !important;
     top: 0 !important;
-    bottom: 25% !important;
     left: 50% !important;
     margin-left: -100px !important;
     width: 200px !important;
-    height: auto !important;
+    height: 80% !important;
     background: url('../images/hero-laser-mobile.png') top center / 100% 100% no-repeat !important;
     opacity: 0.5 !important;
     z-index: 10 !important;
@@ -2575,7 +2627,8 @@ img { max-width: 100%; height: auto; display: block; }
   }
   @keyframes laserSwayMobile {
     0%, 100% { transform: translateX(0); filter: drop-shadow(0 0 15px rgba(226,119,29,0.3)); }
-    50% { transform: translateX(8px); filter: drop-shadow(0 0 25px rgba(226,119,29,0.5)); }
+    25% { transform: translateX(10px); filter: drop-shadow(0 0 30px rgba(226,119,29,0.6)); }
+    75% { transform: translateX(-10px); filter: drop-shadow(0 0 30px rgba(226,119,29,0.6)); }
   }
 
   /* Navbar transparent on mobile */
@@ -2612,7 +2665,8 @@ img { max-width: 100%; height: auto; display: block; }
   .hero-visual .spark-zone {
     display: block !important;
     position: absolute !important;
-    bottom: 25% !important;
+    top: 65vh !important;
+    bottom: auto !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     width: 100px !important;

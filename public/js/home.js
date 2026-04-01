@@ -289,7 +289,7 @@ function initBlact() {
       const heroAreas = document.querySelector('.hero-areas');
       const heroAreaItems = document.querySelectorAll('.hero-area');
       const heroVisual = document.querySelector('.hero-visual');
-      const heroLaser = document.querySelector('.hero-laser-img');
+      const heroLaser = document.querySelector('.hero-laser-img') || document.querySelector('.hero-laser-mobile-img');
       const engraveLines = document.querySelectorAll('.engrave-line');
       const sparkZone = document.getElementById('sparkZone');
       const dividers = document.querySelectorAll('.section-divider');
