@@ -265,6 +265,26 @@ function initBlact() {
       });
     });
 
+    // --- Handle hash on page load (from external pages like /blog) ---
+    if (window.location.hash) {
+      var initialHash = window.location.hash.replace('#', '');
+      if (sectionNavConfig[initialHash]) {
+        var initConfig = sectionNavConfig[initialHash];
+        var initWrapper = document.getElementById(initConfig.wrapper);
+        if (initWrapper) {
+          setTimeout(function() {
+            var wrapperAbsTop = initWrapper.offsetTop;
+            var wrapperHeight = initWrapper.offsetHeight;
+            window.scrollTo(0, wrapperAbsTop);
+            setTimeout(function() {
+              var targetScroll = wrapperAbsTop + (wrapperHeight * initConfig.offset);
+              slowScrollTo(targetScroll, 1500);
+            }, 100);
+          }, 300);
+        }
+      }
+    }
+
     // --- Intersection Observer with stagger ---
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((e, i) => {
