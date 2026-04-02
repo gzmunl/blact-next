@@ -45,7 +45,7 @@ export default function HaberlerPage() {
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: pageStyles }} />
-      <Navbar active="haberler" />
+      <Navbar />
       <NavScript />
       <section className="np-hero">
         <div className="container">

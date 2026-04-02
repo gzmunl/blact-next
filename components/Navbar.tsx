@@ -1,12 +1,6 @@
-interface NavbarProps {
-  active?: 'blog' | 'haberler' | 'post';
-  transparent?: boolean;
-}
-
-export default function Navbar({ active, transparent }: NavbarProps) {
-  const cls = `navbar${transparent ? '' : ' navbar-solid'}`
+export default function Navbar() {
   return (
-    <nav className={cls} id="navbar">
+    <nav className="navbar scrolled" id="navbar">
       <div className="nav-inner">
         <a href="/" className="logo">BLACT SYSTEMS</a>
         <ul className="nav-links" id="navLinks">
@@ -20,8 +14,8 @@ export default function Navbar({ active, transparent }: NavbarProps) {
               <a href="/cozum-surdurulebilirlik">Sürdürülebilirlik</a>
             </div>
           </li>
-          <li><a href="/blog" style={active === 'blog' ? {color:'#e2771d'} : undefined}>Blog</a></li>
-          <li><a href="/haberler" style={active === 'haberler' ? {color:'#e2771d'} : undefined}>Haberler</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/haberler">Haberler</a></li>
           <li><a href="/#iletisim">İletişim</a></li>
         </ul>
         <div className="lang-toggle" id="langToggle">

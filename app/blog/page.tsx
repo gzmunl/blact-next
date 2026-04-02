@@ -44,7 +44,7 @@ export default function BlogPage() {
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: pageStyles }} />
-      <Navbar active="blog" />
+      <Navbar />
       <NavScript />
 
       <section className="bp-hero">
