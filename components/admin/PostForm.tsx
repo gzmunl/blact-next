@@ -105,7 +105,7 @@ export default function PostForm({ type, initialData }: PostFormProps) {
   }
 
   return (
-    <form className="admin-form" onSubmit={handleSubmit}>
+    <form className="admin-form" style={{ maxWidth: '100%' }} onSubmit={handleSubmit}>
       {error && <div style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', color: '#ef4444', padding: '0.7rem 1rem', fontSize: '0.8rem', marginBottom: '1rem' }}>{error}</div>}
 
       <div className="admin-form-row">
@@ -164,37 +164,60 @@ export default function PostForm({ type, initialData }: PostFormProps) {
       </div>
 
       <div className="admin-seo-section">
-        <h3 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: '1.1rem', fontWeight: 700, color: '#fff', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '1.5rem' }}>
+        <h3 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: '1.1rem', fontWeight: 700, color: '#e2771d', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '1.5rem' }}>
           SEO Ayarları
         </h3>
 
-        <div className="admin-form-group">
-          <label className="admin-form-label">Meta Başlık</label>
-          <input className="admin-form-input" value={form.metaTitle} onChange={e => updateField('metaTitle', e.target.value)} placeholder="Arama sonuçlarında görünecek başlık" />
-          <div className="admin-form-hint">{form.metaTitle.length}/60 karakter (ideal: 50-60)</div>
-        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'start' }}>
+          {/* Sol: SEO alanları */}
+          <div>
+            <div className="admin-form-group">
+              <label className="admin-form-label">Meta Başlık</label>
+              <input className="admin-form-input" value={form.metaTitle} onChange={e => updateField('metaTitle', e.target.value)} placeholder="Arama sonuçlarında görünecek başlık" />
+              <div className="admin-form-hint">{form.metaTitle.length}/60 karakter (ideal: 50-60)</div>
+            </div>
 
-        <div className="admin-form-group">
-          <label className="admin-form-label">Meta Açıklama</label>
-          <textarea className="admin-form-input admin-form-textarea" style={{ minHeight: '80px' }} value={form.metaDescription} onChange={e => updateField('metaDescription', e.target.value)} placeholder="Arama sonuçlarında görünecek açıklama" />
-          <div className="admin-form-hint">{form.metaDescription.length}/160 karakter (ideal: 150-160)</div>
-        </div>
+            <div className="admin-form-group">
+              <label className="admin-form-label">Meta Açıklama</label>
+              <textarea className="admin-form-input admin-form-textarea" style={{ minHeight: '80px' }} value={form.metaDescription} onChange={e => updateField('metaDescription', e.target.value)} placeholder="Arama sonuçlarında görünecek açıklama" />
+              <div className="admin-form-hint">{form.metaDescription.length}/160 karakter (ideal: 150-160)</div>
+            </div>
 
-        <div className="admin-form-group">
-          <label className="admin-form-label">Anahtar Kelimeler</label>
-          <input className="admin-form-input" value={form.metaKeywords} onChange={e => updateField('metaKeywords', e.target.value)} placeholder="Virgülle ayırın: eklemeli imalat, metal, SLM" />
-        </div>
+            <div className="admin-form-group">
+              <label className="admin-form-label">Anahtar Kelimeler</label>
+              <input className="admin-form-input" value={form.metaKeywords} onChange={e => updateField('metaKeywords', e.target.value)} placeholder="Virgülle ayırın: eklemeli imalat, metal, SLM" />
+            </div>
+          </div>
 
-        <SeoScore data={{
-          metaTitle: form.metaTitle,
-          metaDescription: form.metaDescription,
-          metaKeywords: form.metaKeywords,
-          title: form.title,
-          slug: form.slug,
-          content: form.content,
-          image: form.image,
-          excerpt: form.excerpt,
-        }} />
+          {/* Sağ: SEO Analizi + Google Önizleme */}
+          <div>
+            {/* Google Önizleme */}
+            <div style={{ background: '#1a1a1a', border: '1px solid #222', padding: '1.2rem', marginBottom: '1rem' }}>
+              <div style={{ fontSize: '0.65rem', color: '#666', textTransform: 'uppercase', letterSpacing: '2px', fontWeight: 700, marginBottom: '0.8rem' }}>Google Önizleme</div>
+              <div style={{ fontSize: '1.1rem', color: '#8ab4f8', marginBottom: '0.3rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                {form.metaTitle || form.title || 'SEO Başlığı girilmedi...'}
+              </div>
+              <div style={{ fontSize: '0.78rem', color: '#bdc1c6', marginBottom: '0.3rem' }}>
+                https://blactsystems.com/{type === 'blog' ? 'blog' : 'haberler'}/{form.slug || '...'}
+              </div>
+              <div style={{ fontSize: '0.8rem', color: '#9aa0a6', lineHeight: 1.5, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' as const, overflow: 'hidden' }}>
+                {form.metaDescription || form.excerpt || 'SEO açıklaması girilmedi...'}
+              </div>
+            </div>
+
+            {/* SEO Analizi */}
+            <SeoScore data={{
+              metaTitle: form.metaTitle,
+              metaDescription: form.metaDescription,
+              metaKeywords: form.metaKeywords,
+              title: form.title,
+              slug: form.slug,
+              content: form.content,
+              image: form.image,
+              excerpt: form.excerpt,
+            }} />
+          </div>
+        </div>
       </div>
 
       <div style={{ marginTop: '2rem', display: 'flex', gap: '1rem' }}>
