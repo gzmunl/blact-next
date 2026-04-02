@@ -16,7 +16,7 @@ const pageStyles = `
   .np-hero .container { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; padding: 0 2.5rem; }
   .np-hero .section-label { color: var(--accent); font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; font-weight: 700; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 1rem; }
   .np-hero .section-label::before { content: ''; width: 40px; height: 2px; background: var(--accent); }
-  .np-hero h1 { font-family: 'Rajdhani', sans-serif; font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 700; color: #fff; text-transform: uppercase; line-height: 1.05; margin-bottom: 1rem; }
+  .np-hero h1 { font-family: 'NASA', 'Rajdhani', sans-serif; font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 700; color: #fff; text-transform: uppercase; line-height: 1.05; margin-bottom: 1rem; }
   .np-hero p { color: #888; max-width: 500px; line-height: 1.7; font-size: 0.95rem; }
   .np-section { background: #f5f5f7; padding: 0 0 5rem; }
   .np-section .container { max-width: 1200px; margin: 0 auto; padding: 0 2.5rem; }
@@ -35,7 +35,7 @@ const pageStyles = `
   .np-card-meta { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.5rem; }
   .np-card-cat { display: inline-block; font-size: 0.6rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #e2771d; }
   .np-card-date { font-size: 0.6rem; color: rgba(255,255,255,0.4); letter-spacing: 1px; }
-  .np-card-body h3 { font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; font-weight: 700; text-transform: uppercase; line-height: 1.25; margin-bottom: 0.4rem; letter-spacing: 0.03em; }
+  .np-card-body h3 { font-family: 'Exo 2', sans-serif; font-size: 1.1rem; font-weight: 800; text-transform: uppercase; line-height: 1.25; margin-bottom: 0.4rem; letter-spacing: 0.03em; }
   .np-card-body p { font-size: 0.8rem; color: rgba(255,255,255,0.6); line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   @media (max-width: 1024px) { .np-grid { grid-template-columns: 1fr; } }
   @media (max-width: 768px) { .np-hero { padding: 6rem 0 3rem; } .np-card { min-height: 240px; } }

@@ -510,7 +510,7 @@ function initBlact() {
           card.style.opacity = clamp(ease * 1.5, 0, 1);
 
           const bg = card.querySelector('.solution-card-bg');
-          if (bg) bg.style.opacity = 0.1 + ease * 0.4;
+          if (bg) bg.style.opacity = 1;
         });
       }
 

@@ -19,7 +19,7 @@ const bodyHTML = `
 
   <nav class="navbar" id="navbar">
     <div class="nav-inner">
-      <a href="/" class="logo"><em>Blact Systems</em></a>
+      <a href="/" class="logo">BLACT SYSTEMS</a>
       <ul class="nav-links" id="navLinks">
         <li><a href="#hakkimizda">Hakkımızda</a></li>
         <li class="nav-dropdown">
@@ -117,11 +117,11 @@ const bodyHTML = `
     <div class="container">
       <div class="about-grid">
         <div class="about-visual" id="aboutVisual">
-          <img src="/images/about-visual.png" alt="Blact Systems Mühendislik" class="about-img">
+          <img src="/images/about-png-2.png" alt="Blact Systems Mühendislik" class="about-img">
         </div>
         <div class="about-text" id="aboutText">
           <div class="section-label">Hakkımızda</div>
-          <h2 id="aboutTitle">Güçlü Temeller, <span class="accent">Cesur Adımlar</span></h2>
+          <h2 id="aboutTitle">Güçlü Temeller,<span class="accent" style="display:block">Cesur Adımlar</span></h2>
           <p class="about-p1">
             Blact Systems, farklı mühendislik disiplinlerini bir araya getirerek endüstriye yenilikçi
             çözümler sunan bir ileri teknoloji şirketidir. Markamız, kararlılığı ve güçlü duruşu
@@ -193,59 +193,67 @@ const bodyHTML = `
       </div>
       <div class="solutions-grid" id="solutionsGrid">
         <a href="cozum-eklemeli-imalat.html" class="solution-card" data-panel="tl">
-          <div class="solution-card-bg" style="background-image:url('/images/sol-eklemeli.png')"></div>
-          <div class="solution-number">01</div>
-          <div class="solution-icon">
-            <svg viewBox="0 0 32 32"><path d="M16 2L2 10v12l14 8 14-8V10L16 2z"/><path d="M2 10l14 8 14-8"/><path d="M16 18v12"/><path d="M9 6l14 8" stroke-dasharray="2 2"/></svg>
+          <div class="solution-card-bg" style="background-image:url('/images/solutions/eklemeli_imalat.png')"></div>
+          <div class="solution-card-content">
+            <div class="solution-number">01</div>
+            <div class="solution-icon">
+              <svg viewBox="0 0 32 32"><path d="M16 2L2 10v12l14 8 14-8V10L16 2z"/><path d="M2 10l14 8 14-8"/><path d="M16 18v12"/><path d="M9 6l14 8" stroke-dasharray="2 2"/></svg>
+            </div>
+            <h3>Eklemeli İmalat</h3>
+            <p>Metal ve polimer bazlı eklemeli imalat teknolojileriyle endüstriyel üretimin geleceğini şekillendiriyoruz. SLM, WAAM ve LSAM teknolojilerinde aktif Ar-Ge çalışmalarımız devam etmektedir.</p>
+            <div class="solution-tags">
+              <span class="solution-tag">SLM</span><span class="solution-tag">WAAM</span><span class="solution-tag">LSAM</span><span class="solution-tag">Metal AM</span>
+            </div>
+            <span class="solution-link">Detaylı İncele &rarr;</span>
           </div>
-          <h3>Eklemeli İmalat</h3>
-          <p>Metal ve polimer bazlı eklemeli imalat teknolojileriyle endüstriyel üretimin geleceğini şekillendiriyoruz. SLM, WAAM ve LSAM teknolojilerinde aktif Ar-Ge çalışmalarımız devam etmektedir.</p>
-          <div class="solution-tags">
-            <span class="solution-tag">SLM</span><span class="solution-tag">WAAM</span><span class="solution-tag">LSAM</span><span class="solution-tag">Metal AM</span>
-          </div>
-          <span class="solution-link">Detaylı İncele &rarr;</span>
         </a>
 
         <a href="cozum-kompozit.html" class="solution-card" data-panel="tr">
-          <div class="solution-card-bg" style="background-image:url('/images/sol-kompozit.png')"></div>
-          <div class="solution-number">02</div>
-          <div class="solution-icon">
-            <svg viewBox="0 0 32 32"><rect x="4" y="4" width="24" height="24" rx="2"/><path d="M4 12h24M4 20h24M12 4v24M20 4v24"/></svg>
+          <div class="solution-card-bg" style="background-image:url('/images/solutions/kompozit _tek.png')"></div>
+          <div class="solution-card-content">
+            <div class="solution-number">02</div>
+            <div class="solution-icon">
+              <svg viewBox="0 0 32 32"><rect x="4" y="4" width="24" height="24" rx="2"/><path d="M4 12h24M4 20h24M12 4v24M20 4v24"/></svg>
+            </div>
+            <h3>Kompozit Teknolojisi</h3>
+            <p>Karbon fiber üretimi ve ileri kompozit malzeme teknolojileriyle hafif, dayanıklı ve yüksek performanslı yapısal çözümler geliştiriyoruz.</p>
+            <div class="solution-tags">
+              <span class="solution-tag">Karbon Fiber</span><span class="solution-tag">İleri Kompozitler</span><span class="solution-tag">Yapısal Tasarım</span>
+            </div>
+            <span class="solution-link">Detaylı İncele &rarr;</span>
           </div>
-          <h3>Kompozit Teknolojisi</h3>
-          <p>Karbon fiber üretimi ve ileri kompozit malzeme teknolojileriyle hafif, dayanıklı ve yüksek performanslı yapısal çözümler geliştiriyoruz.</p>
-          <div class="solution-tags">
-            <span class="solution-tag">Karbon Fiber</span><span class="solution-tag">İleri Kompozitler</span><span class="solution-tag">Yapısal Tasarım</span>
-          </div>
-          <span class="solution-link">Detaylı İncele &rarr;</span>
         </a>
 
         <a href="cozum-insansiz-araclar.html" class="solution-card" data-panel="bl">
-          <div class="solution-card-bg" style="background-image:url('/images/sol-insansiz.png')"></div>
-          <div class="solution-number">03</div>
-          <div class="solution-icon">
-            <svg viewBox="0 0 32 32"><path d="M16 8L8 14v4l8 6 8-6v-4L16 8z"/><circle cx="6" cy="10" r="3"/><circle cx="26" cy="10" r="3"/><path d="M6 10h4M22 10h4"/><circle cx="6" cy="22" r="3"/><circle cx="26" cy="22" r="3"/><path d="M6 22h4M22 22h4"/></svg>
+          <div class="solution-card-bg" style="background-image:url('/images/solutions/insansiz_arac.png')"></div>
+          <div class="solution-card-content">
+            <div class="solution-number">03</div>
+            <div class="solution-icon">
+              <svg viewBox="0 0 32 32"><path d="M16 8L8 14v4l8 6 8-6v-4L16 8z"/><circle cx="6" cy="10" r="3"/><circle cx="26" cy="10" r="3"/><path d="M6 10h4M22 10h4"/><circle cx="6" cy="22" r="3"/><circle cx="26" cy="22" r="3"/><path d="M6 22h4M22 22h4"/></svg>
+            </div>
+            <h3>İnsansız Hava &amp; Deniz Araçları</h3>
+            <p>İnsansız hava araçları (İHA) ve insansız deniz araçları (İDA) alanında konsept tasarım ve mühendislik çözümleri geliştiriyoruz.</p>
+            <div class="solution-tags">
+              <span class="solution-tag">İHA</span><span class="solution-tag">İDA</span><span class="solution-tag">Otonom Sistemler</span><span class="solution-tag">Konsept Tasarım</span>
+            </div>
+            <span class="solution-link">Detaylı İncele &rarr;</span>
           </div>
-          <h3>İnsansız Hava &amp; Deniz Araçları</h3>
-          <p>İnsansız hava araçları (İHA) ve insansız deniz araçları (İDA) alanında konsept tasarım ve mühendislik çözümleri geliştiriyoruz.</p>
-          <div class="solution-tags">
-            <span class="solution-tag">İHA</span><span class="solution-tag">İDA</span><span class="solution-tag">Otonom Sistemler</span><span class="solution-tag">Konsept Tasarım</span>
-          </div>
-          <span class="solution-link">Detaylı İncele &rarr;</span>
         </a>
 
         <a href="cozum-surdurulebilirlik.html" class="solution-card" data-panel="br">
-          <div class="solution-card-bg" style="background-image:url('/images/sol-surdurulebilir.png')"></div>
-          <div class="solution-number">04</div>
-          <div class="solution-icon">
-            <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="12"/><path d="M16 4c0 8-6 12-6 12s6 4 6 12"/><path d="M16 4c0 8 6 12 6 12s-6 4-6 12"/><path d="M4 16h24"/></svg>
+          <div class="solution-card-bg" style="background-image:url('/images/solutions/surdur.png')"></div>
+          <div class="solution-card-content">
+            <div class="solution-number">04</div>
+            <div class="solution-icon">
+              <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="12"/><path d="M16 4c0 8-6 12-6 12s6 4 6 12"/><path d="M16 4c0 8 6 12 6 12s-6 4-6 12"/><path d="M4 16h24"/></svg>
+            </div>
+            <h3>Sürdürülebilirlik</h3>
+            <p>Enerji çözümleri için konsept tasarımlar ve sürdürülebilir mühendislik yaklaşımlarıyla çevreye duyarlı, verimli projeler geliştiriyoruz.</p>
+            <div class="solution-tags">
+              <span class="solution-tag">Enerji Çözümleri</span><span class="solution-tag">Konsept Tasarım</span><span class="solution-tag">Yeşil Teknoloji</span>
+            </div>
+            <span class="solution-link">Detaylı İncele &rarr;</span>
           </div>
-          <h3>Sürdürülebilirlik</h3>
-          <p>Enerji çözümleri için konsept tasarımlar ve sürdürülebilir mühendislik yaklaşımlarıyla çevreye duyarlı, verimli projeler geliştiriyoruz.</p>
-          <div class="solution-tags">
-            <span class="solution-tag">Enerji Çözümleri</span><span class="solution-tag">Konsept Tasarım</span><span class="solution-tag">Yeşil Teknoloji</span>
-          </div>
-          <span class="solution-link">Detaylı İncele &rarr;</span>
         </a>
       </div>
     </div>
@@ -496,7 +504,7 @@ const bodyHTML = `
       <!-- Links grid -->
       <div class="footer-grid">
         <div class="footer-brand">
-          <a href="/" class="logo"><em>Blact Systems</em></a>
+          <a href="/" class="logo">BLACT SYSTEMS</a>
           <p>İleri teknoloji mühendislik çözümleriyle endüstrinin sınırlarını yeniden çiziyoruz.</p>
           <div class="footer-social">
             <a href="#" aria-label="LinkedIn"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>

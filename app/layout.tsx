@@ -61,6 +61,7 @@ export default function RootLayout({
   return (
     <html lang="tr">
       <head>
+        <link rel="preload" href="/fonts/Nasa.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -68,10 +69,10 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@500;600;700&family=Noto+Sans:wght@700;800;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Exo+2:wght@600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@500;600;700&family=Noto+Sans:wght@700;800;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap"
           rel="stylesheet"
         />
-        <link rel="stylesheet" href="/css/style.css" />
+        <link rel="stylesheet" href="/css/style.css?v=5" />
       </head>
       <body>{children}</body>
     </html>

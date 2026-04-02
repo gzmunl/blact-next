@@ -22,7 +22,7 @@ const pageStyles = `
   .bp-hero .container { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; padding: 0 2.5rem; }
   .bp-hero .section-label { color: var(--accent); font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; font-weight: 700; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 1rem; }
   .bp-hero .section-label::before { content: ''; width: 40px; height: 2px; background: var(--accent); }
-  .bp-hero h1 { font-family: 'Rajdhani', sans-serif; font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 700; color: #fff; text-transform: uppercase; line-height: 1.05; margin-bottom: 1rem; }
+  .bp-hero h1 { font-family: 'NASA', 'Rajdhani', sans-serif; font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 700; color: #fff; text-transform: uppercase; line-height: 1.05; margin-bottom: 1rem; }
   .bp-hero p { color: #888; max-width: 500px; line-height: 1.7; font-size: 0.95rem; }
   .bp-grid-section { background: #fff; padding: 4rem 0 5rem; }
   .bp-grid-section .container { max-width: 1200px; margin: 0 auto; padding: 0 2.5rem; }
@@ -33,7 +33,7 @@ const pageStyles = `
   .bp-card-img { height: 200px; background-size: cover; background-position: center; position: relative; }
   .bp-card-cat { position: absolute; top: 1rem; left: 1rem; background: rgba(226,119,29,0.9); color: #fff; padding: 0.2rem 0.7rem; border-radius: 0; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
   .bp-card-body { padding: 1.5rem; }
-  .bp-card-body h3 { font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; font-weight: 700; text-transform: uppercase; line-height: 1.2; margin-bottom: 0.6rem; }
+  .bp-card-body h3 { font-family: 'Exo 2', sans-serif; font-size: 1.1rem; font-weight: 800; text-transform: uppercase; line-height: 1.2; margin-bottom: 0.6rem; }
   .bp-card-body p { color: #666; font-size: 0.85rem; line-height: 1.6; margin-bottom: 1rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .bp-card-meta { display: flex; justify-content: space-between; font-size: 0.72rem; color: #aaa; }
   @media (max-width: 1024px) { .bp-grid { grid-template-columns: repeat(2, 1fr); } }

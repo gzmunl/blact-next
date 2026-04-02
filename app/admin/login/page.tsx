@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 const loginStyles = `
   .login-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #0a0a0a; }
   .login-box { width: 100%; max-width: 400px; padding: 3rem; background: #111; border: 1px solid #222; }
-  .login-logo { font-family: 'Rajdhani', sans-serif; font-size: 1.4rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 2px; text-align: center; margin-bottom: 0.5rem; }
+  .login-logo { font-family: 'NASA', 'Rajdhani', sans-serif; font-size: 1.4rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 2px; text-align: center; margin-bottom: 0.5rem; }
   .login-sub { font-size: 0.7rem; color: #e2771d; text-transform: uppercase; letter-spacing: 3px; text-align: center; font-weight: 700; margin-bottom: 2.5rem; }
   .login-group { margin-bottom: 1.2rem; }
   .login-label { display: block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #666; margin-bottom: 0.5rem; }
