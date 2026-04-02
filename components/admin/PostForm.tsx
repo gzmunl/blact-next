@@ -1,7 +1,10 @@
 'use client'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
+import dynamic from 'next/dynamic'
 import SeoScore from './SeoScore'
+
+const RichEditor = dynamic(() => import('./RichEditor'), { ssr: false })
 
 interface PostFormProps {
   type: 'blog' | 'news'
@@ -139,8 +142,25 @@ export default function PostForm({ type, initialData }: PostFormProps) {
 
       <div className="admin-form-row">
         <div className="admin-form-group">
-          <label className="admin-form-label">Görsel URL</label>
-          <input className="admin-form-input" value={form.image} onChange={e => updateField('image', e.target.value)} placeholder="/images/..." />
+          <label className="admin-form-label">Kapak Görseli</label>
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
+            <input className="admin-form-input" style={{ flex: 1 }} value={form.image} onChange={e => updateField('image', e.target.value)} placeholder="/images/..." />
+            <label className="admin-btn admin-btn-outline" style={{ cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0 }}>
+              Yükle
+              <input type="file" accept="image/*" style={{ display: 'none' }} onChange={async (e) => {
+                const file = e.target.files?.[0]
+                if (!file) return
+                const fd = new FormData()
+                fd.append('file', file)
+                const res = await fetch('/api/upload', { method: 'POST', body: fd })
+                if (res.ok) {
+                  const data = await res.json()
+                  updateField('image', data.url)
+                }
+              }} />
+            </label>
+          </div>
+          {form.image && <div style={{ marginTop: '0.5rem' }}><img src={form.image} alt="" style={{ maxHeight: 80, border: '1px solid #222' }} /></div>}
         </div>
         {type === 'blog' && (
           <div className="admin-form-group">
@@ -151,9 +171,8 @@ export default function PostForm({ type, initialData }: PostFormProps) {
       </div>
 
       <div className="admin-form-group">
-        <label className="admin-form-label">İçerik (HTML)</label>
-        <textarea className="admin-form-input admin-form-textarea" style={{ minHeight: '250px', fontFamily: 'monospace', fontSize: '0.85rem' }} value={form.content} onChange={e => updateField('content', e.target.value)} required />
-        <div className="admin-form-hint">HTML formatında yazın. Örn: &lt;h2&gt;Başlık&lt;/h2&gt;&lt;p&gt;Paragraf&lt;/p&gt;</div>
+        <label className="admin-form-label">İçerik</label>
+        <RichEditor value={form.content} onChange={(html) => updateField('content', html)} />
       </div>
 
       <div className="admin-form-group">
