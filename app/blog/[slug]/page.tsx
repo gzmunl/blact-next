@@ -4,8 +4,11 @@ import Navbar from '@/components/Navbar'
 import NavScript from '@/components/NavScript'
 import Footer from '@/components/Footer'
 import { blogPosts, getBlogPost } from '@/data/blog'
+import prisma from '@/lib/prisma'
 
 type Props = { params: Promise<{ slug: string }> }
+
+export const dynamic = 'force-dynamic'
 
 export async function generateStaticParams() {
   return blogPosts.map(p => ({ slug: p.slug }))
@@ -61,12 +64,39 @@ function formatDate(dateStr: string) {
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params
-  const post = getBlogPost(slug)
+  let post = getBlogPost(slug)
+  if (!post) {
+    try {
+      const dbPost = await prisma.blogPost.findUnique({ where: { slug } })
+      if (dbPost && dbPost.published) {
+        post = {
+          slug: dbPost.slug,
+          title: dbPost.title,
+          excerpt: dbPost.excerpt,
+          image: dbPost.image || '/images/blog-ei.png',
+          category: dbPost.category,
+          categorySlug: dbPost.categorySlug,
+          date: dbPost.date instanceof Date ? dbPost.date.toISOString().split('T')[0] : String(dbPost.date),
+          readTime: dbPost.readTime || 5,
+          content: dbPost.content,
+        }
+      }
+    } catch (e) {}
+  }
   if (!post) notFound()
 
-  const currentIndex = blogPosts.findIndex(p => p.slug === slug)
-  const prevPost = currentIndex > 0 ? blogPosts[currentIndex - 1] : null
-  const nextPost = currentIndex < blogPosts.length - 1 ? blogPosts[currentIndex + 1] : null
+  let allPosts = [...blogPosts]
+  try {
+    const dbPosts = await prisma.blogPost.findMany({ where: { published: true }, orderBy: { date: 'desc' } })
+    const staticSlugs = new Set(blogPosts.map(p => p.slug))
+    dbPosts.forEach(p => {
+      if (!staticSlugs.has(p.slug)) allPosts.push({ slug: p.slug, title: p.title, excerpt: p.excerpt, image: p.image || '', category: p.category, categorySlug: p.categorySlug, date: p.date instanceof Date ? p.date.toISOString().split('T')[0] : String(p.date), readTime: p.readTime || 5, content: p.content })
+    })
+  } catch (e) {}
+  allPosts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  const currentIndex = allPosts.findIndex(p => p.slug === slug)
+  const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null
+  const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null
 
   return (
     <>

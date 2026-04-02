@@ -2,9 +2,9 @@ import { Metadata } from 'next'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import NavScript from '@/components/NavScript'
-import CardAnimator from '@/components/CardAnimator'
-import { blogPosts, blogCategories } from '@/data/blog'
+import { blogPosts as staticPosts, blogCategories } from '@/data/blog'
 import BlogClient from './client'
+import prisma from '@/lib/prisma'
 
 export const metadata: Metadata = {
   title: 'Blog - Blact Systems',
@@ -47,7 +47,31 @@ const pageStyles = `
   @media (max-width: 768px) { .bp-hero { padding: 6rem 0 3rem; } .bp-grid { grid-template-columns: 1fr; } }
 `;
 
-export default function BlogPage() {
+export const dynamic = 'force-dynamic'
+
+export default async function BlogPage() {
+  let dbPosts: any[] = []
+  try {
+    dbPosts = await prisma.blogPost.findMany({
+      where: { published: true },
+      orderBy: { date: 'desc' },
+    })
+  } catch (e) {}
+
+  const dbPostsMapped = dbPosts.map(p => ({
+    slug: p.slug,
+    title: p.title,
+    excerpt: p.excerpt,
+    image: p.image || '/images/blog-ei.png',
+    category: p.category,
+    categorySlug: p.categorySlug,
+    date: p.date instanceof Date ? p.date.toISOString().split('T')[0] : p.date,
+    readTime: p.readTime || 5,
+  }))
+
+  const staticSlugs = new Set(staticPosts.map(p => p.slug))
+  const allPosts = [...dbPostsMapped.filter(p => !staticSlugs.has(p.slug)), ...staticPosts]
+  allPosts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: pageStyles }} />
@@ -64,7 +88,7 @@ export default function BlogPage() {
 
       <section className="bp-grid-section">
         <div className="container">
-          <BlogClient categories={blogCategories} posts={blogPosts} />
+          <BlogClient categories={blogCategories} posts={allPosts} />
         </div>
       </section>
 
