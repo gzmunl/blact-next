@@ -7,14 +7,28 @@ export default function NavScript() {
     const links = document.getElementById('navLinks');
     if (!toggle || !links) return;
 
-    // Menu toggle
+    const navParent = links.parentNode;
+    const navNext = links.nextSibling;
+    const toggleParent = toggle.parentNode;
+    const toggleNext = toggle.nextSibling;
+
     const handler = () => {
+      const opening = !links.classList.contains('open');
+      if (opening && window.innerWidth <= 1024) {
+        document.body.appendChild(links);
+        document.body.appendChild(toggle);
+      }
       links.classList.toggle('open');
       toggle.classList.toggle('open');
+      if (!opening) {
+        navParent?.insertBefore(links, navNext);
+        toggleParent?.insertBefore(toggle, toggleNext);
+      }
     };
+
     toggle.addEventListener('click', handler);
 
-    // Dropdown toggle (Çözümlerimiz)
+    // Dropdown toggle
     document.querySelectorAll('.nav-dropdown > a').forEach(a => {
       a.addEventListener('click', (e) => {
         if (window.innerWidth <= 1024) {
@@ -24,12 +38,14 @@ export default function NavScript() {
       });
     });
 
-    // Close menu on link click
+    // Close on link click
     links.querySelectorAll('a').forEach(l => {
       l.addEventListener('click', function(this: HTMLElement) {
         if (window.innerWidth <= 1024 && this.parentElement?.classList.contains('nav-dropdown')) return;
         links.classList.remove('open');
         toggle.classList.remove('open');
+        navParent?.insertBefore(links, navNext);
+        toggleParent?.insertBefore(toggle, toggleNext);
       });
     });
 

@@ -159,9 +159,10 @@ img { max-width: 100%; height: auto; display: block; }
   border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 .navbar.scrolled {
-  background: transparent;
+  background: rgba(5,5,7,0.95);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
   padding: 0.7rem 0;
-  border-bottom: none;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
   box-shadow: none;
 }
 .nav-inner {
@@ -189,26 +190,36 @@ img { max-width: 100%; height: auto; display: block; }
   position: relative; padding-bottom: 6px;
   transition: color var(--transition);
 }
-.navbar.dark-mode { background: #fff !important; border-bottom: 1px solid rgba(0,0,0,0.08) !important; }
-.navbar.dark-mode .nav-links a { color: #111; }
-.navbar.dark-mode .logo { color: #111; }
-.navbar.dark-mode .lang-toggle { border-color: #111; }
-.navbar.dark-mode .lang-btn { color: #111; border-color: #111; }
-.navbar.dark-mode .lang-btn.active { color: var(--accent); }
-.navbar.dark-mode .nav-toggle span { background: #111; }
+.navbar.dark-mode:not(:has(.nav-links.open)) { background: #fff !important; border-bottom: 1px solid rgba(0,0,0,0.08) !important; }
+.navbar.dark-mode:not(:has(.nav-links.open)) .nav-links a { color: #111; }
+.navbar.dark-mode:not(:has(.nav-links.open)) .logo { color: #111; }
+.navbar.dark-mode:not(:has(.nav-links.open)) .lang-toggle { border-color: #111; }
+.navbar.dark-mode:not(:has(.nav-links.open)) .lang-btn { color: #111; border-color: #111; }
+.navbar.dark-mode:not(:has(.nav-links.open)) .lang-btn.active { color: var(--accent); }
+.navbar.dark-mode:not(:has(.nav-links.open)) .nav-toggle span { background: #111; }
 /* dark-mode = header yazıları siyah → dropdown beyaz arkaplan, siyah yazı */
-.navbar.dark-mode .dropdown-menu {
+.navbar.dark-mode:not(:has(.nav-links.open)) .dropdown-menu {
   background: #fff;
   border: 1px solid rgba(0,0,0,0.1);
   box-shadow: 0 20px 60px rgba(0,0,0,0.12);
 }
-.navbar.dark-mode .dropdown-menu a {
+.navbar.dark-mode:not(:has(.nav-links.open)) .dropdown-menu a {
   color: #111;
 }
-.navbar.dark-mode .dropdown-menu a:hover {
+.navbar.dark-mode:not(:has(.nav-links.open)) .dropdown-menu a:hover {
   color: #000;
   background: linear-gradient(90deg, rgba(226,119,29,0.1), transparent);
 }
+/* Menü açıkken: dark-mode/scrolled fark etmez, her zaman siyah bg + beyaz yazı */
+/* Menü açık: her zaman siyah bg, beyaz yazı — dark-mode/scrolled fark etmez */
+.nav-links.open { background: #000 !important; }
+.nav-links.open a { color: #fff !important; }
+.nav-links.open .dropdown-menu { background: transparent !important; border: none !important; box-shadow: none !important; }
+.nav-links.open .dropdown-menu a { color: rgba(255,255,255,0.6) !important; }
+.nav-toggle.open span { background: #fff !important; }
+.nav-toggle.open ~ .logo,
+.navbar:has(.nav-links.open) .logo { color: #fff !important; }
+.navbar:has(.nav-links.open) { background: #000 !important; border-bottom: none !important; }
 .nav-links a::after {
   content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1.5px;
   background: linear-gradient(90deg, var(--accent), var(--accent-hover));
@@ -2671,40 +2682,28 @@ img { max-width: 100%; height: auto; display: block; }
   }
 
   /* Navbar transparent on mobile (homepage only) */
-  .navbar {
-    background: transparent !important;
-    border-bottom: none !important;
+  /* === MOBİL NAVBAR: TEK STİL === */
+  .navbar,
+  .navbar.scrolled,
+  .navbar.dark-mode,
+  .navbar.navbar-solid,
+  .navbar.navbar-light {
+    background: rgba(5,5,7,0.95) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border-bottom: 1px solid rgba(255,255,255,0.06) !important;
     box-shadow: none !important;
   }
-  .navbar.scrolled {
-    background: transparent !important;
-  }
-  /* Solid navbar for blog/haberler pages on mobile */
-  .navbar.navbar-solid {
-    background: rgba(5,5,7,0.95) !important;
-    backdrop-filter: blur(20px) !important;
-    -webkit-backdrop-filter: blur(20px) !important;
-    border-bottom: 1px solid rgba(255,255,255,0.06) !important;
-  }
-  .navbar.navbar-light {
-    background: #fff !important;
-    border-bottom: 1px solid #eee !important;
-  }
-  .navbar.navbar-light .logo { color: #111 !important; }
-  .navbar.navbar-light .nav-toggle span { background: #111 !important; }
-  /* X ikonu her zaman beyaz (menü açıkken overlay üstünde) */
+  .navbar .logo { color: #fff !important; }
+  .navbar .nav-toggle span { background: #fff !important; }
+  /* Popup açık: body'ye taşındığı için z-index bağımsız */
+  .nav-links.open { background: #000 !important; z-index: 99999 !important; }
+  .nav-links.open a { color: #fff !important; }
+  .nav-toggle.open { z-index: 999999 !important; position: fixed !important; top: 1rem !important; right: 1.2rem !important; }
   .nav-toggle.open span { background: #fff !important; }
-
-  /* Menü açıkken X ikonu */
-  .nav-toggle.open span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px) !important;
-  }
-  .nav-toggle.open span:nth-child(2) {
-    opacity: 0 !important;
-  }
-  .nav-toggle.open span:nth-child(3) {
-    transform: rotate(-45deg) translate(5px, -5px) !important;
-  }
+  .nav-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px) !important; }
+  .nav-toggle.open span:nth-child(2) { opacity: 0 !important; }
+  .nav-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px) !important; }
   .hero-visual .spark-canvas {
     display: none !important;
   }

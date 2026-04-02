@@ -109,7 +109,7 @@ function initBlact() {
       // Sıra: about(2) → solutions(3) → blog(4) → news(5) → contact(6)
       const wrappers = [
         { id: 'aboutWrapper', white: true },
-        { id: 'solutionsWrapper', white: false },
+        { id: 'solutionsWrapper', white: true },
         { id: 'blogWrapper', white: true },
         { id: 'newsWrapper', white: false },
         { id: 'contactWrapper', white: true }
@@ -136,7 +136,23 @@ function initBlact() {
     // --- Mobile Nav Toggle ---
     const navToggle = document.getElementById('navToggle');
     const navLinks = document.getElementById('navLinks');
-    navToggle.addEventListener('click', () => { navLinks.classList.toggle('open'); navToggle.classList.toggle('open'); });
+    var _navParent = navLinks.parentNode;
+    var _navNext = navLinks.nextSibling;
+    var _toggleParent = navToggle.parentNode;
+    var _toggleNext = navToggle.nextSibling;
+    navToggle.addEventListener('click', () => {
+      var opening = !navLinks.classList.contains('open');
+      if (opening && window.innerWidth <= 1024) {
+        document.body.appendChild(navLinks);
+        document.body.appendChild(navToggle);
+      }
+      navLinks.classList.toggle('open');
+      navToggle.classList.toggle('open');
+      if (!opening) {
+        _navParent.insertBefore(navLinks, _navNext);
+        _toggleParent.insertBefore(navToggle, _toggleNext);
+      }
+    });
     // Mobile dropdown toggle
     document.querySelectorAll('.nav-dropdown > a').forEach(function(a) {
       a.addEventListener('click', function(e) {
@@ -150,6 +166,8 @@ function initBlact() {
       // Dropdown parent'a tıklayınca menüyü kapatma — sadece dropdown açılsın
       if (window.innerWidth <= 1024 && this.parentElement && this.parentElement.classList.contains('nav-dropdown')) return;
       navLinks.classList.remove('open'); navToggle.classList.remove('open');
+      _navParent.insertBefore(navLinks, _navNext);
+      _toggleParent.insertBefore(navToggle, _toggleNext);
     }));
 
     // Smooth scroll: wrapper'ın animasyonlar tamamlanmış noktasına git
