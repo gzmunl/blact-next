@@ -629,7 +629,8 @@ img { max-width: 100%; height: auto; display: block; }
   will-change: transform, opacity;
 }
 .about-img {
-  width: 100%; height: auto; display: block;
+  width: 100%; height: 100%; display: block;
+  object-fit: cover; object-position: center center;
 }
 
 .about-text .section-label,
@@ -657,11 +658,11 @@ img { max-width: 100%; height: auto; display: block; }
 .about-letter { display: inline-block; opacity: 0; }
 .about-letter-visible { opacity: 1; transition: opacity 0.05s; }
 
-.about-values { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; margin-top: 2.5rem; }
+.about-values { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 1.5rem; }
 .value-item {
-  display: flex; align-items: center; gap: 14px;
-  font-size: 0.88rem; color: #000 !important; -webkit-text-fill-color: #000 !important; font-weight: 500;
-  padding: 12px 16px; border-radius: 0;
+  display: flex; align-items: center; gap: 10px;
+  font-size: 0.78rem; color: #000 !important; -webkit-text-fill-color: #000 !important; font-weight: 500;
+  padding: 8px 12px; border-radius: 0;
   background: transparent;
   border: 1px solid #000;
   transition: all var(--transition);
@@ -2256,11 +2257,7 @@ img { max-width: 100%; height: auto; display: block; }
   .solutions-header { text-align: center; }
   .solutions-header .section-label { justify-content: center; }
   .solution-card { min-height: 280px; opacity: 1 !important; transform: none !important; }
-  .solutions-header.mobile-fixed {
-    position: fixed !important; top: 0 !important; left: 0 !important;
-    width: 100% !important; z-index: 200 !important;
-    padding: 3rem 1.5rem 1rem !important; background: #050507 !important;
-  }
+  .solutions-header.mobile-fixed { position: static !important; }
   .blog-header {
     margin-bottom: 0 !important; background: #fff !important;
     padding: 1.5rem 1.5rem 1rem !important; opacity: 1 !important;
@@ -2288,7 +2285,7 @@ img { max-width: 100%; height: auto; display: block; }
   /* hero-wrapper tablet'te desktop gibi kalır (scroll animasyonu için) */
   .about-wrapper {
     height: auto !important; position: relative !important; z-index: 2 !important;
-    margin-top: 0 !important; padding-top: 0 !important; padding-bottom: 120vh !important;
+    margin-top: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important;
     width: 100% !important; overflow: visible !important; background: #f5f5f5 !important;
   }
   .about {
@@ -2297,34 +2294,34 @@ img { max-width: 100%; height: auto; display: block; }
   }
   .solutions-wrapper {
     height: auto !important; position: relative !important; z-index: 3 !important;
-    margin-top: 0 !important; padding-top: 0 !important; padding-bottom: 30vh !important;
-    width: 100% !important; overflow: visible !important; background: #050507 !important;
+    margin-top: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important;
+    width: 100% !important; overflow: visible !important; background: transparent !important;
   }
   .solutions {
     position: relative !important; height: auto !important; min-height: auto !important;
-    overflow: visible !important; width: 100% !important; background-color: #050507 !important;
-    will-change: transform; transition: transform 0.08s linear;
+    overflow: visible !important; width: 100% !important; background: transparent !important;
+    transform: none !important;
   }
   .solutions-grid { grid-template-columns: repeat(2, 1fr); }
   .blog-wrapper {
     height: auto !important; position: relative !important; z-index: 250 !important;
-    margin-top: 0 !important; padding-top: 0 !important; padding-bottom: 30vh !important;
+    margin-top: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important;
     width: 100% !important; overflow: visible !important; background: #fff !important;
   }
   .blog-section {
     position: relative !important; height: auto !important; min-height: auto !important;
     overflow: visible !important; width: 100% !important;
-    will-change: transform; transition: transform 0.08s linear;
+    transform: none !important;
   }
   .news-wrapper {
     height: auto !important; position: relative !important; z-index: 350 !important;
-    margin-top: 0 !important; padding-top: 0 !important; padding-bottom: 60vh !important;
+    margin-top: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important;
     width: 100% !important; overflow: visible !important; background: #050507 !important;
   }
   .news-section {
     position: relative !important; height: auto !important; min-height: auto !important;
     overflow: visible !important; width: 100% !important; background: #050507 !important;
-    will-change: transform; transition: transform 0.08s linear;
+    transform: none !important;
   }
   .contact-wrapper {
     height: auto !important; position: relative !important; z-index: 9000 !important;
@@ -2447,7 +2444,7 @@ img { max-width: 100%; height: auto; display: block; }
     z-index: 2 !important;
     margin-top: 0 !important;
     padding-top: 0 !important;
-    padding-bottom: 120vh !important;
+    padding-bottom: 0 !important;
     width: 100% !important;
     overflow: visible !important;
     background: #f5f5f5 !important;
@@ -2469,7 +2466,7 @@ img { max-width: 100%; height: auto; display: block; }
     z-index: 3 !important;
     margin-top: 0 !important;
     padding-top: 0 !important;
-    padding-bottom: 30vh !important;
+    padding-bottom: 0 !important;
     width: 100% !important;
     overflow: visible !important;
     background: #050507 !important;
@@ -2481,8 +2478,7 @@ img { max-width: 100%; height: auto; display: block; }
     overflow: visible !important;
     width: 100% !important;
     background-color: #050507 !important;
-    will-change: transform;
-    transition: transform 0.08s linear;
+    transform: none !important;
   }
   .solutions .container {
     padding-top: 2rem !important;
@@ -2497,7 +2493,7 @@ img { max-width: 100%; height: auto; display: block; }
     z-index: 250 !important;
     margin-top: 0 !important;
     padding-top: 0 !important;
-    padding-bottom: 30vh !important;
+    padding-bottom: 0 !important;
     width: 100% !important;
     overflow: visible !important;
     background: #fff !important;
@@ -2508,8 +2504,7 @@ img { max-width: 100%; height: auto; display: block; }
     min-height: auto !important;
     overflow: visible !important;
     width: 100% !important;
-    will-change: transform;
-    transition: transform 0.08s linear;
+    transform: none !important;
   }
   .news-wrapper {
     height: auto !important;
@@ -2517,7 +2512,7 @@ img { max-width: 100%; height: auto; display: block; }
     z-index: 350 !important;
     margin-top: 0 !important;
     padding-top: 0 !important;
-    padding-bottom: 30vh !important;
+    padding-bottom: 0 !important;
     width: 100% !important;
     overflow: visible !important;
     background: #050507 !important;
@@ -2529,8 +2524,7 @@ img { max-width: 100%; height: auto; display: block; }
     overflow: visible !important;
     width: 100% !important;
     background: #050507 !important;
-    will-change: transform;
-    transition: transform 0.08s linear;
+    transform: none !important;
   }
   .contact-wrapper {
     height: auto !important;
@@ -2828,9 +2822,9 @@ img { max-width: 100%; height: auto; display: block; }
   .about-text h2 { font-size: 1.3rem; white-space: normal; margin-bottom: 0.8rem; }
   .about-text .section-label { font-size: 0.75rem; margin-bottom: 0.5rem; }
   .about-text p { font-size: 0.9rem; line-height: 1.65; margin-bottom: 0.8rem; }
-  .about-values { grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 1.2rem; }
-  .value-item { font-size: 0.82rem; gap: 10px; }
-  .value-item .vi-icon { width: 20px; height: 20px; }
+  .about-values { grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 1rem; }
+  .value-item { font-size: 0.72rem; gap: 8px; padding: 6px 10px !important; }
+  .value-item .vi-icon { width: 18px; height: 18px; }
 
   /* --- Solutions --- */
   .solutions { padding: 2rem 0 0 !important; }
@@ -2841,15 +2835,7 @@ img { max-width: 100%; height: auto; display: block; }
     padding: 1.5rem 1.5rem 1rem !important;
     margin: 0 !important;
   }
-  .solutions-header.mobile-fixed {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    z-index: 200 !important;
-    padding: 3rem 1.5rem 1rem !important;
-    background: #050507 !important;
-  }
+  .solutions-header.mobile-fixed { position: static !important; }
   .solutions-header .section-label { justify-content: center; }
   .solutions-grid { grid-template-columns: 1fr; gap: 1rem; }
   .solution-card { min-height: 280px; opacity: 1 !important; transform: none !important; }
