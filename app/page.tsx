@@ -5,7 +5,7 @@ import Script from 'next/script'
 const bodyHTML = `
   <!-- Loading Screen -->
   <div class="loading-screen" id="loadingScreen">
-    <div class="loading-logo">Blact Systems</div>
+    <div class="loading-logo">BLACT SYSTEMS</div>
     <div class="loading-bar-track"><div class="loading-bar-fill" id="loadingBar"></div></div>
     <div class="loading-percent" id="loadingPercent">0%</div>
   </div>
