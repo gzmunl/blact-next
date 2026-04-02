@@ -23,20 +23,20 @@ export default function KompozitPage() {
         </div>
       </section>
 
-      <section className="detail-content" style={{ background: '#050507' }}>
+      <section className="detail-content detail-content-light">
         <div className="container">
           <div className="detail-body">
 
             <div className="solution-features">
-              <div className="solution-feature" style={{ background: '#0a0e16', border: '1px solid rgba(255,255,255,0.05)', padding: '2rem' }}>
+              <div className="solution-feature" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
                 <h4>Karbon Fiber Üretimi</h4>
                 <p>PAN prekürsörden son ürüne kadar karbon fiber üretim süreçleri. Yüzey işlemleri ve prepreg sistemleri.</p>
               </div>
-              <div className="solution-feature" style={{ background: '#0a0e16', border: '1px solid rgba(255,255,255,0.05)', padding: '2rem' }}>
+              <div className="solution-feature" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
                 <h4>Yapısal Kompozit Tasarım</h4>
                 <p>Yük analizi, katmanlama optimizasyonu ve sonlu eleman analizi ile optimize edilmiş yapısal çözümler.</p>
               </div>
-              <div className="solution-feature" style={{ background: '#0a0e16', border: '1px solid rgba(255,255,255,0.05)', padding: '2rem' }}>
+              <div className="solution-feature" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
                 <h4>İleri Malzeme Karakterizasyonu</h4>
                 <p>Mekanik test, termal analiz ve mikroyapı inceleme ile kapsamlı malzeme değerlendirmesi.</p>
               </div>

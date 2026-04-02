@@ -23,20 +23,20 @@ export default function SurdurulebilirlikPage() {
         </div>
       </section>
 
-      <section className="detail-content" style={{ background: '#050507' }}>
+      <section className="detail-content detail-content-light">
         <div className="container">
           <div className="detail-body">
 
             <div className="solution-features">
-              <div className="solution-feature" style={{ background: '#0a0e16', border: '1px solid rgba(255,255,255,0.05)', padding: '2rem' }}>
+              <div className="solution-feature" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
                 <h4>Enerji Konsept Tasarımı</h4>
                 <p>Rüzgar, güneş ve hidrojen enerjisi sistemlerinin konsept tasarımı ve fizibilite analizleri.</p>
               </div>
-              <div className="solution-feature" style={{ background: '#0a0e16', border: '1px solid rgba(255,255,255,0.05)', padding: '2rem' }}>
+              <div className="solution-feature" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
                 <h4>Yaşam Döngüsü Analizi</h4>
                 <p>Hammaddeden geri dönüşüme kadar ürün ve süreçlerin çevresel etkilerinin kapsamlı değerlendirmesi.</p>
               </div>
-              <div className="solution-feature" style={{ background: '#0a0e16', border: '1px solid rgba(255,255,255,0.05)', padding: '2rem' }}>
+              <div className="solution-feature" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
                 <h4>Sürdürülebilir Mühendislik</h4>
                 <p>Enerji verimliliği, emisyon azaltma ve kaynak optimizasyonu odaklı mühendislik yaklaşımları.</p>
               </div>

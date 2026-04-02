@@ -23,20 +23,20 @@ export default function EklemeliImalatPage() {
         </div>
       </section>
 
-      <section className="detail-content" style={{ background: '#050507' }}>
+      <section className="detail-content detail-content-light">
         <div className="container">
           <div className="detail-body">
 
             <div className="solution-features">
-              <div className="solution-feature" style={{ background: '#0a0e16', border: '1px solid rgba(255,255,255,0.05)', padding: '2rem' }}>
+              <div className="solution-feature" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
                 <h4>SLM Teknolojisi</h4>
                 <p>Yüksek güçlü lazer ile metal tozu eritme. Mikron seviyesinde hassasiyet ve karmaşık iç geometriler.</p>
               </div>
-              <div className="solution-feature" style={{ background: '#0a0e16', border: '1px solid rgba(255,255,255,0.05)', padding: '2rem' }}>
+              <div className="solution-feature" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
                 <h4>WAAM Teknolojisi</h4>
                 <p>Tel besleme ve ark kaynağı ile büyük ölçekli metal parça üretimi. Yüksek üretim hızı ve maliyet avantajı.</p>
               </div>
-              <div className="solution-feature" style={{ background: '#0a0e16', border: '1px solid rgba(255,255,255,0.05)', padding: '2rem' }}>
+              <div className="solution-feature" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
                 <h4>LSAM Teknolojisi</h4>
                 <p>Büyük ölçekli eklemeli imalat. Endüstriyel boyutlarda prototip ve son ürün üretimi.</p>
               </div>
