@@ -28,20 +28,19 @@ export default function NavScript() {
 
     toggle.addEventListener('click', handler);
 
-    // Dropdown toggle
-    document.querySelectorAll('.nav-dropdown > a').forEach(a => {
-      a.addEventListener('click', (e) => {
-        if (window.innerWidth <= 1024) {
-          e.preventDefault();
-          (a as HTMLElement).parentElement?.classList.toggle('dropdown-open');
-        }
+    // Dropdown toggle — ok butonuna bas
+    document.querySelectorAll('.dropdown-arrow').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        (btn as HTMLElement).parentElement?.classList.toggle('dropdown-open');
       });
     });
 
     // Close on link click
     links.querySelectorAll('a').forEach(l => {
       l.addEventListener('click', function(this: HTMLElement) {
-        if (window.innerWidth <= 1024 && this.parentElement?.classList.contains('nav-dropdown')) return;
+        // Tüm linkler menüyü kapatsın
         links.classList.remove('open');
         toggle.classList.remove('open');
         navParent?.insertBefore(links, navNext);

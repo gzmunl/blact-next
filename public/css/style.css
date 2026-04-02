@@ -184,6 +184,7 @@ img { max-width: 100%; height: auto; display: block; }
 .logo:hover::after { width: 100%; }
 
 .nav-links { display: flex; align-items: center; gap: 2.8rem; list-style: none; }
+.dropdown-arrow { display: none; background: none; border: none; color: #fff; font-size: 0.7rem; cursor: pointer; padding: 0.3rem 0.5rem; }
 .nav-links a {
   font-size: 0.82rem; font-weight: 500; color: #fff;
   letter-spacing: 1px; text-transform: uppercase;
@@ -2195,6 +2196,7 @@ img { max-width: 100%; height: auto; display: block; }
   .nav-links > li { text-align: center; width: 100%; }
   .nav-links > li > a { font-size: 1rem; letter-spacing: 2px; color: #fff !important; }
   .nav-toggle { display: flex; z-index: 1001; }
+  .dropdown-arrow { display: inline-block !important; color: #fff; font-size: 0.8rem; }
   .lang-toggle { display: none; }
 
   /* About */
@@ -2230,9 +2232,7 @@ img { max-width: 100%; height: auto; display: block; }
   /* Dropdown (hamburger menü içinde) */
   .nav-dropdown > a { display: inline-flex !important; align-items: center !important; gap: 6px !important; }
   .nav-dropdown > a::after {
-    content: '▾' !important; display: inline-block !important; font-size: 1rem !important;
-    width: auto !important; height: auto !important; background: none !important;
-    position: static !important; transition: transform 0.3s ease;
+    display: none !important;
   }
   .nav-dropdown.dropdown-open > a::after { transform: rotate(180deg) !important; }
   .dropdown-menu {
@@ -2281,7 +2281,7 @@ img { max-width: 100%; height: auto; display: block; }
   /* --- Section header + card overrides for tablet --- */
   .solutions-header { text-align: center; }
   .solutions-header .section-label { justify-content: center; }
-  .solution-card { min-height: 280px; opacity: 1 !important; transform: none !important; }
+  .solution-card { min-height: 280px; }
   .solutions-header.mobile-fixed { position: static !important; }
   .blog-header {
     margin-bottom: 0 !important; background: #fff !important;
@@ -2297,14 +2297,13 @@ img { max-width: 100%; height: auto; display: block; }
   .blog-header.mobile-fixed .btn-outline { color: #111 !important; border-color: #111 !important; }
   .news-header {
     margin-bottom: 2rem; padding: 1.5rem 1.5rem 1rem !important;
-    opacity: 1 !important; transform: none !important;
   }
   .news-header.mobile-fixed {
     position: fixed !important; top: 0 !important; left: 0 !important;
     width: 100% !important; z-index: 400 !important;
     padding: 3.5rem 1.5rem 1rem !important; background: #000 !important;
   }
-  .blog-mag-main, .blog-mag-card { opacity: 1 !important; transform: none !important; }
+  .blog-mag-main, .blog-mag-card { }
 
   /* --- Wrapper overrides: tablet'te mobil layout kullan --- */
   /* hero-wrapper tablet'te desktop gibi kalır (scroll animasyonu için) */
@@ -2389,14 +2388,7 @@ img { max-width: 100%; height: auto; display: block; }
   /* Dropdown: ok yanında */
   .nav-dropdown > a { display: inline-flex !important; align-items: center !important; gap: 6px !important; }
   .nav-dropdown > a::after {
-    content: '▾' !important;
-    display: inline-block !important;
-    font-size: 1rem !important;
-    width: auto !important;
-    height: auto !important;
-    background: none !important;
-    position: static !important;
-    transition: transform 0.3s ease;
+    display: none !important;
   }
   .nav-dropdown.dropdown-open > a::after {
     transform: rotate(180deg) !important;
@@ -2888,7 +2880,7 @@ img { max-width: 100%; height: auto; display: block; }
   .solutions-header.mobile-fixed { position: static !important; }
   .solutions-header .section-label { justify-content: center; }
   .solutions-grid { grid-template-columns: 1fr; gap: 1rem; }
-  .solution-card { min-height: 280px; opacity: 1 !important; transform: none !important; }
+  .solution-card { min-height: 280px; }
   .solution-features { grid-template-columns: 1fr; }
 
   /* --- Blog --- */
@@ -3004,23 +2996,58 @@ img { max-width: 100%; height: auto; display: block; }
     z-index: 500 !important;
   }
 
-  /* Disable scroll-driven animations on mobile (except hero) */
-  .newsletter-inner,
-  .nu-contact-left,
-  .nu-contact-right,
-  .footer-map,
-  .solution-card,
-  .blog-mag-main,
-  .blog-mag-card,
-  .news-card,
+  /* Desktop opacity:0 kurallarını mobilde m-anim ile yönet */
   .blog-section .blog-header,
-  .news-header,
-  .solutions-header,
-  .fade-in:not(.hero-area),
-  [style*="will-change"] {
+  .blog-mag-main,
+  .blog-mag-card {
+    opacity: unset !important;
+    will-change: unset !important;
+  }
+  /* Hero elementleri hemen görünür */
+  .hero-desc,
+  .hero-buttons,
+  .hero-stats,
+  .hero-areas,
+  .hero-area-link {
     opacity: 1 !important;
     transform: none !important;
-    filter: none !important;
+  }
+  /* Mobile scroll animations — about sonrası */
+  .m-anim {
+    opacity: 0 !important;
+    transform: translateY(30px) !important;
+    transition: opacity 0.6s ease, transform 0.6s ease !important;
+  }
+  .m-anim.m-visible {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+  .m-anim-left {
+    opacity: 0 !important;
+    transform: translateX(-30px) !important;
+    transition: opacity 0.6s ease, transform 0.6s ease !important;
+  }
+  .m-anim-left.m-visible {
+    opacity: 1 !important;
+    transform: translateX(0) !important;
+  }
+  .m-anim-right {
+    opacity: 0 !important;
+    transform: translateX(30px) !important;
+    transition: opacity 0.6s ease, transform 0.6s ease !important;
+  }
+  .m-anim-right.m-visible {
+    opacity: 1 !important;
+    transform: translateX(0) !important;
+  }
+  .m-anim-scale {
+    opacity: 0 !important;
+    transform: scale(0.9) !important;
+    transition: opacity 0.6s ease, transform 0.6s ease !important;
+  }
+  .m-anim-scale.m-visible {
+    opacity: 1 !important;
+    transform: scale(1) !important;
   }
   .about-letter,
   .about-letter-visible {

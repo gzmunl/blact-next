@@ -6,7 +6,7 @@ export default function Navbar() {
         <ul className="nav-links" id="navLinks">
           <li><a href="/#hakkimizda">Hakkımızda</a></li>
           <li className="nav-dropdown">
-            <a href="/#cozumlerimiz">Çözümlerimiz</a>
+            <a href="/#cozumlerimiz">Çözümlerimiz</a><button className="dropdown-arrow" aria-label="Alt menü">&#9662;</button>
             <div className="dropdown-menu">
               <a href="/cozum-eklemeli-imalat">Eklemeli İmalat</a>
               <a href="/cozum-kompozit">Kompozit Teknolojisi</a>

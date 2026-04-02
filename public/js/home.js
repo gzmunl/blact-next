@@ -27,6 +27,77 @@ function initBlact() {
       const ew = document.querySelector('.hero-visual .engrave-wrap');
       const hi = document.querySelector('.hero-inner');
       if (ew && hi) hi.appendChild(ew);
+
+      // --- Mobile scroll animations (about sonrası) ---
+      // About section
+      var aboutImg = document.querySelector('.about-visual');
+      var aboutTitle = document.querySelector('.about-text h2');
+      var aboutLabel = document.querySelector('.about-text .section-label');
+      var aboutP1 = document.querySelector('.about-text .about-p1');
+      var aboutP2 = document.querySelector('.about-text .about-p2');
+      if (aboutImg) aboutImg.classList.add('m-anim-scale');
+      if (aboutLabel) { aboutLabel.classList.add('m-anim'); aboutLabel.style.transitionDelay = '0.1s'; }
+      if (aboutTitle) { aboutTitle.classList.add('m-anim-left'); aboutTitle.style.transitionDelay = '0.2s'; }
+      if (aboutP1) { aboutP1.classList.add('m-anim'); aboutP1.style.transitionDelay = '0.3s'; }
+      if (aboutP2) { aboutP2.classList.add('m-anim'); aboutP2.style.transitionDelay = '0.4s'; }
+
+      // Value items
+      document.querySelectorAll('.value-item').forEach(function(item, i) {
+        item.classList.add('m-anim');
+        item.style.transitionDelay = (0.1 + i * 0.08) + 's';
+      });
+
+      // Solutions header + cards
+      var solHeader = document.querySelector('.solutions-header');
+      if (solHeader) solHeader.classList.add('m-anim-right');
+      document.querySelectorAll('.solution-card').forEach(function(card, i) {
+        card.classList.add('m-anim');
+        card.style.transitionDelay = (0.1 + i * 0.1) + 's';
+      });
+
+      // Blog header + cards
+      var blogHeader = document.querySelector('.blog-section .blog-header');
+      if (blogHeader) blogHeader.classList.add('m-anim-left');
+      document.querySelectorAll('.blog-mag-main, .blog-mag-card').forEach(function(card, i) {
+        card.classList.add('m-anim-scale');
+        card.style.transitionDelay = (i * 0.1) + 's';
+      });
+
+      // News header + cards
+      var newsHeader = document.querySelector('.news-header');
+      if (newsHeader) newsHeader.classList.add('m-anim-right');
+      document.querySelectorAll('.news-card').forEach(function(card, i) {
+        card.classList.add('m-anim');
+        card.style.transitionDelay = (i * 0.1) + 's';
+      });
+
+      // Contact
+      var contactLeft = document.querySelector('.nu-contact-left');
+      var contactRight = document.querySelector('.nu-contact-right');
+      if (contactLeft) contactLeft.classList.add('m-anim-left');
+      if (contactRight) contactRight.classList.add('m-anim-right');
+
+      // Newsletter
+      var newsletter = document.querySelector('.newsletter-inner');
+      if (newsletter) newsletter.classList.add('m-anim');
+
+      // Footer
+      var footerHero = document.querySelector('.footer-hero');
+      if (footerHero) footerHero.classList.add('m-anim');
+
+      // Observer
+      var mObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('m-visible');
+            mObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.m-anim, .m-anim-left, .m-anim-right, .m-anim-scale').forEach(function(el) {
+        mObserver.observe(el);
+      });
     }
 
     // --- Smooth Cursor Glow with lerp ---
@@ -153,18 +224,16 @@ function initBlact() {
         _toggleParent.insertBefore(navToggle, _toggleNext);
       }
     });
-    // Mobile dropdown toggle
-    document.querySelectorAll('.nav-dropdown > a').forEach(function(a) {
-      a.addEventListener('click', function(e) {
-        if (window.innerWidth <= 1024) {
-          e.preventDefault();
-          a.parentElement.classList.toggle('dropdown-open');
-        }
+    // Mobile dropdown toggle — ok butonuna bas
+    document.querySelectorAll('.dropdown-arrow').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        btn.parentElement.classList.toggle('dropdown-open');
       });
     });
     navLinks.querySelectorAll('a').forEach(l => l.addEventListener('click', function() {
-      // Dropdown parent'a tıklayınca menüyü kapatma — sadece dropdown açılsın
-      if (window.innerWidth <= 1024 && this.parentElement && this.parentElement.classList.contains('nav-dropdown')) return;
+      // Dropdown alt linkleri de menüyü kapatsın
       navLinks.classList.remove('open'); navToggle.classList.remove('open');
       _navParent.insertBefore(navLinks, _navNext);
       _toggleParent.insertBefore(navToggle, _toggleNext);

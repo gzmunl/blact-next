@@ -23,7 +23,7 @@ const bodyHTML = `
       <ul class="nav-links" id="navLinks">
         <li><a href="#hakkimizda">Hakkımızda</a></li>
         <li class="nav-dropdown">
-          <a href="#cozumlerimiz">Çözümlerimiz</a>
+          <a href="#cozumlerimiz">Çözümlerimiz</a><button class="dropdown-arrow" aria-label="Alt menü">&#9662;</button>
           <div class="dropdown-menu">
             <a href="/cozum-eklemeli-imalat">Eklemeli İmalat</a>
             <a href="/cozum-kompozit">Kompozit Teknolojisi</a>
