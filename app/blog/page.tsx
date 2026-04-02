@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import NavScript from '@/components/NavScript'
+import CardAnimator from '@/components/CardAnimator'
 import { blogPosts } from '@/data/blog'
 
 export const metadata: Metadata = {
@@ -26,7 +27,8 @@ const pageStyles = `
   .bp-grid-section { background: #fff; padding: 4rem 0 5rem; }
   .bp-grid-section .container { max-width: 1200px; margin: 0 auto; padding: 0 2.5rem; }
   .bp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
-  .bp-card { background: #fff; border-radius: 0; overflow: hidden; border: 1px solid #eee; text-decoration: none; color: #111; transition: transform 0.3s, box-shadow 0.3s; }
+  .bp-card { background: #fff; border-radius: 0; overflow: hidden; border: 1px solid #eee; text-decoration: none; color: #111; opacity: 0; transform: translateY(20px); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+  .bp-card.visible { opacity: 1; transform: translateY(0); }
   .bp-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); color: #111; }
   .bp-card-img { height: 200px; background-size: cover; background-position: center; position: relative; }
   .bp-card-cat { position: absolute; top: 1rem; left: 1rem; background: rgba(226,119,29,0.9); color: #fff; padding: 0.2rem 0.7rem; border-radius: 0; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
@@ -53,11 +55,12 @@ export default function BlogPage() {
         </div>
       </section>
 
+      <CardAnimator selector=".bp-card" />
       <section className="bp-grid-section">
         <div className="container">
           <div className="bp-grid">
-            {blogPosts.map(post => (
-              <a key={post.slug} href={`/blog/${post.slug}`} className="bp-card">
+            {blogPosts.map((post, i) => (
+              <a key={post.slug} href={`/blog/${post.slug}`} className="bp-card" style={{ transitionDelay: `${i * 0.08}s` }}>
                 <div className="bp-card-img" style={{ backgroundImage: `url('${post.image}')` }}>
                   <span className="bp-card-cat">{post.category}</span>
                 </div>
