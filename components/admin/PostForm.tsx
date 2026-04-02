@@ -26,7 +26,7 @@ interface PostFormProps {
   }
 }
 
-const categories = [
+const defaultCategories = [
   { slug: 'eklemeli-imalat', name: 'Eklemeli İmalat' },
   { slug: 'kompozit', name: 'Kompozit' },
   { slug: 'insansiz-araclar', name: 'İnsansız Araçlar' },
@@ -47,6 +47,9 @@ export default function PostForm({ type, initialData }: PostFormProps) {
   const isEdit = !!initialData?.id
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
+  const [categories, setCategories] = useState(defaultCategories)
+  const [showNewCat, setShowNewCat] = useState(false)
+  const [newCatName, setNewCatName] = useState('')
 
   const [form, setForm] = useState({
     title: initialData?.title || '',
@@ -130,9 +133,28 @@ export default function PostForm({ type, initialData }: PostFormProps) {
       <div className="admin-form-row">
         <div className="admin-form-group">
           <label className="admin-form-label">Kategori</label>
-          <select className="admin-form-input" value={form.category} onChange={e => updateField('category', e.target.value)}>
-            {categories.map(c => <option key={c.slug} value={c.name}>{c.name}</option>)}
-          </select>
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
+            <select className="admin-form-input" style={{ flex: 1 }} value={form.category} onChange={e => updateField('category', e.target.value)}>
+              {categories.map(c => <option key={c.slug} value={c.name}>{c.name}</option>)}
+            </select>
+            <button type="button" className="admin-btn admin-btn-outline" style={{ whiteSpace: 'nowrap', flexShrink: 0 }} onClick={() => setShowNewCat(!showNewCat)}>
+              + Yeni
+            </button>
+          </div>
+          {showNewCat && (
+            <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
+              <input className="admin-form-input" style={{ flex: 1 }} placeholder="Yeni kategori adı" value={newCatName} onChange={e => setNewCatName(e.target.value)} />
+              <button type="button" className="admin-btn admin-btn-primary admin-btn-sm" onClick={() => {
+                if (newCatName.trim()) {
+                  const newCat = { slug: slugify(newCatName.trim()), name: newCatName.trim() }
+                  setCategories(prev => [...prev, newCat])
+                  updateField('category', newCat.name)
+                  setNewCatName('')
+                  setShowNewCat(false)
+                }
+              }}>Ekle</button>
+            </div>
+          )}
         </div>
         <div className="admin-form-group">
           <label className="admin-form-label">Tarih</label>
