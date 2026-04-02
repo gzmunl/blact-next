@@ -281,7 +281,7 @@ const bodyHTML = `
         <a href="/blog" class="btn btn-outline btn-sm">Tüm Yazılar &rarr;</a>
       </div>
       <div class="blog-magazine">
-        <a href="blog-eklemeli-imalat.html" class="blog-mag-main fade-in">
+        <a href="/blog/slm-ve-waam-metal-eklemeli-imalat" class="blog-mag-main fade-in">
           <div class="blog-mag-img" style="background-image:url('/images/blog-ei.png')"></div>
           <div class="blog-mag-overlay"></div>
           <div class="blog-mag-content">
@@ -292,7 +292,7 @@ const bodyHTML = `
           </div>
         </a>
         <div class="blog-mag-side">
-          <a href="blog-kompozit.html" class="blog-mag-card fade-in" style="transition-delay:0.15s">
+          <a href="/blog/karbon-fiber-uretiminde-yeni-nesil" class="blog-mag-card fade-in" style="transition-delay:0.15s">
             <div class="blog-mag-img" style="background-image:url('/images/blog-kt.png')"></div>
             <div class="blog-mag-overlay"></div>
             <div class="blog-mag-content">
@@ -301,7 +301,7 @@ const bodyHTML = `
               <span class="blog-mag-date">12 Mar 2026</span>
             </div>
           </a>
-          <a href="blog-insansiz-araclar.html" class="blog-mag-card fade-in" style="transition-delay:0.3s">
+          <a href="/blog/otonom-deniz-araclarinin-endustriyel-uygulamalari" class="blog-mag-card fade-in" style="transition-delay:0.3s">
             <div class="blog-mag-img" style="background-image:url('/images/blog-iha.png')"></div>
             <div class="blog-mag-overlay"></div>
             <div class="blog-mag-content">
@@ -328,7 +328,7 @@ const bodyHTML = `
         <a href="/haberler" class="btn btn-outline btn-sm">Tüm Haberler &rarr;</a>
       </div>
       <div class="news-cards">
-        <a href="haber-1.html" class="news-card" id="newsCard1">
+        <a href="/haberler/turkiyenin-ilk-buyuk-olcekli-metal-am-tesisi" class="news-card" id="newsCard1">
           <div class="news-card-img" style="background-image:url('/images/news-am.png')"></div>
           <div class="news-card-overlay"></div>
           <div class="news-card-content">
@@ -338,7 +338,7 @@ const bodyHTML = `
             <p>Eklemeli imalat sektöründe yerli üretim kapasitesini artırmaya yönelik yeni yatırımlar gündemde.</p>
           </div>
         </a>
-        <a href="haber-2.html" class="news-card" id="newsCard2">
+        <a href="/haberler/waam-teknolojisinde-devrim" class="news-card" id="newsCard2">
           <div class="news-card-img" style="background-image:url('/images/news-iha.png')"></div>
           <div class="news-card-overlay"></div>
           <div class="news-card-content">
@@ -348,7 +348,7 @@ const bodyHTML = `
             <p>EASA'nın yeni düzenlemeleri insansız hava araçları sektörünü yeniden şekillendirecek.</p>
           </div>
         </a>
-        <a href="haber-3.html" class="news-card" id="newsCard3">
+        <a href="/haberler/avrupada-iha-regulasyonlari" class="news-card" id="newsCard3">
           <div class="news-card-img" style="background-image:url('/images/news-energy.png')"></div>
           <div class="news-card-overlay"></div>
           <div class="news-card-content">
