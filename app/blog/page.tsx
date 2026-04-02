@@ -3,7 +3,8 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import NavScript from '@/components/NavScript'
 import CardAnimator from '@/components/CardAnimator'
-import { blogPosts } from '@/data/blog'
+import { blogPosts, blogCategories } from '@/data/blog'
+import BlogClient from './client'
 
 export const metadata: Metadata = {
   title: 'Blog - Blact Systems',
@@ -22,9 +23,15 @@ const pageStyles = `
   .bp-hero .container { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; padding: 0 2.5rem; }
   .bp-hero .section-label { color: var(--accent); font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; font-weight: 700; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 1rem; }
   .bp-hero .section-label::before { content: ''; width: 40px; height: 2px; background: var(--accent); }
-  .bp-hero h1 { font-family: 'NASA', 'Rajdhani', sans-serif; font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 700; color: #fff; text-transform: uppercase; line-height: 1.05; margin-bottom: 1rem; }
+  .bp-hero h1 { font-family: 'Exo 2', sans-serif; font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 700; color: #fff; text-transform: uppercase; line-height: 1.05; margin-bottom: 1rem; }
   .bp-hero p { color: #888; max-width: 500px; line-height: 1.7; font-size: 0.95rem; }
-  .bp-grid-section { background: #fff; padding: 4rem 0 5rem; }
+  .bp-grid-section { background: #fff; padding: 2.5rem 0 5rem; }
+  .bp-search { margin-bottom: 1.2rem; }
+  .bp-search-input { width: 100%; padding: 0.8rem 1.2rem; border: 1px solid #ddd; background: #fff; font-size: 0.9rem; outline: none; transition: border-color 0.3s; }
+  .bp-search-input:focus { border-color: #e2771d; }
+  .bp-filters { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+  .bp-filter { padding: 0.5rem 1.2rem; border-radius: 0; border: 1px solid #ddd; background: transparent; color: #666; font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+  .bp-filter:hover, .bp-filter.active { background: #e2771d; color: #fff; border-color: #e2771d; }
   .bp-grid-section .container { max-width: 1200px; margin: 0 auto; padding: 0 2.5rem; }
   .bp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
   .bp-card { background: #fff; border-radius: 0; overflow: hidden; border: 1px solid #eee; text-decoration: none; color: #111; opacity: 0; transform: translateY(20px); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
@@ -55,26 +62,9 @@ export default function BlogPage() {
         </div>
       </section>
 
-      <CardAnimator selector=".bp-card" />
       <section className="bp-grid-section">
         <div className="container">
-          <div className="bp-grid">
-            {blogPosts.map((post, i) => (
-              <a key={post.slug} href={`/blog/${post.slug}`} className="bp-card" style={{ transitionDelay: `${i * 0.08}s` }}>
-                <div className="bp-card-img" style={{ backgroundImage: `url('${post.image}')` }}>
-                  <span className="bp-card-cat">{post.category}</span>
-                </div>
-                <div className="bp-card-body">
-                  <h3>{post.title}</h3>
-                  <p>{post.excerpt}</p>
-                  <div className="bp-card-meta">
-                    <span>{formatDate(post.date)}</span>
-                    <span>{post.readTime} dk okuma</span>
-                  </div>
-                </div>
-              </a>
-            ))}
-          </div>
+          <BlogClient categories={blogCategories} posts={blogPosts} />
         </div>
       </section>
 

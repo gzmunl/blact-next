@@ -184,6 +184,11 @@ const bodyHTML = `
   </div><!-- /about-wrapper -->
 
   <div class="solutions-wrapper" id="solutionsWrapper">
+  <div class="sol-tech-band sol-tech-band-top">
+    <div class="sol-tech-inner">
+      <span>SLM</span><span>WAAM</span><span>LSAM</span><span>Karbon Fiber</span><span>İHA Sistemleri</span><span>İDA Sistemleri</span><span>Enerji Çözümleri</span><span>Kompozit</span><span>Otonom Sistemler</span><span>SLM</span><span>WAAM</span><span>LSAM</span><span>Karbon Fiber</span><span>İHA Sistemleri</span><span>İDA Sistemleri</span><span>Enerji Çözümleri</span><span>Kompozit</span><span>Otonom Sistemler</span>
+    </div>
+  </div>
   <section class="solutions" id="cozumlerimiz">
     <div class="container" style="position:relative;z-index:2;width:100%;max-width:1400px;padding-top:5rem;padding-bottom:2rem;background:transparent;">
       <div class="solutions-header">
@@ -258,6 +263,11 @@ const bodyHTML = `
       </div>
     </div>
   </section>
+  <div class="sol-tech-band sol-tech-band-bottom">
+    <div class="sol-tech-inner sol-tech-reverse">
+      <span>Eklemeli İmalat</span><span>Kompozit Teknolojisi</span><span>İnsansız Araçlar</span><span>Sürdürülebilirlik</span><span>Ar-Ge</span><span>Mühendislik</span><span>Eklemeli İmalat</span><span>Kompozit Teknolojisi</span><span>İnsansız Araçlar</span><span>Sürdürülebilirlik</span><span>Ar-Ge</span><span>Mühendislik</span>
+    </div>
+  </div>
   </div><!-- /solutions-wrapper -->
 
   <div class="blog-wrapper" id="blogWrapper">

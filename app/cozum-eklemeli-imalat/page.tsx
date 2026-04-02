@@ -16,7 +16,7 @@ export default function EklemeliImalatPage() {
       <Navbar />
       <NavScript />
 
-      <section className="detail-hero">
+      <section className="detail-hero hero-eklemeli">
         <div className="container">
           <div className="section-label">Çözümlerimiz</div>
           <h1>Eklemeli İmalat</h1>

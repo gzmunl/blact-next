@@ -16,7 +16,7 @@ export default function InsansizAraclarPage() {
       <Navbar />
       <NavScript />
 
-      <section className="detail-hero">
+      <section className="detail-hero hero-insansiz">
         <div className="container">
           <div className="section-label">Çözümlerimiz</div>
           <h1>İnsansız Hava &amp; Deniz Araçları</h1>

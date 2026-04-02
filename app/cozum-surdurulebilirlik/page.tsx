@@ -16,7 +16,7 @@ export default function SurdurulebilirlikPage() {
       <Navbar />
       <NavScript />
 
-      <section className="detail-hero">
+      <section className="detail-hero hero-surdurulebilirlik">
         <div className="container">
           <div className="section-label">Çözümlerimiz</div>
           <h1>Sürdürülebilirlik</h1>

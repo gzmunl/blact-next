@@ -33,20 +33,24 @@ const pageStyles = `
   .sp-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, #050507 0%, rgba(5,5,7,0.5) 40%, rgba(5,5,7,0.2) 100%); }
   .sp-hero-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; padding: 0 2.5rem 3.5rem; width: 100%; }
   .sp-cat { display: inline-block; background: rgba(226,119,29,0.15); color: #e2771d; padding: 0.3rem 0.9rem; border-radius: 0; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.2rem; }
-  .sp-hero-content h1 { font-family: 'NASA', 'Rajdhani', sans-serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; text-transform: uppercase; line-height: 1.1; color: #fff; margin-bottom: 1rem; }
+  .sp-hero-content h1 { font-family: 'Exo 2', sans-serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; text-transform: uppercase; line-height: 1.1; color: #fff; margin-bottom: 1rem; }
   .sp-meta { display: flex; gap: 1.5rem; font-size: 0.8rem; color: rgba(255,255,255,0.5); }
-  .sp-body { max-width: 750px; margin: 0 auto; padding: 3rem 2.5rem 5rem; line-height: 1.9; font-size: 1.05rem; color: #d0d0d0; background: #050507; }
-  .sp-body h2 { font-family: 'Exo 2', sans-serif; font-size: 1.5rem; font-weight: 800; color: #fff; margin: 2.5rem 0 1rem; text-transform: uppercase; }
+  .sp-body { max-width: 750px; margin: 0 auto; padding: 3rem 2.5rem 5rem; line-height: 1.9; font-size: 1.05rem; color: #111; background: #f0f0f0; border: 1px solid #111; }
+  .sp-body h2 { font-family: 'Exo 2', sans-serif; font-size: 1.5rem; font-weight: 800; color: #111; margin: 2.5rem 0 1rem; text-transform: uppercase; }
   .sp-body p { margin-bottom: 1.2rem; }
-  .sp-body strong { color: #fff; }
+  .sp-body strong { color: #111; }
   .sp-body a { color: #e2771d; }
-  .sp-back { display: inline-flex; align-items: center; gap: 0.5rem; max-width: 750px; margin: 0 auto; padding: 0 2.5rem; color: #e2771d; font-size: 0.85rem; font-weight: 600; width: 100%; background: #050507; text-decoration: none; }
+  .sp-back { display: inline-flex; align-items: center; gap: 0.5rem; max-width: 750px; margin: 0 auto; padding: 1rem 2.5rem; color: #e2771d; font-size: 0.85rem; font-weight: 600; width: 100%; background: #fff; text-decoration: none; }
   .sp-back:hover { color: #f0943e; }
-  .sp-share { max-width: 750px; margin: 0 auto; padding: 2rem 2.5rem; background: #050507; border-top: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; gap: 1rem; }
-  .sp-share-label { font-size: 0.75rem; color: #666; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
-  .sp-share a { color: #888; font-size: 0.85rem; text-decoration: none; transition: color 0.3s; }
+  .sp-share { max-width: 750px; margin: 0 auto; padding: 2rem 2.5rem; background: #f0f0f0; border: 1px solid #111; border-top: none; display: flex; align-items: center; gap: 1rem; }
+  .sp-share-label { font-size: 0.75rem; color: #999; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
+  .sp-share a { color: #555; font-size: 0.85rem; text-decoration: none; transition: color 0.3s; }
+  .sp-nav { max-width: 750px; margin: 0 auto; padding: 1.5rem 2.5rem; background: #f0f0f0; border: 1px solid #111; border-top: none; display: flex; justify-content: space-between; }
+  .sp-nav a { font-size: 0.8rem; font-weight: 700; color: #111; text-transform: uppercase; letter-spacing: 1px; text-decoration: none; }
+  .sp-nav a:hover { color: #e2771d; }
   .sp-share a:hover { color: #e2771d; }
-  @media (max-width: 768px) { .sp-hero { height: 40vh; min-height: 300px; } .sp-body { padding: 2rem 1.5rem 4rem; font-size: 1rem; } .sp-back { padding: 0 1.5rem; } .sp-share { padding: 2rem 1.5rem; } }
+  .sp-content-wrap { background: #fff; padding: 3rem 0; }
+  @media (max-width: 768px) { .sp-hero { height: 40vh; min-height: 300px; } .sp-body { padding: 2rem 1.5rem 4rem; font-size: 1rem; } .sp-back { padding: 0.8rem 1.5rem; } .sp-share { padding: 2rem 1.5rem; } }
 `
 
 function formatDate(dateStr: string) {
@@ -59,6 +63,10 @@ export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params
   const post = getBlogPost(slug)
   if (!post) notFound()
+
+  const currentIndex = blogPosts.findIndex(p => p.slug === slug)
+  const prevPost = currentIndex > 0 ? blogPosts[currentIndex - 1] : null
+  const nextPost = currentIndex < blogPosts.length - 1 ? blogPosts[currentIndex + 1] : null
 
   return (
     <>
@@ -79,13 +87,18 @@ export default async function BlogPostPage({ params }: Props) {
         </div>
       </section>
 
-      <a href="/blog" className="sp-back">&larr; Blog&apos;a Dön</a>
-      <article className="sp-body" dangerouslySetInnerHTML={{ __html: post.content }} />
-
-      <div className="sp-share">
-        <span className="sp-share-label">Paylaş:</span>
-        <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}`} target="_blank" rel="noopener noreferrer">Twitter</a>
-        <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://blactsystems.com/blog/' + post.slug)}`} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <div className="sp-content-wrap">
+        <a href="/blog" className="sp-back">&larr; Blog&apos;a Dön</a>
+        <article className="sp-body" dangerouslySetInnerHTML={{ __html: post.content }} />
+        <div className="sp-share">
+          <span className="sp-share-label">Paylaş:</span>
+          <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}`} target="_blank" rel="noopener noreferrer">Twitter</a>
+          <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://blactsystems.com/blog/' + post.slug)}`} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </div>
+        <div className="sp-nav">
+          {prevPost ? <a href={`/blog/${prevPost.slug}`}>&larr; Önceki Yazı</a> : <span />}
+          {nextPost ? <a href={`/blog/${nextPost.slug}`}>Sonraki Yazı &rarr;</a> : <span />}
+        </div>
       </div>
 
       <Footer />

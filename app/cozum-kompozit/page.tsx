@@ -16,7 +16,7 @@ export default function KompozitPage() {
       <Navbar />
       <NavScript />
 
-      <section className="detail-hero">
+      <section className="detail-hero hero-kompozit">
         <div className="container">
           <div className="section-label">Çözümlerimiz</div>
           <h1>Kompozit Teknolojisi</h1>
