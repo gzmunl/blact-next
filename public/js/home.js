@@ -1344,44 +1344,11 @@ function initBlact() {
       // Step 2: Spark reveal (just animates existing hidden letters)
       function sparkReveal(el) {
         const letters = [...el.querySelectorAll('.about-letter')];
-        const dot = document.createElement('div');
-        dot.className = 'slm-dot';
-        document.body.appendChild(dot);
         let idx = 0;
         function revealPass() {
-          if (idx >= letters.length) {
-            dot.classList.remove('on');
-            setTimeout(() => dot.remove(), 200);
-            return;
-          }
+          if (idx >= letters.length) return;
           const letter = letters[idx];
-          const rect = letter.getBoundingClientRect();
-          const cx = rect.left + rect.width / 2;
-          const cy = rect.top + rect.height * 0.5;
-          dot.style.left = cx + 'px';
-          dot.style.top = cy + 'px';
-          dot.classList.add('on');
           letter.classList.add('about-letter-visible');
-          if (letter.textContent.trim()) {
-            const count = 5 + Math.floor(Math.random() * 4);
-            for (let i = 0; i < count; i++) {
-              const spark = document.createElement('div');
-              spark.className = 'slm-spark';
-              spark.style.left = cx + 'px';
-              spark.style.top = cy + 'px';
-              const angle = -Math.PI / 2 + (Math.random() - 0.5) * 2.2;
-              const dist = 30 + Math.random() * 60;
-              spark.style.setProperty('--sx', (Math.cos(angle) * dist) + 'px');
-              spark.style.setProperty('--sy', (Math.sin(angle) * dist) + 'px');
-              spark.style.setProperty('--dur', (0.2 + Math.random() * 0.3) + 's');
-              const rotDeg = Math.atan2(Math.sin(angle), Math.cos(angle)) * (180 / Math.PI) + 90;
-              spark.style.setProperty('--rot', rotDeg + 'deg');
-              spark.style.height = (6 + Math.random() * 12) + 'px';
-              spark.style.width = (1 + Math.random()) + 'px';
-              document.body.appendChild(spark);
-              setTimeout(() => spark.remove(), 500);
-            }
-          }
           idx++;
           setTimeout(revealPass, letter.textContent.trim() ? 35 : 8);
         }
