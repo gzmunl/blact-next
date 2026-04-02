@@ -2631,7 +2631,7 @@ img { max-width: 100%; height: auto; display: block; }
     75% { transform: translateX(-10px); filter: drop-shadow(0 0 30px rgba(226,119,29,0.6)); }
   }
 
-  /* Navbar transparent on mobile */
+  /* Navbar transparent on mobile (homepage only) */
   .navbar {
     background: transparent !important;
     border-bottom: none !important;
@@ -2639,6 +2639,13 @@ img { max-width: 100%; height: auto; display: block; }
   }
   .navbar.scrolled {
     background: transparent !important;
+  }
+  /* Solid navbar for blog/haberler pages on mobile */
+  .navbar.navbar-solid {
+    background: rgba(5,5,7,0.95) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-bottom: 1px solid rgba(255,255,255,0.06) !important;
   }
   .navbar.navbar-light {
     background: #fff !important;

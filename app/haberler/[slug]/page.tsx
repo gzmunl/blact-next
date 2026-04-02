@@ -63,7 +63,7 @@ export default async function NewsPostPage({ params }: Props) {
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: pageStyles }} />
-      <Navbar active="haberler" transparent />
+      <Navbar active="haberler" />
       <NavScript />
 
       <section className="sp-hero">

@@ -61,7 +61,7 @@ export default async function PostPage({ params }: Props) {
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: pageStyles }} />
-      <Navbar active="post" transparent />
+      <Navbar active="post" />
       <NavScript />
 
       <section className="sp-hero">
