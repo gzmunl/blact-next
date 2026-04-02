@@ -25,10 +25,10 @@ const bodyHTML = `
         <li class="nav-dropdown">
           <a href="#cozumlerimiz">Çözümlerimiz</a>
           <div class="dropdown-menu">
-            <a href="cozum-eklemeli-imalat.html">Eklemeli İmalat</a>
-            <a href="cozum-kompozit.html">Kompozit Teknolojisi</a>
-            <a href="cozum-insansiz-araclar.html">İnsansız Hava &amp; Deniz Araçları</a>
-            <a href="cozum-surdurulebilirlik.html">Sürdürülebilirlik</a>
+            <a href="/cozum-eklemeli-imalat">Eklemeli İmalat</a>
+            <a href="/cozum-kompozit">Kompozit Teknolojisi</a>
+            <a href="/cozum-insansiz-araclar">İnsansız Hava &amp; Deniz Araçları</a>
+            <a href="/cozum-surdurulebilirlik">Sürdürülebilirlik</a>
           </div>
         </li>
         <li><a href="/blog">Blog</a></li>
@@ -192,7 +192,7 @@ const bodyHTML = `
         <p class="section-desc">Dört temel uzmanlık alanımızda, endüstrinin ihtiyaçlarına yenilikçi ve sürdürülebilir çözümler sunuyoruz.</p>
       </div>
       <div class="solutions-grid" id="solutionsGrid">
-        <a href="cozum-eklemeli-imalat.html" class="solution-card" data-panel="tl">
+        <a href="/cozum-eklemeli-imalat" class="solution-card" data-panel="tl">
           <div class="solution-card-bg" style="background-image:url('/images/solutions/eklemeli_imalat.png')"></div>
           <div class="solution-card-content">
             <div class="solution-number">01</div>
@@ -208,7 +208,7 @@ const bodyHTML = `
           </div>
         </a>
 
-        <a href="cozum-kompozit.html" class="solution-card" data-panel="tr">
+        <a href="/cozum-kompozit" class="solution-card" data-panel="tr">
           <div class="solution-card-bg" style="background-image:url('/images/solutions/kompozit _tek.png')"></div>
           <div class="solution-card-content">
             <div class="solution-number">02</div>
@@ -224,7 +224,7 @@ const bodyHTML = `
           </div>
         </a>
 
-        <a href="cozum-insansiz-araclar.html" class="solution-card" data-panel="bl">
+        <a href="/cozum-insansiz-araclar" class="solution-card" data-panel="bl">
           <div class="solution-card-bg" style="background-image:url('/images/solutions/insansiz_arac.png')"></div>
           <div class="solution-card-content">
             <div class="solution-number">03</div>
@@ -240,7 +240,7 @@ const bodyHTML = `
           </div>
         </a>
 
-        <a href="cozum-surdurulebilirlik.html" class="solution-card" data-panel="br">
+        <a href="/cozum-surdurulebilirlik" class="solution-card" data-panel="br">
           <div class="solution-card-bg" style="background-image:url('/images/solutions/surdur.png')"></div>
           <div class="solution-card-content">
             <div class="solution-number">04</div>
@@ -515,10 +515,10 @@ const bodyHTML = `
         <div class="footer-col">
           <h4>Çözümlerimiz</h4>
           <ul>
-            <li><a href="cozum-eklemeli-imalat.html">Eklemeli İmalat</a></li>
-            <li><a href="cozum-kompozit.html">Kompozit Teknolojisi</a></li>
-            <li><a href="cozum-insansiz-araclar.html">İnsansız Araçlar</a></li>
-            <li><a href="cozum-surdurulebilirlik.html">Sürdürülebilirlik</a></li>
+            <li><a href="/cozum-eklemeli-imalat">Eklemeli İmalat</a></li>
+            <li><a href="/cozum-kompozit">Kompozit Teknolojisi</a></li>
+            <li><a href="/cozum-insansiz-araclar">İnsansız Araçlar</a></li>
+            <li><a href="/cozum-surdurulebilirlik">Sürdürülebilirlik</a></li>
           </ul>
         </div>
         <div class="footer-col">
@@ -533,10 +533,10 @@ const bodyHTML = `
         <div class="footer-col">
           <h4>Teknolojiler</h4>
           <ul>
-            <li><a href="cozum-eklemeli-imalat.html">SLM / WAAM</a></li>
-            <li><a href="cozum-eklemeli-imalat.html">LSAM / DED</a></li>
-            <li><a href="cozum-kompozit.html">Karbon Fiber</a></li>
-            <li><a href="cozum-insansiz-araclar.html">Otonom Sistemler</a></li>
+            <li><a href="/cozum-eklemeli-imalat">SLM / WAAM</a></li>
+            <li><a href="/cozum-eklemeli-imalat">LSAM / DED</a></li>
+            <li><a href="/cozum-kompozit">Karbon Fiber</a></li>
+            <li><a href="/cozum-insansiz-araclar">Otonom Sistemler</a></li>
           </ul>
         </div>
       </div>
