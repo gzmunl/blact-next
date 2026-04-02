@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import AdminLayout from '@/components/admin/AdminLayout'
+import SeoMini from '@/components/admin/SeoMini'
 
 interface Post {
   id: number
@@ -67,11 +68,7 @@ export default function AdminNewsList() {
                 <td style={{ fontWeight: 600 }}>{post.title}</td>
                 <td>{post.category}</td>
                 <td>{formatDate(post.date)}</td>
-                <td>
-                  <span style={{ color: post.seoScore >= 71 ? '#22c55e' : post.seoScore >= 41 ? '#f59e0b' : '#ef4444', fontWeight: 700 }}>
-                    {post.seoScore}
-                  </span>
-                </td>
+                <td><SeoMini score={post.seoScore} /></td>
                 <td>
                   <span className={`admin-badge ${post.published ? 'admin-badge-green' : 'admin-badge-gray'}`}>
                     {post.published ? 'Yayında' : 'Taslak'}
