@@ -6,7 +6,7 @@ interface NavbarProps {
 export default function Navbar({ active, transparent }: NavbarProps) {
   const cls = `navbar${transparent ? '' : ' navbar-solid'}`
   return (
-    <nav className={cls} id="navbar" style={transparent ? {position:'fixed',top:0,left:0,right:0,zIndex:100,background:'transparent'} : {position:'fixed',top:0,left:0,right:0,zIndex:100,background:'rgba(5,5,7,0.95)',backdropFilter:'blur(20px)',WebkitBackdropFilter:'blur(20px)',borderBottom:'1px solid rgba(255,255,255,0.06)'}}>
+    <nav className={cls} id="navbar">
       <div className="nav-inner">
         <a href="/" className="logo">BLACT SYSTEMS</a>
         <ul className="nav-links" id="navLinks">
