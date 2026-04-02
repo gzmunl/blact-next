@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import NavScript from '@/components/NavScript'
+import CardAnimator from '@/components/CardAnimator'
 
 export const metadata: Metadata = {
   title: 'Eklemeli İmalat - Blact Systems',
@@ -23,20 +24,21 @@ export default function EklemeliImalatPage() {
         </div>
       </section>
 
+      <CardAnimator selector=".detail-anim, .detail-body h2, .detail-body blockquote, .detail-body ul" />
       <section className="detail-content detail-content-light">
         <div className="container">
           <div className="detail-body">
 
             <div className="solution-features">
-              <div className="solution-feature" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
+              <div className="solution-feature detail-anim" data-delay="0" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
                 <h4>SLM Teknolojisi</h4>
                 <p>Yüksek güçlü lazer ile metal tozu eritme. Mikron seviyesinde hassasiyet ve karmaşık iç geometriler.</p>
               </div>
-              <div className="solution-feature" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
+              <div className="solution-feature detail-anim" data-delay="1" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
                 <h4>WAAM Teknolojisi</h4>
                 <p>Tel besleme ve ark kaynağı ile büyük ölçekli metal parça üretimi. Yüksek üretim hızı ve maliyet avantajı.</p>
               </div>
-              <div className="solution-feature" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
+              <div className="solution-feature detail-anim" data-delay="2" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
                 <h4>LSAM Teknolojisi</h4>
                 <p>Büyük ölçekli eklemeli imalat. Endüstriyel boyutlarda prototip ve son ürün üretimi.</p>
               </div>

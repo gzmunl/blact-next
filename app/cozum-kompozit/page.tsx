@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import NavScript from '@/components/NavScript'
+import CardAnimator from '@/components/CardAnimator'
 
 export const metadata: Metadata = {
   title: 'Kompozit Teknolojisi - Blact Systems',
@@ -23,20 +24,21 @@ export default function KompozitPage() {
         </div>
       </section>
 
+      <CardAnimator selector=".detail-anim, .detail-body h2, .detail-body blockquote, .detail-body ul" />
       <section className="detail-content detail-content-light">
         <div className="container">
           <div className="detail-body">
 
             <div className="solution-features">
-              <div className="solution-feature" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
+              <div className="solution-feature detail-anim" data-delay="0" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
                 <h4>Karbon Fiber Üretimi</h4>
                 <p>PAN prekürsörden son ürüne kadar karbon fiber üretim süreçleri. Yüzey işlemleri ve prepreg sistemleri.</p>
               </div>
-              <div className="solution-feature" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
+              <div className="solution-feature detail-anim" data-delay="1" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
                 <h4>Yapısal Kompozit Tasarım</h4>
                 <p>Yük analizi, katmanlama optimizasyonu ve sonlu eleman analizi ile optimize edilmiş yapısal çözümler.</p>
               </div>
-              <div className="solution-feature" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
+              <div className="solution-feature detail-anim" data-delay="2" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
                 <h4>İleri Malzeme Karakterizasyonu</h4>
                 <p>Mekanik test, termal analiz ve mikroyapı inceleme ile kapsamlı malzeme değerlendirmesi.</p>
               </div>

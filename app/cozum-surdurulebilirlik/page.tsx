@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import NavScript from '@/components/NavScript'
+import CardAnimator from '@/components/CardAnimator'
 
 export const metadata: Metadata = {
   title: 'Sürdürülebilirlik - Blact Systems',
@@ -23,20 +24,21 @@ export default function SurdurulebilirlikPage() {
         </div>
       </section>
 
+      <CardAnimator selector=".detail-anim, .detail-body h2, .detail-body blockquote, .detail-body ul" />
       <section className="detail-content detail-content-light">
         <div className="container">
           <div className="detail-body">
 
             <div className="solution-features">
-              <div className="solution-feature" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
+              <div className="solution-feature detail-anim" data-delay="0" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
                 <h4>Enerji Konsept Tasarımı</h4>
                 <p>Rüzgar, güneş ve hidrojen enerjisi sistemlerinin konsept tasarımı ve fizibilite analizleri.</p>
               </div>
-              <div className="solution-feature" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
+              <div className="solution-feature detail-anim" data-delay="1" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
                 <h4>Yaşam Döngüsü Analizi</h4>
                 <p>Hammaddeden geri dönüşüme kadar ürün ve süreçlerin çevresel etkilerinin kapsamlı değerlendirmesi.</p>
               </div>
-              <div className="solution-feature" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
+              <div className="solution-feature detail-anim" data-delay="2" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
                 <h4>Sürdürülebilir Mühendislik</h4>
                 <p>Enerji verimliliği, emisyon azaltma ve kaynak optimizasyonu odaklı mühendislik yaklaşımları.</p>
               </div>
