@@ -185,8 +185,8 @@ const bodyHTML = `
 
   <div class="solutions-wrapper" id="solutionsWrapper">
   <section class="solutions" id="cozumlerimiz">
-    <div class="container" style="position:relative;z-index:2;width:100%;max-width:1400px;padding-top:5rem;padding-bottom:2rem;">
-      <div class="solutions-header fade-in" style="transition-delay:0s">
+    <div class="container" style="position:relative;z-index:2;width:100%;max-width:1400px;padding-top:5rem;padding-bottom:2rem;background:transparent;">
+      <div class="solutions-header">
         <div class="section-label">Çözümlerimiz</div>
         <h2 class="section-title">Mühendislik Çözümlerimiz</h2>
         <p class="section-desc">Dört temel uzmanlık alanımızda, endüstrinin ihtiyaçlarına yenilikçi ve sürdürülebilir çözümler sunuyoruz.</p>
