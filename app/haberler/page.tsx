@@ -2,8 +2,9 @@ import { Metadata } from 'next'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import NavScript from '@/components/NavScript'
-import { newsPosts, newsCategories } from '@/data/news'
+import { newsPosts as staticPosts, newsCategories } from '@/data/news'
 import HaberlerClient from './client'
+import prisma from '@/lib/prisma'
 
 export const metadata: Metadata = {
   title: 'Haberler - Blact Systems',
@@ -60,7 +61,31 @@ const pageStyles = `
   @media (max-width: 768px) { .np-hero { padding: 6rem 0 3rem; } .np-card { min-height: 240px; } }
 `;
 
-export default function HaberlerPage() {
+export const dynamic = 'force-dynamic'
+
+export default async function HaberlerPage() {
+  let dbPosts: any[] = []
+  try {
+    dbPosts = await prisma.newsPost.findMany({
+      where: { published: true },
+      orderBy: { date: 'desc' },
+    })
+  } catch (e) {}
+
+  const dbPostsMapped = dbPosts.map(p => ({
+    slug: p.slug,
+    title: p.title,
+    excerpt: p.excerpt,
+    image: p.image || '/images/news-am.png',
+    category: p.category,
+    categorySlug: p.categorySlug,
+    date: p.date instanceof Date ? p.date.toISOString().split('T')[0] : p.date,
+  }))
+
+  const staticSlugs = new Set(staticPosts.map(p => p.slug))
+  const allPosts = [...dbPostsMapped.filter(p => !staticSlugs.has(p.slug)), ...staticPosts]
+  allPosts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: pageStyles }} />
@@ -75,7 +100,7 @@ export default function HaberlerPage() {
       </section>
       <section className="np-section">
         <div className="container">
-          <HaberlerClient categories={newsCategories} posts={newsPosts} />
+          <HaberlerClient categories={newsCategories} posts={allPosts} />
         </div>
       </section>
       <Footer />

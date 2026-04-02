@@ -4,6 +4,9 @@ import Navbar from '@/components/Navbar'
 import NavScript from '@/components/NavScript'
 import Footer from '@/components/Footer'
 import { newsPosts, getNewsPost } from '@/data/news'
+import prisma from '@/lib/prisma'
+
+export const dynamic = 'force-dynamic'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -61,12 +64,35 @@ function formatDate(dateStr: string) {
 
 export default async function NewsPostPage({ params }: Props) {
   const { slug } = await params
-  const post = getNewsPost(slug)
+  let post = getNewsPost(slug)
+  if (!post) {
+    try {
+      const dbPost = await prisma.newsPost.findUnique({ where: { slug } })
+      if (dbPost && dbPost.published) {
+        post = {
+          slug: dbPost.slug, title: dbPost.title, excerpt: dbPost.excerpt,
+          image: dbPost.image || '/images/news-am.png', category: dbPost.category,
+          categorySlug: dbPost.categorySlug,
+          date: dbPost.date instanceof Date ? dbPost.date.toISOString().split('T')[0] : String(dbPost.date),
+          content: dbPost.content,
+        }
+      }
+    } catch (e) {}
+  }
   if (!post) notFound()
 
-  const currentIndex = newsPosts.findIndex(p => p.slug === slug)
-  const prevPost = currentIndex > 0 ? newsPosts[currentIndex - 1] : null
-  const nextPost = currentIndex < newsPosts.length - 1 ? newsPosts[currentIndex + 1] : null
+  let allPosts = [...newsPosts]
+  try {
+    const dbPosts = await prisma.newsPost.findMany({ where: { published: true }, orderBy: { date: 'desc' } })
+    const staticSlugs = new Set(newsPosts.map(p => p.slug))
+    dbPosts.forEach(p => {
+      if (!staticSlugs.has(p.slug)) allPosts.push({ slug: p.slug, title: p.title, excerpt: p.excerpt, image: p.image || '', category: p.category, categorySlug: p.categorySlug, date: p.date instanceof Date ? p.date.toISOString().split('T')[0] : String(p.date), content: p.content })
+    })
+  } catch (e) {}
+  allPosts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  const currentIndex = allPosts.findIndex(p => p.slug === slug)
+  const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null
+  const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null
 
   return (
     <>

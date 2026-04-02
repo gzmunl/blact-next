@@ -567,9 +567,71 @@ const bodyHTML = `
   </footer>
 `;
 
+function formatHomeDate(dateStr: string) {
+  const months = ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'];
+  const d = new Date(dateStr);
+  return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+}
+
 export default function Home() {
   useEffect(() => {
-    // placeholder
+    // Fetch latest blog posts from DB and update homepage cards
+    fetch('/api/blog').then(r => r.json()).then((posts: any[]) => {
+      if (!posts || !posts.length) return;
+      const published = posts.filter((p: any) => p.published !== false).sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      if (published.length === 0) return;
+      const main = document.querySelector('.blog-mag-main') as HTMLAnchorElement;
+      if (main && published[0]) {
+        const p = published[0];
+        main.href = '/blog/' + p.slug;
+        const img = main.querySelector('.blog-mag-img') as HTMLElement;
+        if (img) img.style.backgroundImage = "url('" + (p.image || '/images/blog-ei.png') + "')";
+        const cat = main.querySelector('.blog-mag-cat');
+        if (cat) cat.textContent = p.category;
+        const h3 = main.querySelector('h3');
+        if (h3) h3.textContent = p.title;
+        const pp = main.querySelector('p');
+        if (pp) pp.textContent = p.excerpt;
+        const date = main.querySelector('.blog-mag-date');
+        if (date) date.textContent = formatHomeDate(p.date);
+      }
+      const sides = document.querySelectorAll('.blog-mag-card');
+      [published[1], published[2]].forEach((p, i) => {
+        if (!p || !sides[i]) return;
+        const card = sides[i] as HTMLAnchorElement;
+        card.href = '/blog/' + p.slug;
+        const img = card.querySelector('.blog-mag-img') as HTMLElement;
+        if (img) img.style.backgroundImage = "url('" + (p.image || '/images/blog-ei.png') + "')";
+        const cat = card.querySelector('.blog-mag-cat');
+        if (cat) cat.textContent = p.category;
+        const h3 = card.querySelector('h3');
+        if (h3) h3.textContent = p.title;
+        const date = card.querySelector('.blog-mag-date');
+        if (date) date.textContent = formatHomeDate(p.date);
+      });
+    }).catch(() => {});
+
+    // Fetch latest news posts from DB
+    fetch('/api/news').then(r => r.json()).then((posts: any[]) => {
+      if (!posts || !posts.length) return;
+      const published = posts.filter((p: any) => p.published !== false).sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      const cards = document.querySelectorAll('.news-card');
+      published.slice(0, 3).forEach((p, i) => {
+        if (!cards[i]) return;
+        const card = cards[i] as HTMLAnchorElement;
+        card.href = '/haberler/' + p.slug;
+        const img = card.querySelector('.news-card-img') as HTMLElement;
+        if (img) img.style.backgroundImage = "url('" + (p.image || '/images/news-am.png') + "')";
+        const cat = card.querySelector('.news-card-cat');
+        if (cat) cat.textContent = p.category;
+        const date = card.querySelector('.news-card-date');
+        if (date) date.textContent = formatHomeDate(p.date);
+        const h3 = card.querySelector('h3');
+        if (h3) h3.textContent = p.title;
+        const pp = card.querySelector('p');
+        if (pp) pp.textContent = p.excerpt;
+      });
+    }).catch(() => {});
   }, [])
 
   return (
