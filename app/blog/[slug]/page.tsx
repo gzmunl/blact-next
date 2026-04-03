@@ -53,7 +53,7 @@ const pageStyles = `
   .sp-nav a:hover { color: #e2771d; }
   .sp-share a:hover { color: #e2771d; }
   .sp-content-wrap { background: #fff; padding: 3rem 0; }
-  @media (max-width: 768px) { .sp-hero { height: 40vh; min-height: 300px; } .sp-body { padding: 2rem 1.5rem 4rem; font-size: 1rem; } .sp-back { padding: 0.8rem 1.5rem; } .sp-share { padding: 2rem 1.5rem; } }
+  @media (max-width: 768px) { .sp-hero { height: 35vh; min-height: 260px; } .sp-hero-content { padding: 0 1.2rem 2rem; } .sp-hero-content h1 { font-size: 1.3rem; } .sp-cat { font-size: 0.58rem; padding: 0.2rem 0.6rem; margin-bottom: 0.8rem; } .sp-meta { font-size: 0.7rem; gap: 1rem; } .sp-body { padding: 1.5rem 1.2rem 3rem; font-size: 0.88rem; line-height: 1.75; margin-left: 1rem; margin-right: 1rem; } .sp-body h2 { font-size: 1.15rem; margin: 1.8rem 0 0.8rem; } .sp-back { padding: 0.7rem 1.2rem; font-size: 0.78rem; margin-left: 1rem; margin-right: 1rem; } .sp-share { padding: 1.2rem; margin-left: 1rem; margin-right: 1rem; } .sp-share-label { font-size: 0.65rem; } .sp-share a { font-size: 0.75rem; } .sp-nav { padding: 1rem 1.2rem; margin-left: 1rem; margin-right: 1rem; } .sp-nav a { font-size: 0.7rem; } }
 `
 
 function formatDate(dateStr: string) {

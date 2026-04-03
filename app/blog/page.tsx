@@ -44,7 +44,7 @@ const pageStyles = `
   .bp-card-body p { color: #666; font-size: 0.85rem; line-height: 1.6; margin-bottom: 1rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .bp-card-meta { display: flex; justify-content: space-between; font-size: 0.72rem; color: #aaa; }
   @media (max-width: 1024px) { .bp-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 768px) { .bp-hero { padding: 6rem 0 3rem; } .bp-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 768px) { .bp-hero { padding: 6rem 0 3rem; } .bp-grid { grid-template-columns: 1fr; } .bp-filters { gap: 0.4rem; } .bp-filter { padding: 0.35rem 0.75rem; font-size: 0.68rem; flex: 0 0 auto; } }
 `;
 
 export const dynamic = 'force-dynamic'

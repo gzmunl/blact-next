@@ -58,7 +58,7 @@ const pageStyles = `
   .np-sidebar-box button:hover { background: #c0601a; }
   .np-cat-count { color: #999; font-size: 0.8rem; }
   @media (max-width: 1024px) { .np-layout { grid-template-columns: 1fr; } .np-sidebar { position: relative; top: 0; } .np-grid { grid-template-columns: 1fr; } }
-  @media (max-width: 768px) { .np-hero { padding: 6rem 0 3rem; } .np-card { min-height: 240px; } }
+  @media (max-width: 768px) { .np-hero { padding: 6rem 0 3rem; } .np-card { min-height: 240px; } .np-filters { gap: 0.4rem; } .np-filter { padding: 0.35rem 0.75rem; font-size: 0.68rem; flex: 0 0 auto; } }
 `;
 
 export const dynamic = 'force-dynamic'
