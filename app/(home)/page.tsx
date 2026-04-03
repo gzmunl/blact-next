@@ -478,7 +478,7 @@ const bodyHTML = `
     <div class="chatbot-header">
       <span class="chatbot-header-dot"></span>
       <h4>Blact Systems</h4>
-      <span>Çevrimiçi</span>
+      <span class="chatbot-status">Çevrim İçi</span>
     </div>
     <div class="chatbot-body" id="chatbotBody">
       <div class="chat-message chat-bot">Merhaba! Blact Systems hakkında merak ettiklerinizi sorabilirsiniz.</div>
