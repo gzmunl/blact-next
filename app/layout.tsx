@@ -74,7 +74,30 @@ export default function RootLayout({
         />
         <link rel="stylesheet" href="/css/style.css?v=5" />
       </head>
-      <body>{children}</body>
+      <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "Blact Systems",
+              url: "https://blactsystems.com",
+              logo: "https://blactsystems.com/images/favicon.svg",
+              description:
+                "Eklemeli imalat, kompozit teknolojisi, insansız araçlar ve sürdürülebilirlik alanlarında yenilikçi mühendislik çözümleri.",
+              foundingDate: "2024",
+              sameAs: [],
+              contactPoint: {
+                "@type": "ContactPoint",
+                contactType: "customer service",
+                availableLanguage: ["Turkish", "English"],
+              },
+            }),
+          }}
+        />
+        {children}
+      </body>
     </html>
   );
 }

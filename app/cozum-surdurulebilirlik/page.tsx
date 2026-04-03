@@ -8,6 +8,12 @@ export const metadata: Metadata = {
   title: 'Sürdürülebilirlik - Blact Systems',
   description: 'Yenilenebilir enerji sistemlerinden yaşam döngüsü analizine, enerji depolama çözümlerinden döngüsel ekonomi yaklaşımlarına kadar sürdürülebilir mühendislik hizmetleri.',
   keywords: ['sürdürülebilirlik', 'yenilenebilir enerji', 'yaşam döngüsü analizi', 'enerji depolama', 'döngüsel ekonomi', 'yeşil mühendislik'],
+  openGraph: {
+    title: 'Sürdürülebilirlik - Blact Systems',
+    description: 'Yenilenebilir enerji ve sürdürülebilir mühendislik çözümleri.',
+    images: ['/images/hero-laser.png'],
+  },
+  alternates: { canonical: 'https://blactsystems.com/cozum-surdurulebilirlik' },
 }
 
 export default function SurdurulebilirlikPage() {
@@ -16,6 +22,7 @@ export default function SurdurulebilirlikPage() {
       <Navbar />
       <NavScript />
 
+      <main>
       <section className="detail-hero hero-surdurulebilirlik">
         <div className="container">
           <div className="section-label">Çözümlerimiz</div>
@@ -31,15 +38,15 @@ export default function SurdurulebilirlikPage() {
 
             <div className="solution-features">
               <div className="solution-feature detail-anim" data-delay="0" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
-                <h4>Enerji Konsept Tasarımı</h4>
+                <h3>Enerji Konsept Tasarımı</h3>
                 <p>Rüzgar, güneş ve hidrojen enerjisi sistemlerinin konsept tasarımı ve fizibilite analizleri.</p>
               </div>
               <div className="solution-feature detail-anim" data-delay="1" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
-                <h4>Yaşam Döngüsü Analizi</h4>
+                <h3>Yaşam Döngüsü Analizi</h3>
                 <p>Hammaddeden geri dönüşüme kadar ürün ve süreçlerin çevresel etkilerinin kapsamlı değerlendirmesi.</p>
               </div>
               <div className="solution-feature detail-anim" data-delay="2" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
-                <h4>Sürdürülebilir Mühendislik</h4>
+                <h3>Sürdürülebilir Mühendislik</h3>
                 <p>Enerji verimliliği, emisyon azaltma ve kaynak optimizasyonu odaklı mühendislik yaklaşımları.</p>
               </div>
             </div>
@@ -82,6 +89,7 @@ export default function SurdurulebilirlikPage() {
         </div>
       </section>
 
+      </main>
       <Footer />
     </>
   )

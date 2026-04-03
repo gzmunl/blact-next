@@ -9,6 +9,12 @@ import prisma from '@/lib/prisma'
 export const metadata: Metadata = {
   title: 'Haberler - Blact Systems',
   description: 'Blact Systems — Mühendislik ve ileri teknoloji dünyasından son haberler.',
+  openGraph: {
+    title: 'Haberler - Blact Systems',
+    description: 'Mühendislik ve ileri teknoloji dünyasından son haberler.',
+    images: ['/images/hero-laser.png'],
+  },
+  alternates: { canonical: 'https://blactsystems.com/haberler' },
 }
 
 const pageStyles = `

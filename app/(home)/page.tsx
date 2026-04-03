@@ -45,10 +45,11 @@ const bodyHTML = `
     </div>
   </nav>
 
+  <main>
   <div class="hero-wrapper" id="heroWrapper">
   <section class="hero" id="hero">
     <div class="hero-inner">
-      <img src="/images/hero-laser-mobile.png" alt="" class="hero-laser-mobile-img">
+      <img src="/images/hero-laser-mobile.png" alt="SLM lazer metal eritme teknolojisi" class="hero-laser-mobile-img">
       <!-- Left side -->
       <div class="hero-left">
         <div class="hero-knockout" id="heroKnockout">
@@ -495,6 +496,7 @@ const bodyHTML = `
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
   </button>
 
+  </main>
   <footer class="footer">
     <div class="footer-bg-img"></div>
     <div class="container" style="position:relative;z-index:2;">

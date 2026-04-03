@@ -17,11 +17,16 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = getNewsPost(slug) || getBlogPost(slug);
+  const newsPost = getNewsPost(slug);
+  const blogPost = getBlogPost(slug);
+  const post = newsPost || blogPost;
   if (!post) return { title: '404 - Blact Systems' };
+  const canonicalPath = newsPost ? `/haberler/${slug}` : `/blog/${slug}`;
   return {
     title: `${post.title} - Blact Systems`,
     description: post.excerpt,
+    robots: { index: false, follow: true },
+    alternates: { canonical: `https://blactsystems.com${canonicalPath}` },
   };
 }
 

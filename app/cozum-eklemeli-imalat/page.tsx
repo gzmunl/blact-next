@@ -8,6 +8,12 @@ export const metadata: Metadata = {
   title: 'Eklemeli İmalat - Blact Systems',
   description: 'SLM, WAAM ve LSAM teknolojileriyle yenilikçi metal eklemeli imalat çözümleri. Blact Systems ile geleceğin üretim teknolojilerini keşfedin.',
   keywords: ['eklemeli imalat', 'SLM', 'WAAM', 'LSAM', 'metal 3D baskı', 'additive manufacturing'],
+  openGraph: {
+    title: 'Eklemeli İmalat - Blact Systems',
+    description: 'SLM, WAAM ve LSAM teknolojileriyle yenilikçi metal eklemeli imalat çözümleri.',
+    images: ['/images/hero-laser.png'],
+  },
+  alternates: { canonical: 'https://blactsystems.com/cozum-eklemeli-imalat' },
 }
 
 export default function EklemeliImalatPage() {
@@ -16,6 +22,7 @@ export default function EklemeliImalatPage() {
       <Navbar />
       <NavScript />
 
+      <main>
       <section className="detail-hero hero-eklemeli">
         <div className="container">
           <div className="section-label">Çözümlerimiz</div>
@@ -31,15 +38,15 @@ export default function EklemeliImalatPage() {
 
             <div className="solution-features">
               <div className="solution-feature detail-anim" data-delay="0" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
-                <h4>SLM Teknolojisi</h4>
+                <h3>SLM Teknolojisi</h3>
                 <p>Yüksek güçlü lazer ile metal tozu eritme. Mikron seviyesinde hassasiyet ve karmaşık iç geometriler.</p>
               </div>
               <div className="solution-feature detail-anim" data-delay="1" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
-                <h4>WAAM Teknolojisi</h4>
+                <h3>WAAM Teknolojisi</h3>
                 <p>Tel besleme ve ark kaynağı ile büyük ölçekli metal parça üretimi. Yüksek üretim hızı ve maliyet avantajı.</p>
               </div>
               <div className="solution-feature detail-anim" data-delay="2" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
-                <h4>LSAM Teknolojisi</h4>
+                <h3>LSAM Teknolojisi</h3>
                 <p>Büyük ölçekli eklemeli imalat. Endüstriyel boyutlarda prototip ve son ürün üretimi.</p>
               </div>
             </div>
@@ -82,6 +89,7 @@ export default function EklemeliImalatPage() {
         </div>
       </section>
 
+      </main>
       <Footer />
     </>
   )

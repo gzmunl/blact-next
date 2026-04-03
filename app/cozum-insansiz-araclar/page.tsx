@@ -8,6 +8,12 @@ export const metadata: Metadata = {
   title: 'İnsansız Hava & Deniz Araçları - Blact Systems',
   description: 'İHA ve İDA konsept tasarımından otonom navigasyon sistemlerine kadar kapsamlı insansız araç mühendislik çözümleri. Blact Systems ile geleceğin otonom platformlarını geliştirin.',
   keywords: ['İHA', 'İDA', 'insansız hava aracı', 'otonom sistemler', 'drone', 'UUV', 'USV', 'ROV'],
+  openGraph: {
+    title: 'İnsansız Hava & Deniz Araçları - Blact Systems',
+    description: 'İHA ve İDA konsept tasarımından otonom navigasyona kapsamlı mühendislik çözümleri.',
+    images: ['/images/hero-laser.png'],
+  },
+  alternates: { canonical: 'https://blactsystems.com/cozum-insansiz-araclar' },
 }
 
 export default function InsansizAraclarPage() {
@@ -16,6 +22,7 @@ export default function InsansizAraclarPage() {
       <Navbar />
       <NavScript />
 
+      <main>
       <section className="detail-hero hero-insansiz">
         <div className="container">
           <div className="section-label">Çözümlerimiz</div>
@@ -31,15 +38,15 @@ export default function InsansizAraclarPage() {
 
             <div className="solution-features">
               <div className="solution-feature detail-anim" data-delay="0" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
-                <h4>İHA Konsept Tasarım</h4>
+                <h3>İHA Konsept Tasarım</h3>
                 <p>Sabit kanat, multirotor ve VTOL konfigürasyonlarında aerodinamik tasarım ve yapısal analiz.</p>
               </div>
               <div className="solution-feature detail-anim" data-delay="1" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
-                <h4>İDA Sistemleri</h4>
+                <h3>İDA Sistemleri</h3>
                 <p>Su üstü ve su altı insansız araçlar için hidrodinamik tasarım ve sistem entegrasyonu.</p>
               </div>
               <div className="solution-feature detail-anim" data-delay="2" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
-                <h4>Otonom Navigasyon</h4>
+                <h3>Otonom Navigasyon</h3>
                 <p>Sensör füzyonu, SLAM algoritmaları ve yapay zeka destekli karar verme sistemleri.</p>
               </div>
             </div>
@@ -78,6 +85,7 @@ export default function InsansizAraclarPage() {
         </div>
       </section>
 
+      </main>
       <Footer />
     </>
   )

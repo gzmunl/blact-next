@@ -8,6 +8,12 @@ export const metadata: Metadata = {
   title: 'Kompozit Teknolojisi - Blact Systems',
   description: 'Karbon fiber üretiminden yapısal kompozit tasarıma, ileri malzeme karakterizasyonundan sürdürülebilir kompozit çözümlerine kadar kapsamlı mühendislik hizmetleri.',
   keywords: ['kompozit', 'karbon fiber', 'prepreg', 'yapısal tasarım', 'ileri malzeme', 'kompozit mühendislik'],
+  openGraph: {
+    title: 'Kompozit Teknolojisi - Blact Systems',
+    description: 'Karbon fiber üretiminden yapısal kompozit tasarıma kapsamlı mühendislik hizmetleri.',
+    images: ['/images/hero-laser.png'],
+  },
+  alternates: { canonical: 'https://blactsystems.com/cozum-kompozit' },
 }
 
 export default function KompozitPage() {
@@ -16,6 +22,7 @@ export default function KompozitPage() {
       <Navbar />
       <NavScript />
 
+      <main>
       <section className="detail-hero hero-kompozit">
         <div className="container">
           <div className="section-label">Çözümlerimiz</div>
@@ -31,15 +38,15 @@ export default function KompozitPage() {
 
             <div className="solution-features">
               <div className="solution-feature detail-anim" data-delay="0" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
-                <h4>Karbon Fiber Üretimi</h4>
+                <h3>Karbon Fiber Üretimi</h3>
                 <p>PAN prekürsörden son ürüne kadar karbon fiber üretim süreçleri. Yüzey işlemleri ve prepreg sistemleri.</p>
               </div>
               <div className="solution-feature detail-anim" data-delay="1" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
-                <h4>Yapısal Kompozit Tasarım</h4>
+                <h3>Yapısal Kompozit Tasarım</h3>
                 <p>Yük analizi, katmanlama optimizasyonu ve sonlu eleman analizi ile optimize edilmiş yapısal çözümler.</p>
               </div>
               <div className="solution-feature detail-anim" data-delay="2" style={{ background: '#fff', border: '1px solid #ddd', padding: '2rem' }}>
-                <h4>İleri Malzeme Karakterizasyonu</h4>
+                <h3>İleri Malzeme Karakterizasyonu</h3>
                 <p>Mekanik test, termal analiz ve mikroyapı inceleme ile kapsamlı malzeme değerlendirmesi.</p>
               </div>
             </div>
@@ -78,6 +85,7 @@ export default function KompozitPage() {
         </div>
       </section>
 
+      </main>
       <Footer />
     </>
   )

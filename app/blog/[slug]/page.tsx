@@ -27,6 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: 'article',
       images: [post.image],
     },
+    alternates: { canonical: `https://blactsystems.com/blog/${slug}` },
   }
 }
 
@@ -98,9 +99,22 @@ export default async function BlogPostPage({ params }: Props) {
   const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null
   const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.title,
+    description: post.excerpt,
+    image: `https://blactsystems.com${post.image}`,
+    datePublished: post.date,
+    author: { "@type": "Organization", name: "Blact Systems" },
+    publisher: { "@type": "Organization", name: "Blact Systems", logo: { "@type": "ImageObject", url: "https://blactsystems.com/images/favicon.svg" } },
+    mainEntityOfPage: { "@type": "WebPage", "@id": `https://blactsystems.com/blog/${post.slug}` },
+  }
+
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: pageStyles }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Navbar />
       <NavScript />
 
