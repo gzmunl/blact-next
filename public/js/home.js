@@ -3,22 +3,7 @@
 // ============================================
 function initBlact() {
 
-    // --- Cinematic Loading Screen ---
-    (function() {
-      const ls = document.getElementById('loadingScreen');
-      const pct = document.getElementById('loadingPercent');
-      const bar = document.getElementById('loadingBar');
-      let p = 0;
-      const iv = setInterval(() => {
-        p += Math.random() * 8 + 2;
-        if (p >= 100) {
-          p = 100; clearInterval(iv);
-          setTimeout(() => ls.classList.add('done'), 500);
-        }
-        pct.textContent = Math.floor(p) + '%';
-        bar.style.width = Math.floor(p) + '%';
-      }, 60);
-    })();
+    // --- Loading Screen removed ---
 
     // Title animation is triggered by loading screen block below
 
