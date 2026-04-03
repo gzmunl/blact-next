@@ -37,10 +37,10 @@ const pageStyles = `
   .sp-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, #050507 0%, rgba(5,5,7,0.5) 40%, rgba(5,5,7,0.2) 100%); }
   .sp-hero-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; padding: 0 2.5rem 3.5rem; width: 100%; }
   .sp-cat { display: inline-block; background: rgba(226,119,29,0.15); color: #e2771d; padding: 0.3rem 0.9rem; border-radius: 0; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.2rem; }
-  .sp-hero-content h1 { font-family: 'Industry', 'Inter', sans-serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; text-transform: uppercase; line-height: 1.1; color: #fff; margin-bottom: 1rem; }
+  .sp-hero-content h1 { font-family: 'Industry', 'Barlow', sans-serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; text-transform: uppercase; line-height: 1.1; color: #fff; margin-bottom: 1rem; }
   .sp-meta { display: flex; gap: 1.5rem; font-size: 0.8rem; color: rgba(255,255,255,0.5); }
   .sp-body { max-width: 750px; margin: 0 auto; padding: 3rem 2.5rem 5rem; line-height: 1.9; font-size: 1.05rem; color: #111; background: #f0f0f0; border: 1px solid #111; }
-  .sp-body h2 { font-family: 'Industry', 'Inter', sans-serif; font-size: 1.5rem; font-weight: 800; color: #111; margin: 2.5rem 0 1rem; text-transform: uppercase; }
+  .sp-body h2 { font-family: 'Industry', 'Barlow', sans-serif; font-size: 1.5rem; font-weight: 800; color: #111; margin: 2.5rem 0 1rem; text-transform: uppercase; }
   .sp-body p { margin-bottom: 1.2rem; }
   .sp-body strong { color: #111; }
   .sp-body a { color: #e2771d; }
