@@ -13,6 +13,12 @@ export const metadata: Metadata = {
     description: 'Yenilenebilir enerji ve sürdürülebilir mühendislik çözümleri.',
     images: ['/images/hero-laser.png'],
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Sürdürülebilirlik - Blact Systems',
+    description: 'Yenilenebilir enerji ve sürdürülebilir mühendislik çözümleri.',
+    images: ['/images/hero-laser.png'],
+  },
   alternates: { canonical: 'https://blactsystems.com/cozum-surdurulebilirlik' },
 }
 

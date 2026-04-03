@@ -13,6 +13,12 @@ export const metadata: Metadata = {
     description: 'SLM, WAAM ve LSAM teknolojileriyle yenilikçi metal eklemeli imalat çözümleri.',
     images: ['/images/hero-laser.png'],
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Eklemeli İmalat - Blact Systems',
+    description: 'SLM, WAAM ve LSAM teknolojileriyle yenilikçi metal eklemeli imalat çözümleri.',
+    images: ['/images/hero-laser.png'],
+  },
   alternates: { canonical: 'https://blactsystems.com/cozum-eklemeli-imalat' },
 }
 

@@ -14,6 +14,12 @@ export const metadata: Metadata = {
     description: 'Mühendislik dünyasından en son gelişmeler ve teknik analizler.',
     images: ['/images/hero-laser.png'],
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Blog - Blact Systems',
+    description: 'Mühendislik dünyasından en son gelişmeler ve teknik analizler.',
+    images: ['/images/hero-laser.png'],
+  },
   alternates: { canonical: 'https://blactsystems.com/blog' },
 }
 

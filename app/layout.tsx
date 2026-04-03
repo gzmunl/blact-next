@@ -41,12 +41,14 @@ export const metadata: Metadata = {
     type: "website",
     locale: "tr_TR",
     siteName: "Blact Systems",
+    images: ["/images/hero-laser.png"],
   },
   twitter: {
     card: "summary_large_image",
     title: "Blact Systems — İleri Teknoloji Mühendislik",
     description:
       "Eklemeli imalat, kompozit teknolojisi, insansız araçlar ve sürdürülebilirlik alanlarında yenilikçi mühendislik çözümleri.",
+    images: ["/images/hero-laser.png"],
   },
   icons: {
     icon: "/images/favicon.svg",
@@ -87,7 +89,7 @@ export default function RootLayout({
               description:
                 "Eklemeli imalat, kompozit teknolojisi, insansız araçlar ve sürdürülebilirlik alanlarında yenilikçi mühendislik çözümleri.",
               foundingDate: "2024",
-              sameAs: [],
+              sameAs: ["https://www.linkedin.com/company/blact-systems"],
               contactPoint: {
                 "@type": "ContactPoint",
                 contactType: "customer service",

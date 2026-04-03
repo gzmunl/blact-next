@@ -13,6 +13,12 @@ export const metadata: Metadata = {
     description: 'İHA ve İDA konsept tasarımından otonom navigasyona kapsamlı mühendislik çözümleri.',
     images: ['/images/hero-laser.png'],
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'İnsansız Hava & Deniz Araçları - Blact Systems',
+    description: 'İHA ve İDA konsept tasarımından otonom navigasyona kapsamlı mühendislik çözümleri.',
+    images: ['/images/hero-laser.png'],
+  },
   alternates: { canonical: 'https://blactsystems.com/cozum-insansiz-araclar' },
 }
 

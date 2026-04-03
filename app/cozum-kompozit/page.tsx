@@ -13,6 +13,12 @@ export const metadata: Metadata = {
     description: 'Karbon fiber üretiminden yapısal kompozit tasarıma kapsamlı mühendislik hizmetleri.',
     images: ['/images/hero-laser.png'],
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Kompozit Teknolojisi - Blact Systems',
+    description: 'Karbon fiber üretiminden yapısal kompozit tasarıma kapsamlı mühendislik hizmetleri.',
+    images: ['/images/hero-laser.png'],
+  },
   alternates: { canonical: 'https://blactsystems.com/cozum-kompozit' },
 }
 
