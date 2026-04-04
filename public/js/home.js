@@ -1485,6 +1485,8 @@ function initBlact() {
         { sel: '.nav-links li:nth-child(3) a', key: 'nav.blog' },
         { sel: '.nav-links li:nth-child(4) a', key: 'nav.news' },
         { sel: '.nav-links li:nth-child(5) a', key: 'nav.contact' },
+        // Scroll indicator
+        { sel: '.scroll-text', key: 'hero.scroll' },
       ];
 
       function getNestedValue(obj, path) {
