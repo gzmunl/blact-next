@@ -74,7 +74,7 @@ export default function SeoScore({ data }: { data: SeoData }) {
 
   return (
     <div style={{ background: '#111', border: '1px solid #222', padding: '1.5rem' }}>
-      <h3 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: '1rem', fontWeight: 700, color: '#fff', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '1.5rem' }}>
+      <h3 style={{ fontFamily: "'Industry', sans-serif", fontSize: '1rem', fontWeight: 700, color: '#fff', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '1.5rem' }}>
         SEO Skoru
       </h3>
 

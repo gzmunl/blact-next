@@ -631,7 +631,7 @@ export default function Home() {
 
   return (
     <>
-      <div dangerouslySetInnerHTML={{ __html: bodyHTML }} />
+      <div style={{ background: '#050507', minHeight: '100vh' }} dangerouslySetInnerHTML={{ __html: bodyHTML }} />
       <Script src="/js/home.js" strategy="afterInteractive" />
     </>
   )

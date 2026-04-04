@@ -6,7 +6,7 @@ const adminStyles = `
   .admin-wrap { display: flex; min-height: 100vh; background: #0a0a0a; }
   .admin-sidebar { width: 240px; background: #111; border-right: 1px solid #222; padding: 2rem 0; flex-shrink: 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 100; }
   .admin-sidebar-logo { padding: 0 1.5rem; margin-bottom: 2.5rem; }
-  .admin-sidebar-logo h2 { font-family: 'Rajdhani', sans-serif; font-size: 1.2rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 2px; }
+  .admin-sidebar-logo h2 { font-family: 'Industry', sans-serif; font-size: 1.2rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 2px; }
   .admin-sidebar-logo span { font-size: 0.65rem; color: #e2771d; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
   .admin-nav { list-style: none; padding: 0; margin: 0; }
   .admin-nav li a { display: flex; align-items: center; gap: 0.8rem; padding: 0.8rem 1.5rem; color: #888; font-size: 0.85rem; font-weight: 500; text-decoration: none; transition: all 0.2s; border-left: 3px solid transparent; }
@@ -15,7 +15,7 @@ const adminStyles = `
   .admin-nav-divider { height: 1px; background: #222; margin: 1rem 1.5rem; }
   .admin-main { flex: 1; margin-left: 240px; padding: 2rem 2.5rem; }
   .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid #1a1a1a; }
-  .admin-header h1 { font-family: 'Rajdhani', sans-serif; font-size: 1.5rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1px; }
+  .admin-header h1 { font-family: 'Industry', sans-serif; font-size: 1.5rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1px; }
   .admin-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.7rem 1.5rem; font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border: none; cursor: pointer; transition: all 0.3s; text-decoration: none; }
   .admin-btn-primary { background: #e2771d; color: #fff; }
   .admin-btn-primary:hover { background: #f08a30; }
@@ -35,7 +35,7 @@ const adminStyles = `
   .admin-form-group { margin-bottom: 1.5rem; }
   .admin-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
   .admin-form-label { display: block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #888; margin-bottom: 0.5rem; }
-  .admin-form-input { width: 100%; padding: 0.8rem 1rem; background: #0a0a0a; border: 1px solid #222; color: #fff; font-family: 'Inter', sans-serif; font-size: 0.9rem; outline: none; transition: border-color 0.3s; }
+  .admin-form-input { width: 100%; padding: 0.8rem 1rem; background: #0a0a0a; border: 1px solid #222; color: #fff; font-family: 'Barlow', sans-serif; font-size: 0.9rem; outline: none; transition: border-color 0.3s; }
   .admin-form-input:focus { border-color: #e2771d; }
   .admin-form-textarea { min-height: 120px; resize: vertical; }
   .admin-form-hint { font-size: 0.7rem; color: #555; margin-top: 0.3rem; }

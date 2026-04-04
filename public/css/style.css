@@ -324,7 +324,7 @@ img { max-width: 100%; height: auto; display: block; }
 .hero-knockout { width: 100%; pointer-events: none; padding: 0; margin-bottom: 1rem; }
 
 .hero-knockout h1 {
-  font-family: var(--font-logo);
+  font-family: var(--font-heading);
   font-size: clamp(2.4rem, 4.5vw, 4.2rem); font-weight: 700;
   line-height: 1.1; letter-spacing: 0.04em;
   text-align: left; text-transform: uppercase;
@@ -805,71 +805,71 @@ img { max-width: 100%; height: auto; display: block; }
 
 .solution-card {
   position: relative; overflow: hidden; cursor: pointer;
-  text-decoration: none; display: flex; flex-direction: column; color: inherit;
-  background: #fff;
-  border: 1px solid #111; border-radius: 0;
+  text-decoration: none; display: flex; flex-direction: column; color: #fff;
+  background: #111; border: none; border-radius: 0;
+  min-height: 340px;
   transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .solution-card-bg {
-  position: relative;
-  width: 100%; height: 100px;
+  position: absolute; inset: 0;
   background-size: cover;
   background-position: center;
-  opacity: 1;
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 0; flex-shrink: 0;
+  opacity: 0.55;
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 0;
 }
 .solution-card-bg::after { display: none; }
-.solution-card:hover .solution-card-bg { transform: scale(1.05); }
+.solution-card:hover .solution-card-bg { transform: scale(1.08); opacity: 0.3; }
 .solution-card-content {
-  padding: 0.6rem 1.5rem 0.8rem;
-  position: relative; flex: 1;
-  background: #fff;
+  padding: 1.5rem 1.5rem 1.2rem;
+  position: relative; flex: 1; z-index: 2;
+  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.25) 50%, rgba(0,0,0,0.05) 100%);
+  display: flex; flex-direction: column; justify-content: flex-end;
 }
 
 .solution-card::before {
-  content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px;
-  background: var(--accent);
+  content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 3px;
+  background: var(--accent); z-index: 3;
   transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .solution-card::after { display: none; }
 
 .solution-card:hover {
-  box-shadow: 0 12px 40px rgba(0,0,0,0.15);
-  color: inherit;
+  box-shadow: 0 16px 50px rgba(0,0,0,0.4);
+  color: #fff;
 }
 .solution-card:hover::before { width: 100%; }
 
 .solution-number {
   font-family: var(--font-heading);
-  font-size: 3rem; font-weight: 800; color: rgba(226,119,29,0.12);
-  position: absolute; top: 1.5rem; right: 2rem; line-height: 1;
+  font-size: 3.5rem; font-weight: 800; color: rgba(226,119,29,0.15);
+  position: absolute; top: 1rem; right: 1.5rem; line-height: 1; z-index: 2;
 }
 .solution-icon {
   width: 24px; height: 24px;
   display: flex; align-items: center; justify-content: center;
-  margin-bottom: 0.4rem; position: relative;
+  margin-bottom: 0.5rem; position: relative;
 }
 .solution-icon::before { display: none; }
 .solution-icon svg { width: 24px; height: 24px; stroke: var(--accent); fill: none; stroke-width: 1.2; position: relative; z-index: 1; }
 
 .solution-card h3 {
   font-family: var(--font-heading);
-  font-size: 1.1rem; font-weight: 800; color: #111;
+  font-size: 1.1rem; font-weight: 800; color: #fff;
   margin-bottom: 0.5rem; letter-spacing: 0.04em; text-transform: uppercase;
 }
-.solution-card p { color: #555; font-size: 0.78rem; line-height: 1.5; margin-bottom: 0.5rem; }
-.solution-card:hover p { color: #333; }
+.solution-card p { color: #fff; font-size: 0.78rem; line-height: 1.5; margin-bottom: 0.6rem; }
+.solution-card:hover p { color: #fff; }
 
-.solution-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.2rem; position: relative; z-index: 1; }
+.solution-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1rem; position: relative; z-index: 1; }
 .solution-tag {
-  font-size: 0.65rem; padding: 4px 12px; font-weight: 600;
-  background: transparent;
-  border: 1px solid rgba(226,119,29,0.2);
+  font-size: 0.62rem; padding: 4px 10px; font-weight: 600;
+  background: rgba(226,119,29,0.1);
+  border: 1px solid rgba(226,119,29,0.3);
   border-radius: 0; color: var(--accent); letter-spacing: 0.5px;
   transition: all var(--transition);
 }
-.solution-card:hover .solution-tag { border-color: var(--accent); }
+.solution-card:hover .solution-tag { border-color: var(--accent); background: rgba(226,119,29,0.2); }
 
 .solution-link {
   display: inline-flex; align-items: center; gap: 8px;
@@ -1044,13 +1044,13 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .blog-mag-content p {
   font-size: 0.88rem;
-  color: rgba(255,255,255,0.7);
+  color: #fff;
   line-height: 1.6;
   margin-bottom: 0.8rem;
 }
 .blog-mag-date {
   font-size: 0.68rem;
-  color: rgba(255,255,255,0.4);
+  color: #fff;
   letter-spacing: 1.5px;
   text-transform: uppercase;
 }
@@ -1216,7 +1216,7 @@ img { max-width: 100%; height: auto; display: block; }
 .news-card-date {
   display: inline-block;
   font-size: 0.6rem;
-  color: rgba(255,255,255,0.4);
+  color: #fff;
   letter-spacing: 1.5px;
   margin-left: 1rem;
 }
@@ -1232,7 +1232,7 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .news-card-content p {
   font-size: 0.82rem;
-  color: rgba(255,255,255,0.6);
+  color: #fff;
   line-height: 1.6;
 }
 @media (max-width: 768px) {

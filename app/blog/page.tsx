@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import Navbar from '@/components/Navbar'
-import Footer from '@/components/Footer'
+import FooterPage from '@/components/FooterPage'
 import NavScript from '@/components/NavScript'
 import { blogPosts as staticPosts, blogCategories } from '@/data/blog'
 import BlogClient from './client'
@@ -37,7 +37,7 @@ const pageStyles = `
   .bp-hero .section-label::before { content: ''; width: 40px; height: 2px; background: var(--accent); }
   .bp-hero h1 { font-family: 'Industry', 'Barlow', sans-serif; font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 700; color: #fff; text-transform: uppercase; line-height: 1.05; margin-bottom: 1rem; }
   .bp-hero p { color: #888; max-width: 500px; line-height: 1.7; font-size: 0.95rem; }
-  .bp-grid-section { background: #fff; padding: 2.5rem 0 5rem; }
+  .bp-grid-section { background: #fff; padding: 2.5rem 0 3rem; margin-bottom: 0; }
   .bp-search { margin-bottom: 1.2rem; }
   .bp-search-input { width: 100%; padding: 0.8rem 1.2rem; border: 1px solid #ddd; background: #fff; font-size: 0.9rem; outline: none; transition: border-color 0.3s; }
   .bp-search-input:focus { border-color: #e2771d; }
@@ -104,7 +104,7 @@ export default async function BlogPage() {
         </div>
       </section>
 
-      <Footer />
+      <FooterPage />
     </>
   )
 }

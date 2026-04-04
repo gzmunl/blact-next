@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Navbar from '@/components/Navbar'
 import NavScript from '@/components/NavScript'
-import Footer from '@/components/Footer'
+import FooterPage from '@/components/FooterPage'
 import { newsPosts, getNewsPost } from '@/data/news'
 import prisma from '@/lib/prisma'
 
@@ -140,7 +140,7 @@ export default async function NewsPostPage({ params }: Props) {
         </div>
       </div>
 
-      <Footer />
+      <FooterPage />
     </>
   )
 }

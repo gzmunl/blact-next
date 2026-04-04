@@ -75,9 +75,9 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700;800;900&display=swap"
           rel="stylesheet"
         />
-        <link rel="stylesheet" href="/css/style.css?v=5" />
+        <link rel="stylesheet" href="/css/style.css?v=6" />
       </head>
-      <body>
+      <body style={{ background: '#050507' }}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

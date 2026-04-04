@@ -205,7 +205,7 @@ export default function PostForm({ type, initialData }: PostFormProps) {
       </div>
 
       <div className="admin-seo-section">
-        <h3 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: '1.1rem', fontWeight: 700, color: '#e2771d', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '1.5rem' }}>
+        <h3 style={{ fontFamily: "'Industry', sans-serif", fontSize: '1.1rem', fontWeight: 700, color: '#e2771d', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '1.5rem' }}>
           SEO Ayarları
         </h3>
 

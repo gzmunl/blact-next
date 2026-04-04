@@ -1661,31 +1661,31 @@ function initBlact() {
         return rawP >= 0.95;
       }
 
+      var lastWheelTime = 0;
       window.addEventListener('wheel', function(e) {
         if (isTransitioning) { e.preventDefault(); return; }
 
+        var now = Date.now();
+        if (now - lastWheelTime < 1200) { e.preventDefault(); return; }
+
         if (currentSection === -1) {
-          // In hero — let normal scroll work
           if (e.deltaY > 0 && isHeroComplete()) {
-            // Hero done, go to first section
             e.preventDefault();
+            lastWheelTime = now;
             goToSection(0);
           }
-          // If scrolling up in hero, let default scroll work
           return;
         }
 
-        // In a section — prevent default scroll
         e.preventDefault();
         if (Math.abs(e.deltaY) < 15) return;
 
+        lastWheelTime = now;
         if (e.deltaY > 0) {
-          // Scroll down — next section
           if (currentSection < sections.length) {
             goToSection(currentSection + 1);
           }
         } else {
-          // Scroll up — previous section or hero
           goToSection(currentSection - 1);
         }
       }, { passive: false });

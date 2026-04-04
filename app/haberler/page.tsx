@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import Navbar from '@/components/Navbar'
-import Footer from '@/components/Footer'
+import FooterPage from '@/components/FooterPage'
 import NavScript from '@/components/NavScript'
 import { newsPosts as staticPosts, newsCategories } from '@/data/news'
 import HaberlerClient from './client'
@@ -31,7 +31,7 @@ const pageStyles = `
   .np-hero .section-label::before { content: ''; width: 40px; height: 2px; background: var(--accent); }
   .np-hero h1 { font-family: 'Industry', 'Barlow', sans-serif; font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 700; color: #fff; text-transform: uppercase; line-height: 1.05; margin-bottom: 1rem; }
   .np-hero p { color: #888; max-width: 500px; line-height: 1.7; font-size: 0.95rem; }
-  .np-section { background: #f5f5f7; padding: 2.5rem 0 5rem; }
+  .np-section { background: #f5f5f7; padding: 2.5rem 0 3rem; }
   .np-section .container { max-width: 1200px; margin: 0 auto; padding: 0 2.5rem; }
   .np-search { padding-top: 2rem; margin-bottom: 1.2rem; }
   .np-search-input { width: 100%; padding: 0.8rem 1.2rem; border: 1px solid #ddd; background: #fff; font-size: 0.9rem; outline: none; transition: border-color 0.3s; }
@@ -115,7 +115,7 @@ export default async function HaberlerPage() {
           <HaberlerClient categories={newsCategories} posts={allPosts} />
         </div>
       </section>
-      <Footer />
+      <FooterPage />
     </>
   )
 }

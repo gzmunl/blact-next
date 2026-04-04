@@ -11,14 +11,14 @@ import { useEffect } from 'react'
 const editorStyles = `
   .re-wrap { border: 1px solid #222; background: #0a0a0a; }
   .re-toolbar { display: flex; flex-wrap: wrap; gap: 2px; padding: 0.5rem; border-bottom: 1px solid #222; background: #111; }
-  .re-btn { padding: 0.35rem 0.6rem; background: transparent; border: 1px solid transparent; color: #888; font-size: 0.75rem; cursor: pointer; transition: all 0.15s; font-family: 'Inter', sans-serif; min-width: 30px; text-align: center; }
+  .re-btn { padding: 0.35rem 0.6rem; background: transparent; border: 1px solid transparent; color: #888; font-size: 0.75rem; cursor: pointer; transition: all 0.15s; font-family: 'Barlow', sans-serif; min-width: 30px; text-align: center; }
   .re-btn:hover { color: #fff; background: rgba(255,255,255,0.05); }
   .re-btn.active { color: #e2771d; border-color: rgba(226,119,29,0.3); background: rgba(226,119,29,0.08); }
   .re-sep { width: 1px; background: #222; margin: 0 0.3rem; }
   .re-content { padding: 1rem; min-height: 250px; color: #ddd; font-size: 0.95rem; line-height: 1.8; }
   .re-content .tiptap { outline: none; min-height: 230px; }
-  .re-content .tiptap h2 { font-family: 'Rajdhani', sans-serif; font-size: 1.4rem; font-weight: 700; color: #fff; margin: 1.5rem 0 0.5rem; text-transform: uppercase; }
-  .re-content .tiptap h3 { font-family: 'Rajdhani', sans-serif; font-size: 1.15rem; font-weight: 700; color: #fff; margin: 1.2rem 0 0.4rem; }
+  .re-content .tiptap h2 { font-family: 'Industry', sans-serif; font-size: 1.4rem; font-weight: 700; color: #fff; margin: 1.5rem 0 0.5rem; text-transform: uppercase; }
+  .re-content .tiptap h3 { font-family: 'Industry', sans-serif; font-size: 1.15rem; font-weight: 700; color: #fff; margin: 1.2rem 0 0.4rem; }
   .re-content .tiptap p { margin-bottom: 0.8rem; }
   .re-content .tiptap strong { color: #fff; }
   .re-content .tiptap em { font-style: italic; }
