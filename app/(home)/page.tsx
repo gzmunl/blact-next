@@ -29,8 +29,12 @@ const bodyHTML = `
         <li><a href="#iletisim">İletişim</a></li>
       </ul>
       <div class="lang-toggle" id="langToggle">
-        <button class="lang-flag-btn active" data-lang="tr" aria-label="Türkçe" title="Türkçe">🇹🇷</button>
-        <button class="lang-flag-btn" data-lang="en" aria-label="English" title="English">🇬🇧</button>
+        <button class="lang-flag-btn active" data-lang="tr" aria-label="Türkçe" title="Türkçe">
+          <svg viewBox="0 0 1200 800" width="24" height="16" style="display:block;border-radius:2px;border:1px solid rgba(255,255,255,0.2)"><rect width="1200" height="800" fill="#E30A17"/><circle cx="525" cy="400" r="200" fill="#fff"/><circle cx="575" cy="400" r="160" fill="#E30A17"/><polygon points="715,400 626,454 660,352 600,304 702,304" fill="#fff"/></svg>
+        </button>
+        <button class="lang-flag-btn" data-lang="en" aria-label="English" title="English">
+          <svg viewBox="0 0 60 30" width="24" height="16" style="display:block;border-radius:2px;border:1px solid rgba(255,255,255,0.2)"><rect width="60" height="30" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#C8102E" stroke-width="4"/><path d="M30,0 V30 M0,15 H60" stroke="#fff" stroke-width="10"/><path d="M30,0 V30 M0,15 H60" stroke="#C8102E" stroke-width="6"/></svg>
+        </button>
       </div>
       <button class="nav-toggle" id="navToggle" aria-label="Menüyü aç">
         <span></span><span></span><span></span>
