@@ -1690,13 +1690,57 @@ function initBlact() {
         }
       }, { passive: false });
 
-      // Nav link clicks should work
-      document.querySelectorAll('.nav-links a[href^="#"]').forEach(function(link) {
+      // Hash to section mapping
+      var hashMap = {
+        '#hakkimizda': 0,
+        '#cozumlerimiz': 1,
+        '#blog': 2,
+        '#haberler': 3,
+        '#iletisim': 4,
+      };
+
+      function goToHash(hash) {
+        if (hash && hashMap[hash] !== undefined) {
+          // Skip hero scroll, go directly
+          var idx = hashMap[hash];
+          document.body.style.overflow = 'hidden';
+          var inner = getInner(idx);
+          if (inner) {
+            zCounter++;
+            inner.style.zIndex = zCounter;
+            inner.style.transition = 'none';
+            inner.style.transform = 'translateY(0)';
+          }
+          currentSection = idx;
+          setTimeout(function() { animateIn(idx); }, 100);
+          // Scroll hero to end so going back works
+          if (heroWrapper) {
+            var heroEnd = heroWrapper.offsetTop + heroWrapper.offsetHeight - window.innerHeight;
+            window.scrollTo(0, heroEnd);
+          }
+          return true;
+        }
+        return false;
+      }
+
+      // On page load: check URL hash
+      if (window.location.hash) {
+        goToHash(window.location.hash);
+      }
+
+      // Nav link clicks
+      document.querySelectorAll('.nav-links a').forEach(function(link) {
         link.addEventListener('click', function(e) {
-          var hash = this.getAttribute('href');
-          if (hash === '#hakkimizda') { e.preventDefault(); goToSection(0); }
-          else if (hash === '#cozumlerimiz') { e.preventDefault(); goToSection(1); }
-          else if (hash === '#iletisim') { e.preventDefault(); goToSection(4); }
+          var href = this.getAttribute('href');
+          // Extract hash from href (handles both "#x" and "/#x")
+          var hash = null;
+          if (href.indexOf('#') !== -1) {
+            hash = href.substring(href.indexOf('#'));
+          }
+          if (hash && hashMap[hash] !== undefined) {
+            e.preventDefault();
+            goToSection(hashMap[hash]);
+          }
         });
       });
     })();
