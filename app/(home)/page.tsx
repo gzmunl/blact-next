@@ -29,8 +29,8 @@ const bodyHTML = `
         <li><a href="#iletisim">İletişim</a></li>
       </ul>
       <div class="lang-toggle" id="langToggle">
-        <button class="lang-btn active" data-lang="tr">TR</button>
-        <button class="lang-btn" data-lang="en">EN</button>
+        <button class="lang-flag-btn active" data-lang="tr" aria-label="Türkçe" title="Türkçe">🇹🇷</button>
+        <button class="lang-flag-btn" data-lang="en" aria-label="English" title="English">🇬🇧</button>
       </div>
       <button class="nav-toggle" id="navToggle" aria-label="Menüyü aç">
         <span></span><span></span><span></span>

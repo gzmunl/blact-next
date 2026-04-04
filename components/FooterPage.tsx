@@ -1,12 +1,17 @@
+'use client'
+import { useI18n } from '@/lib/i18n'
+
 export default function FooterPage() {
+  const { t } = useI18n()
+
   return (
     <footer className="footer" style={{ position: 'relative', height: 'auto', transform: 'none' }}>
       <div className="footer-bg-img"></div>
       <div className="container" style={{position:'relative',zIndex:2}}>
         <div className="footer-hero">
-          <h2 className="footer-headline">Geleceğin Mühendisliği<br /><span>Bugün Başlıyor.</span></h2>
+          <h2 className="footer-headline" dangerouslySetInnerHTML={{ __html: `${t('footer.headline')}<br /><span>${t('footer.headlineAccent')}</span>` }} />
           <a href="/#iletisim" className="footer-cta">
-            <span>Projenizi Konuşalım</span>
+            <span>{t('footer.cta')}</span>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </a>
         </div>
@@ -14,7 +19,7 @@ export default function FooterPage() {
         <div className="footer-grid">
           <div className="footer-brand">
             <a href="/" className="logo"><em>Blact Systems</em></a>
-            <p>İleri teknoloji mühendislik çözümleriyle endüstrinin sınırlarını yeniden çiziyoruz.</p>
+            <p>{t('footer.brand')}</p>
             <div className="footer-social">
               <a href="#" aria-label="LinkedIn"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
               <a href="#" aria-label="X"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
@@ -22,41 +27,41 @@ export default function FooterPage() {
             </div>
           </div>
           <div className="footer-col">
-            <h4>Çözümlerimiz</h4>
+            <h4>{t('footer.colSolutions')}</h4>
             <ul>
-              <li><a href="/cozum-eklemeli-imalat">Eklemeli İmalat</a></li>
-              <li><a href="/cozum-kompozit">Kompozit Teknolojisi</a></li>
-              <li><a href="/cozum-insansiz-araclar">İnsansız Araçlar</a></li>
-              <li><a href="/cozum-surdurulebilirlik">Sürdürülebilirlik</a></li>
+              <li><a href="/cozum-eklemeli-imalat">{t('footer.sol1')}</a></li>
+              <li><a href="/cozum-kompozit">{t('footer.sol2')}</a></li>
+              <li><a href="/cozum-insansiz-araclar">{t('footer.sol3')}</a></li>
+              <li><a href="/cozum-surdurulebilirlik">{t('footer.sol4')}</a></li>
             </ul>
           </div>
           <div className="footer-col">
-            <h4>Şirket</h4>
+            <h4>{t('footer.colCompany')}</h4>
             <ul>
-              <li><a href="/#hakkimizda">Hakkımızda</a></li>
-              <li><a href="/blog">Blog</a></li>
-              <li><a href="/haberler">Haberler</a></li>
-              <li><a href="/#iletisim">İletişim</a></li>
+              <li><a href="/#hakkimizda">{t('footer.comp1')}</a></li>
+              <li><a href="/blog">{t('footer.comp2')}</a></li>
+              <li><a href="/haberler">{t('footer.comp3')}</a></li>
+              <li><a href="/#iletisim">{t('footer.comp4')}</a></li>
             </ul>
           </div>
           <div className="footer-col">
-            <h4>Teknolojiler</h4>
+            <h4>{t('footer.colTech')}</h4>
             <ul>
-              <li><a href="/cozum-eklemeli-imalat">SLM / WAAM</a></li>
-              <li><a href="/cozum-eklemeli-imalat">LSAM / DED</a></li>
-              <li><a href="/cozum-kompozit">Karbon Fiber</a></li>
-              <li><a href="/cozum-insansiz-araclar">Otonom Sistemler</a></li>
+              <li><a href="/cozum-eklemeli-imalat">{t('footer.tech1')}</a></li>
+              <li><a href="/cozum-eklemeli-imalat">{t('footer.tech2')}</a></li>
+              <li><a href="/cozum-kompozit">{t('footer.tech3')}</a></li>
+              <li><a href="/cozum-insansiz-araclar">{t('footer.tech4')}</a></li>
             </ul>
           </div>
         </div>
         <div className="footer-bottom">
-          <p>&copy; 2026 Blact Systems. Tüm hakları saklıdır.</p>
+          <p>&copy; {t('footer.copyright')}</p>
           <a href="https://crewmedya.com" target="_blank" rel="noopener noreferrer" className="footer-credit">
             <img src="/images/logo-beyaz.png" alt="Crew Medya" className="footer-credit-logo" />
           </a>
           <div className="footer-bottom-links">
-            <a href="#">Gizlilik Politikası</a>
-            <a href="#">Kullanım Şartları</a>
+            <a href="#">{t('footer.privacy')}</a>
+            <a href="#">{t('footer.terms')}</a>
           </div>
         </div>
       </div>

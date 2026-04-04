@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { I18nProvider } from "@/lib/i18n";
+import AutoTranslate from "@/components/AutoTranslate";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -99,7 +101,10 @@ export default function RootLayout({
             }),
           }}
         />
-        {children}
+        <I18nProvider>
+          <AutoTranslate />
+          {children}
+        </I18nProvider>
       </body>
     </html>
   );

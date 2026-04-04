@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import Navbar from '@/components/Navbar'
 import FooterPage from '@/components/FooterPage'
 import NavScript from '@/components/NavScript'
+import NewsHero from '@/components/NewsHero'
 import { newsPosts as staticPosts, newsCategories } from '@/data/news'
 import HaberlerClient from './client'
 import prisma from '@/lib/prisma'
@@ -103,13 +104,7 @@ export default async function HaberlerPage() {
       <style dangerouslySetInnerHTML={{ __html: pageStyles }} />
       <Navbar />
       <NavScript />
-      <section className="np-hero">
-        <div className="container">
-          <div className="section-label">Haberler</div>
-          <h1>Sektörden Haberler</h1>
-          <p>Mühendislik ve ileri teknoloji dünyasından son gelişmeler.</p>
-        </div>
-      </section>
+      <NewsHero />
       <section className="np-section">
         <div className="container">
           <HaberlerClient categories={newsCategories} posts={allPosts} />

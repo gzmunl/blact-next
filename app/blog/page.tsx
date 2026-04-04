@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import Navbar from '@/components/Navbar'
 import FooterPage from '@/components/FooterPage'
 import NavScript from '@/components/NavScript'
+import BlogHero from '@/components/BlogHero'
 import { blogPosts as staticPosts, blogCategories } from '@/data/blog'
 import BlogClient from './client'
 import prisma from '@/lib/prisma'
@@ -90,13 +91,7 @@ export default async function BlogPage() {
       <Navbar />
       <NavScript />
 
-      <section className="bp-hero">
-        <div className="container">
-          <div className="section-label">Blog</div>
-          <h1>Güncel Yazılar</h1>
-          <p>Mühendislik dünyasından en son gelişmeler, teknik analizler ve derinlemesine incelemeler.</p>
-        </div>
-      </section>
+      <BlogHero />
 
       <section className="bp-grid-section">
         <div className="container">

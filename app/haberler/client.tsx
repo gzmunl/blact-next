@@ -1,18 +1,23 @@
 'use client'
 import { useEffect, useState } from 'react'
+import { useI18n } from '@/lib/i18n'
 
 interface Category { slug: string; name: string; }
 interface Post { slug: string; title: string; excerpt: string; image: string; category: string; categorySlug: string; date: string; }
 
-function formatDate(dateStr: string) {
-  const months = ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'];
-  const d = new Date(dateStr);
-  return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
-}
+const monthsTr = ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'];
+const monthsEn = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
 export default function HaberlerClient({ categories, posts }: { categories: Category[]; posts: Post[] }) {
   const [filter, setFilter] = useState('all');
   const [search, setSearch] = useState('');
+  const { lang } = useI18n();
+
+  const months = lang === 'en' ? monthsEn : monthsTr;
+  function formatDate(dateStr: string) {
+    const d = new Date(dateStr);
+    return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+  }
 
   useEffect(() => {
     const cards = document.querySelectorAll('.np-card');
@@ -29,10 +34,10 @@ export default function HaberlerClient({ categories, posts }: { categories: Cate
     <div className="np-layout">
       <div className="np-main">
         <div className="np-search">
-          <input type="text" placeholder="Haberlerde ara..." value={search} onChange={(e) => setSearch(e.target.value)} className="np-search-input" />
+          <input type="text" placeholder={lang === 'en' ? 'Search news...' : 'Haberlerde ara...'} value={search} onChange={(e) => setSearch(e.target.value)} className="np-search-input" />
         </div>
         <div className="np-filters">
-          <button className={`np-filter ${filter === 'all' ? 'active' : ''}`} onClick={() => setFilter('all')}>Tümü</button>
+          <button className={`np-filter ${filter === 'all' ? 'active' : ''}`} onClick={() => setFilter('all')}>{lang === 'en' ? 'All' : 'Tümü'}</button>
           {categories.map(cat => (
             <button key={cat.slug} className={`np-filter ${filter === cat.slug ? 'active' : ''}`} onClick={() => setFilter(cat.slug)}>{cat.name}</button>
           ))}
@@ -56,7 +61,7 @@ export default function HaberlerClient({ categories, posts }: { categories: Cate
       </div>
       <aside className="np-sidebar">
         <div className="np-sidebar-box">
-          <h4>Kategoriler</h4>
+          <h4>{lang === 'en' ? 'Categories' : 'Kategoriler'}</h4>
           <ul>
             {categories.map(cat => {
               const count = posts.filter(p => p.categorySlug === cat.slug).length
@@ -69,13 +74,13 @@ export default function HaberlerClient({ categories, posts }: { categories: Cate
           </ul>
         </div>
         <div className="np-sidebar-box">
-          <h4>Haftalık Bülten</h4>
-          <p>Her hafta, sektörün en önemli gelişmelerini derleyerek e-posta kutunuza gönderiyoruz.</p>
-          <input type="email" placeholder="E-posta adresiniz" />
-          <button>Abone Ol</button>
+          <h4>{lang === 'en' ? 'Weekly Newsletter' : 'Haftalık Bülten'}</h4>
+          <p>{lang === 'en' ? 'We compile the most important developments in the sector and send them to your inbox every week.' : 'Her hafta, sektörün en önemli gelişmelerini derleyerek e-posta kutunuza gönderiyoruz.'}</p>
+          <input type="email" placeholder={lang === 'en' ? 'Your email address' : 'E-posta adresiniz'} />
+          <button>{lang === 'en' ? 'Subscribe' : 'Abone Ol'}</button>
         </div>
         <div className="np-sidebar-box">
-          <h4>Haber Kaynakları</h4>
+          <h4>{lang === 'en' ? 'News Sources' : 'Haber Kaynakları'}</h4>
           <ul>
             <li><a href="https://3dprintingindustry.com" target="_blank" rel="noopener noreferrer">3D Printing Industry</a></li>
             <li><a href="https://www.compositesworld.com" target="_blank" rel="noopener noreferrer">CompositesWorld</a></li>

@@ -1,18 +1,23 @@
 'use client'
 import { useEffect, useState } from 'react'
+import { useI18n } from '@/lib/i18n'
 
 interface Category { slug: string; name: string; }
 interface Post { slug: string; title: string; excerpt: string; image: string; category: string; categorySlug: string; date: string; readTime: number; }
 
-function formatDate(dateStr: string) {
-  const months = ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'];
-  const d = new Date(dateStr);
-  return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
-}
+const monthsTr = ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'];
+const monthsEn = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
 export default function BlogClient({ categories, posts }: { categories: Category[]; posts: Post[] }) {
   const [filter, setFilter] = useState('all');
   const [search, setSearch] = useState('');
+  const { lang } = useI18n();
+
+  const months = lang === 'en' ? monthsEn : monthsTr;
+  function formatDate(dateStr: string) {
+    const d = new Date(dateStr);
+    return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+  }
 
   useEffect(() => {
     const cards = document.querySelectorAll('.bp-card');
@@ -28,10 +33,10 @@ export default function BlogClient({ categories, posts }: { categories: Category
   return (
     <>
       <div className="bp-search">
-        <input type="text" placeholder="Yazılarda ara..." value={search} onChange={(e) => setSearch(e.target.value)} className="bp-search-input" />
+        <input type="text" placeholder={lang === 'en' ? 'Search articles...' : 'Yazılarda ara...'} value={search} onChange={(e) => setSearch(e.target.value)} className="bp-search-input" />
       </div>
       <div className="bp-filters">
-        <button className={`bp-filter ${filter === 'all' ? 'active' : ''}`} onClick={() => setFilter('all')}>Tümü</button>
+        <button className={`bp-filter ${filter === 'all' ? 'active' : ''}`} onClick={() => setFilter('all')}>{lang === 'en' ? 'All' : 'Tümü'}</button>
         {categories.map(cat => (
           <button key={cat.slug} className={`bp-filter ${filter === cat.slug ? 'active' : ''}`} onClick={() => setFilter(cat.slug)}>{cat.name}</button>
         ))}
@@ -47,7 +52,7 @@ export default function BlogClient({ categories, posts }: { categories: Category
               <p>{post.excerpt}</p>
               <div className="bp-card-meta">
                 <span>{formatDate(post.date)}</span>
-                <span>{post.readTime} dk okuma</span>
+                <span>{post.readTime} {lang === 'en' ? 'min read' : 'dk okuma'}</span>
               </div>
             </div>
           </a>

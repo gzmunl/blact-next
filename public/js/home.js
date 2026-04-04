@@ -1382,6 +1382,174 @@ function initBlact() {
       });
     });
 
+    // --- Language Toggle: flag buttons switch content ---
+    (function() {
+      var langBtns = document.querySelectorAll('.lang-flag-btn');
+      var currentLang = localStorage.getItem('blact-lang') || 'tr';
+
+      // Text mapping: element selector → translation key
+      var textMap = [
+        { sel: '#heroTitle', key: 'hero.title', html: true },
+        { sel: '.hero-desc', key: 'hero.desc' },
+        { sel: '.hero-buttons .btn-primary', key: 'hero.btnSolutions', suffix: ' →' },
+        { sel: '.hero-buttons .btn-outline', key: 'hero.btnContact' },
+        { sel: '.hero-stat:nth-child(1) .hero-stat-number', key: 'hero.stat1Number' },
+        { sel: '.hero-stat:nth-child(1) .hero-stat-label', key: 'hero.stat1Label' },
+        { sel: '.hero-stat:nth-child(2) .hero-stat-number', key: 'hero.stat2Number' },
+        { sel: '.hero-stat:nth-child(2) .hero-stat-label', key: 'hero.stat2Label' },
+        { sel: '.hero-stat:nth-child(3) .hero-stat-number', key: 'hero.stat3Number' },
+        { sel: '.hero-stat:nth-child(3) .hero-stat-label', key: 'hero.stat3Label' },
+        { sel: '#aboutTitle', key: 'about.titleFull', html: true },
+        { sel: '.about-text .section-label', key: 'about.label' },
+        { sel: '.about-p1', key: 'about.p1', html: true },
+        { sel: '.about-p2', key: 'about.p2' },
+        { sel: '.solutions-header .section-label', key: 'solutions.label' },
+        { sel: '.solutions-header .section-title', key: 'solutions.title' },
+        { sel: '.solutions-header .section-desc', key: 'solutions.desc' },
+        { sel: '.blog-header .section-label', key: 'blog.label' },
+        { sel: '.blog-header .section-title', key: 'blog.title' },
+        { sel: '.news-header .section-label', key: 'news.label' },
+        { sel: '.news-header .section-title', key: 'news.title' },
+        // About values
+        { sel: '.value-item[data-vi="0"] span', key: 'about.value1' },
+        { sel: '.value-item[data-vi="1"] span', key: 'about.value2' },
+        { sel: '.value-item[data-vi="2"] span', key: 'about.value3' },
+        { sel: '.value-item[data-vi="3"] span', key: 'about.value4' },
+        // Hero areas
+        { sel: '.hero-area:nth-child(1)', key: 'hero.area1', keepDiamond: true },
+        { sel: '.hero-area:nth-child(2)', key: 'hero.area2', keepDiamond: true },
+        { sel: '.hero-area:nth-child(3)', key: 'hero.area3', keepDiamond: true },
+        { sel: '.hero-area:nth-child(4)', key: 'hero.area4', keepDiamond: true },
+        // Solution cards
+        { sel: '.solution-card:nth-child(1) h3', key: 'solutions.card1Title' },
+        { sel: '.solution-card:nth-child(1) p', key: 'solutions.card1Desc' },
+        { sel: '.solution-card:nth-child(1) .solution-link', key: 'solutions.card1Link', suffix: ' →' },
+        { sel: '.solution-card:nth-child(2) h3', key: 'solutions.card2Title' },
+        { sel: '.solution-card:nth-child(2) p', key: 'solutions.card2Desc' },
+        { sel: '.solution-card:nth-child(2) .solution-link', key: 'solutions.card2Link', suffix: ' →' },
+        { sel: '.solution-card:nth-child(3) h3', key: 'solutions.card3Title' },
+        { sel: '.solution-card:nth-child(3) p', key: 'solutions.card3Desc' },
+        { sel: '.solution-card:nth-child(3) .solution-link', key: 'solutions.card3Link', suffix: ' →' },
+        { sel: '.solution-card:nth-child(4) h3', key: 'solutions.card4Title' },
+        { sel: '.solution-card:nth-child(4) p', key: 'solutions.card4Desc' },
+        { sel: '.solution-card:nth-child(4) .solution-link', key: 'solutions.card4Link', suffix: ' →' },
+        // Blog
+        { sel: '.blog-header .blog-btn', key: 'blog.btnAll', suffix: ' →' },
+        { sel: '.blog-mag-main .blog-mag-cat', key: 'blog.post1Cat' },
+        { sel: '.blog-mag-main h3', key: 'blog.post1Title' },
+        { sel: '.blog-mag-main p', key: 'blog.post1Excerpt' },
+        { sel: '.blog-mag-card:nth-child(1) .blog-mag-cat', key: 'blog.post2Cat' },
+        { sel: '.blog-mag-card:nth-child(1) h3', key: 'blog.post2Title' },
+        { sel: '.blog-mag-card:nth-child(2) .blog-mag-cat', key: 'blog.post3Cat' },
+        { sel: '.blog-mag-card:nth-child(2) h3', key: 'blog.post3Title' },
+        // News
+        { sel: '.news-header .news-btn', key: 'news.btnAll', suffix: ' →' },
+        { sel: '.news-card:nth-child(1) .news-card-cat', key: 'news.item1Cat' },
+        { sel: '.news-card:nth-child(1) h3', key: 'news.item1Title' },
+        { sel: '.news-card:nth-child(1) .news-card-content > p', key: 'news.item1Desc' },
+        { sel: '.news-card:nth-child(2) .news-card-cat', key: 'news.item2Cat' },
+        { sel: '.news-card:nth-child(2) h3', key: 'news.item2Title' },
+        { sel: '.news-card:nth-child(2) .news-card-content > p', key: 'news.item2Desc' },
+        { sel: '.news-card:nth-child(3) .news-card-cat', key: 'news.item3Cat' },
+        { sel: '.news-card:nth-child(3) h3', key: 'news.item3Title' },
+        { sel: '.news-card:nth-child(3) .news-card-content > p', key: 'news.item3Desc' },
+        // Contact / Newsletter
+        { sel: '.nu-newsletter h3', key: 'contact.newsletter' },
+        { sel: '.nu-newsletter p', key: 'contact.newsletterDesc' },
+        { sel: '.nu-newsletter input[type="email"]', key: 'contact.newsletterPlaceholder', attr: 'placeholder' },
+        { sel: '.nu-newsletter button', key: 'contact.newsletterBtn' },
+        { sel: '.nu-contact .section-label', key: 'contact.label' },
+        { sel: '.nu-contact .section-title', key: 'contact.title' },
+        { sel: '.nu-contact .section-desc', key: 'contact.desc' },
+        { sel: '.nu-contact-right button', key: 'contact.sendBtn', suffix: ' →' },
+        // Footer
+        { sel: '.footer-headline', key: 'footer.headlineFull', html: true },
+        { sel: '.footer-cta span', key: 'footer.cta' },
+        { sel: '.footer-brand p', key: 'footer.brand' },
+        { sel: '.footer-col:nth-child(2) h4', key: 'footer.colSolutions' },
+        { sel: '.footer-col:nth-child(3) h4', key: 'footer.colCompany' },
+        { sel: '.footer-col:nth-child(4) h4', key: 'footer.colTech' },
+        { sel: '.footer-bottom p', key: 'footer.copyright', prefix: '© ' },
+        { sel: '.footer-bottom-links a:nth-child(1)', key: 'footer.privacy' },
+        { sel: '.footer-bottom-links a:nth-child(2)', key: 'footer.terms' },
+        // Chatbot
+        { sel: '.chatbot-header h4', key: 'chatbot.status' },
+        { sel: '.chat-bot', key: 'chatbot.welcome' },
+        { sel: '.chat-question:nth-child(1)', key: 'chatbot.q1' },
+        { sel: '.chat-question:nth-child(2)', key: 'chatbot.q2' },
+        { sel: '.chat-question:nth-child(3)', key: 'chatbot.q3' },
+        { sel: '.chat-question:nth-child(4)', key: 'chatbot.q4' },
+        // Navbar
+        { sel: '.nav-links li:nth-child(1) a', key: 'nav.about' },
+        { sel: '.nav-links li:nth-child(2) > a', key: 'nav.solutions' },
+        { sel: '.nav-links li:nth-child(3) a', key: 'nav.blog' },
+        { sel: '.nav-links li:nth-child(4) a', key: 'nav.news' },
+        { sel: '.nav-links li:nth-child(5) a', key: 'nav.contact' },
+      ];
+
+      function getNestedValue(obj, path) {
+        return path.split('.').reduce(function(o, k) { return o && o[k]; }, obj);
+      }
+
+      function applyTranslations(translations) {
+        textMap.forEach(function(m) {
+          var el = document.querySelector(m.sel);
+          var val = getNestedValue(translations, m.key);
+          if (el && val) {
+            if (m.attr) {
+              el.setAttribute(m.attr, val);
+            } else if (m.html) {
+              el.innerHTML = val;
+            } else if (m.keepDiamond) {
+              // Keep the <span class="diamond"></span> prefix
+              var diamond = el.querySelector('.diamond');
+              el.textContent = ' ' + val;
+              if (diamond) el.prepend(diamond);
+            } else {
+              el.textContent = (m.prefix || '') + val + (m.suffix || '');
+            }
+          }
+        });
+
+        // Solution tags
+        var tagKeys = ['card1Tags', 'card2Tags', 'card3Tags', 'card4Tags'];
+        tagKeys.forEach(function(tagKey, i) {
+          var tags = getNestedValue(translations, 'solutions.' + tagKey);
+          var card = document.querySelector('.solution-card:nth-child(' + (i+1) + ')');
+          if (tags && card) {
+            var tagEls = card.querySelectorAll('.solution-tag');
+            tags.forEach(function(t, j) {
+              if (tagEls[j]) tagEls[j].textContent = t;
+            });
+          }
+        });
+      }
+
+      function switchLang(lang) {
+        currentLang = lang;
+        localStorage.setItem('blact-lang', lang);
+        document.documentElement.lang = lang;
+        langBtns.forEach(function(btn) {
+          btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+        });
+        fetch('/api/translations/' + lang)
+          .then(function(r) { return r.json(); })
+          .then(applyTranslations)
+          .catch(function() {});
+      }
+
+      langBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          switchLang(this.getAttribute('data-lang'));
+        });
+      });
+
+      // Apply saved language on load
+      if (currentLang !== 'tr') {
+        switchLang(currentLang);
+      }
+    })();
+
     // --- Fullpage Scroll Engine ---
     // Hero stays scroll-driven. All other sections: wheel triggers section change,
     // animations play via CSS transitions, not scroll position.

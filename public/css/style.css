@@ -1819,21 +1819,19 @@ img { max-width: 100%; height: auto; display: block; }
 
 /* ==================== LANGUAGE TOGGLE ==================== */
 .lang-toggle {
-  display: flex; align-items: center; gap: 0; margin-left: 1.5rem;
-  border: 1px solid #fff; border-radius: 0; overflow: hidden;
+  display: flex; align-items: center; gap: 0.4rem; margin-left: 1.5rem;
 }
-.lang-btn {
-  padding: 6px 14px; font-size: 0.68rem; font-weight: 700; letter-spacing: 1.5px;
-  background: transparent; color: #fff; border: none; cursor: pointer;
-  font-family: var(--font-body); transition: all var(--transition);
-  border-right: 1px solid #fff;
+.lang-flag-btn {
+  padding: 2px 4px; background: transparent; border: 2px solid transparent; cursor: pointer;
+  border-radius: 3px; transition: all 0.3s; opacity: 0.5;
+  display: flex; align-items: center; font-size: 1.2rem; line-height: 1;
 }
-.lang-btn:last-child { border-right: none; }
-.lang-btn.active {
-  background: transparent;
-  color: var(--accent);
+.lang-flag-btn.active {
+  opacity: 1; border-color: var(--accent);
 }
-.lang-btn:hover:not(.active) { color: var(--accent); }
+.lang-flag-btn:hover:not(.active) { opacity: 0.8; }
+/* Hide old text buttons */
+.lang-btn { display: none; }
 
 /* ==================== CHATBOT ==================== */
 .chatbot-toggle {
@@ -2215,7 +2213,7 @@ img { max-width: 100%; height: auto; display: block; }
   .nav-links > li > a { font-size: 1rem; letter-spacing: 2px; color: #fff !important; }
   .nav-toggle { display: flex; z-index: 1001; }
   .dropdown-arrow { display: inline-block !important; color: #fff; font-size: 0.8rem; }
-  .lang-toggle { display: none; }
+  .lang-toggle { display: flex; margin-left: auto; margin-right: 1rem; }
 
   /* About */
   .about-grid { grid-template-columns: 1fr; }
@@ -2394,7 +2392,7 @@ img { max-width: 100%; height: auto; display: block; }
   .nav-links > li > a { font-size: 0.95rem; letter-spacing: 2px; color: #fff !important; }
   .nav-links .dropdown-menu a { color: rgba(255,255,255,0.6) !important; }
   .nav-toggle { display: flex; z-index: 1001; }
-  .lang-toggle { display: none; }
+  .lang-toggle { display: flex; margin-left: auto; margin-right: 1rem; }
   .cursor-glow { display: none; }
 
   .chatbot-window { left: 1rem; right: 1rem; width: auto; bottom: 6rem; }
