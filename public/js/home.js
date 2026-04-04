@@ -880,13 +880,8 @@ function initBlact() {
         updateHero();
 
         if (window.innerWidth > 1024) {
-          updateAbout();
+          // Fullpage mode: only hero is scroll-driven, others use CSS animations
           updateDividers();
-          updateSectionParallax();
-          updateSolutionCards();
-          updateBlog();
-          updateNews();
-          updateContact();
           updateTitles();
         } else {
           // Mobile: lock sections after content scrolled
@@ -1386,6 +1381,325 @@ function initBlact() {
         }
       });
     });
+
+    // --- Fullpage Scroll Engine ---
+    // Hero stays scroll-driven. All other sections: wheel triggers section change,
+    // animations play via CSS transitions, not scroll position.
+    (function() {
+      if (window.innerWidth <= 1024) return; // Mobile uses default scroll
+
+      var sectionIds = ['aboutWrapper', 'solutionsWrapper', 'blogWrapper', 'newsWrapper', 'contactWrapper'];
+      var sections = sectionIds.map(function(id) { return document.getElementById(id); }).filter(Boolean);
+      var heroWrapper = document.getElementById('heroWrapper');
+      var footer = document.querySelector('.footer');
+      var currentSection = -1;
+      var isTransitioning = false;
+      var heroScrollDone = false;
+
+      // --- Per-section animation configs (defined early so pre-hide works) ---
+      var sectionAnims = {
+        0: [
+          { sel: '.about-visual', from: 'perspective(1200px) rotateY(-35deg) translateX(-150px)', to: 'perspective(1200px) rotateY(0) translateX(0)', dur: '0.9s', delay: '0s' },
+          { sel: '.section-label', from: 'translateY(15px)', to: 'translateY(0)', dur: '0.6s', delay: '0.1s' },
+          { sel: '#aboutTitle', from: 'translateY(20px)', to: 'translateY(0)', dur: '0.6s', delay: '0.2s' },
+          { sel: '.about-p1', from: 'translateY(15px)', to: 'translateY(0)', dur: '0.6s', delay: '0.35s' },
+          { sel: '.about-p2', from: 'translateY(15px)', to: 'translateY(0)', dur: '0.6s', delay: '0.5s' },
+          { sel: '.value-item[data-vi="0"]', from: 'translateX(40px)', to: 'translateX(0)', dur: '0.5s', delay: '0.6s' },
+          { sel: '.value-item[data-vi="1"]', from: 'translateX(40px)', to: 'translateX(0)', dur: '0.5s', delay: '0.7s' },
+          { sel: '.value-item[data-vi="2"]', from: 'translateX(40px)', to: 'translateX(0)', dur: '0.5s', delay: '0.8s' },
+          { sel: '.value-item[data-vi="3"]', from: 'translateX(40px)', to: 'translateX(0)', dur: '0.5s', delay: '0.9s' },
+        ],
+        1: [
+          { sel: '.solutions-header', from: 'translateY(80px)', to: 'translateY(0)', dur: '0.7s', delay: '0s' },
+          { sel: '.solution-card:nth-child(1)', from: 'perspective(1200px) translate(-400px,-200px) rotate(-30deg) rotateY(-50deg) scale(0.3)', to: 'perspective(1200px) translate(0,0) rotate(0) rotateY(0) scale(1)', dur: '0.9s', delay: '0.15s' },
+          { sel: '.solution-card:nth-child(2)', from: 'perspective(1200px) translate(400px,-200px) rotate(30deg) rotateY(50deg) scale(0.3)', to: 'perspective(1200px) translate(0,0) rotate(0) rotateY(0) scale(1)', dur: '0.9s', delay: '0.25s' },
+          { sel: '.solution-card:nth-child(3)', from: 'perspective(1200px) translate(-400px,200px) rotate(20deg) rotateY(-40deg) scale(0.3)', to: 'perspective(1200px) translate(0,0) rotate(0) rotateY(0) scale(1)', dur: '0.9s', delay: '0.35s' },
+          { sel: '.solution-card:nth-child(4)', from: 'perspective(1200px) translate(400px,200px) rotate(-20deg) rotateY(40deg) scale(0.3)', to: 'perspective(1200px) translate(0,0) rotate(0) rotateY(0) scale(1)', dur: '0.9s', delay: '0.45s' },
+        ],
+        2: [
+          { sel: '.blog-header', from: 'translateY(30px)', to: 'translateY(0)', dur: '0.6s', delay: '0s' },
+          { sel: '.blog-mag-main', from: 'perspective(1200px) translateX(-300px) rotateY(-15deg)', to: 'perspective(1200px) translateX(0) rotateY(0)', dur: '0.8s', delay: '0.1s' },
+          { sel: '.blog-mag-card:nth-child(1)', from: 'perspective(1200px) translateX(300px) rotateY(15deg)', to: 'perspective(1200px) translateX(0) rotateY(0)', dur: '0.8s', delay: '0.2s' },
+          { sel: '.blog-mag-card:nth-child(2)', from: 'perspective(1200px) translateX(300px) rotateY(15deg)', to: 'perspective(1200px) translateX(0) rotateY(0)', dur: '0.8s', delay: '0.3s' },
+        ],
+        3: [
+          { sel: '.news-header', from: 'translateY(30px)', to: 'translateY(0)', dur: '0.6s', delay: '0s' },
+          { sel: '.news-card:nth-child(1)', from: 'perspective(1200px) translate(-400px,0) rotate(-20deg) rotateY(-30deg)', to: 'perspective(1200px) translate(0,0) rotate(0) rotateY(0)', dur: '0.9s', delay: '0.1s' },
+          { sel: '.news-card:nth-child(2)', from: 'perspective(1200px) translate(0,250px)', to: 'perspective(1200px) translate(0,0)', dur: '0.9s', delay: '0.2s' },
+          { sel: '.news-card:nth-child(3)', from: 'perspective(1200px) translate(400px,0) rotate(20deg) rotateY(30deg)', to: 'perspective(1200px) translate(0,0) rotate(0) rotateY(0)', dur: '0.9s', delay: '0.3s' },
+        ],
+        4: [
+          { sel: '.newsletter-inner', from: 'translateY(-60px)', to: 'translateY(0)', dur: '0.7s', delay: '0s' },
+          { sel: '.nu-contact-left', from: 'translateX(-200px)', to: 'translateX(0)', dur: '0.7s', delay: '0.15s' },
+          { sel: '.nu-contact-right', from: 'translateX(200px)', to: 'translateX(0)', dur: '0.7s', delay: '0.25s' },
+          { sel: '.footer-map', from: 'translateY(80px)', to: 'translateY(0)', dur: '0.7s', delay: '0.35s' },
+        ],
+      };
+
+      // Pre-hide all animated elements before anything is visible
+      sections.forEach(function(s, idx) {
+        var inner = s.querySelector('.about, .solutions, .blog-section, .news-section, .contact-unified');
+        if (inner && sectionAnims[idx]) {
+          sectionAnims[idx].forEach(function(a) {
+            var el = inner.querySelector(a.sel);
+            if (el) {
+              el.style.opacity = '0';
+              el.style.transform = a.from;
+            }
+          });
+        }
+      });
+
+      // Hide all sections initially
+      sections.forEach(function(s) {
+        var inner = s.querySelector('.about, .solutions, .blog-section, .news-section, .contact-unified');
+        if (inner) {
+          inner.style.position = 'fixed';
+          inner.style.top = '0';
+          inner.style.left = '0';
+          inner.style.width = '100%';
+          inner.style.height = '100vh';
+          inner.style.transform = 'translateY(100%)';
+          inner.style.transition = 'transform 0.9s cubic-bezier(0.16, 1, 0.3, 1)';
+          inner.style.zIndex = '100';
+          inner.style.overflow = 'hidden';
+        }
+        // Hide wrapper scroll space
+        s.style.height = '0';
+        s.style.overflow = 'hidden';
+        s.style.marginTop = '0';
+      });
+
+      // Hide footer initially
+      if (footer) {
+        footer.style.position = 'fixed';
+        footer.style.top = '0';
+        footer.style.left = '0';
+        footer.style.width = '100%';
+        footer.style.height = '100vh';
+        footer.style.transform = 'translateY(100%)';
+        footer.style.transition = 'transform 0.9s cubic-bezier(0.16, 1, 0.3, 1)';
+        footer.style.zIndex = '100';
+        footer.style.overflow = 'auto';
+      }
+
+      // Mark body as ready — removes CSS pre-hide
+      document.body.classList.add('fp-ready');
+
+      function getInner(idx) {
+        if (idx < 0) return null;
+        if (idx >= sections.length) return footer;
+        var s = sections[idx];
+        return s.querySelector('.about, .solutions, .blog-section, .news-section, .contact-unified');
+      }
+
+      // Force animations to complete state for a section
+      function completeAnimations(idx) {
+        // Trigger the update functions with rawP = 1
+        var wrapper = sections[idx];
+        if (!wrapper) return;
+
+        // Simulate completed scroll by setting wrapper position for rawP=1
+        // We call the update functions directly via a timeout to let CSS settle
+        setTimeout(function() {
+          // Trigger a custom event to signal animation complete
+          wrapper.dispatchEvent(new CustomEvent('sectionEnter'));
+        }, 100);
+      }
+
+      function animateIn(idx) {
+        var inner = getInner(idx);
+        if (!inner) return;
+        var anims = sectionAnims[idx];
+        if (!anims) return;
+
+        anims.forEach(function(a) {
+          var el = inner.querySelector(a.sel);
+          if (!el) return;
+          el.style.opacity = '0';
+          el.style.transform = a.from;
+          el.style.transition = 'none';
+
+          requestAnimationFrame(function() {
+            requestAnimationFrame(function() {
+              el.style.transition = 'opacity ' + a.dur + ' cubic-bezier(0.16,1,0.3,1), transform ' + a.dur + ' cubic-bezier(0.16,1,0.3,1)';
+              el.style.transitionDelay = a.delay;
+              el.style.opacity = '1';
+              el.style.transform = a.to;
+            });
+          });
+        });
+      }
+
+      function resetAnimations(idx) {
+        var inner = getInner(idx);
+        if (!inner) return;
+        var anims = sectionAnims[idx];
+        if (!anims) return;
+
+        anims.forEach(function(a) {
+          var el = inner.querySelector(a.sel);
+          if (!el) return;
+          el.style.transition = 'none';
+          el.style.opacity = '0';
+          el.style.transform = a.from;
+          el.style.transitionDelay = '0s';
+        });
+      }
+
+      function showSection(idx) {
+        var inner = getInner(idx);
+        if (!inner) return;
+        inner.style.transform = 'translateY(0)';
+        setTimeout(function() {
+          animateIn(idx);
+          isTransitioning = false;
+        }, 500);
+      }
+
+      function hideSection(idx) {
+        var inner = getInner(idx);
+        if (!inner) return;
+        inner.style.transition = 'none';
+        inner.style.transform = 'translateY(100%)';
+        resetAnimations(idx);
+      }
+
+      // Z-index counter to stack new sections on top
+      var zCounter = 100;
+
+      function goToSection(next) {
+        if (next === currentSection || isTransitioning) return;
+        if (next < -1 || next > sections.length) return;
+        isTransitioning = true;
+
+        var direction = next > currentSection ? 'down' : 'up';
+        var prev = currentSection;
+
+        if (direction === 'down') {
+          // DOWN: new section slides up from bottom, on top of current
+          var nextInner = getInner(next);
+          if (nextInner) {
+            zCounter++;
+            nextInner.style.zIndex = zCounter;
+            nextInner.style.transition = 'none';
+            nextInner.style.transform = 'translateY(100%)';
+
+            requestAnimationFrame(function() {
+              requestAnimationFrame(function() {
+                nextInner.style.transition = 'transform 0.9s cubic-bezier(0.16, 1, 0.3, 1)';
+                showSection(next);
+
+                setTimeout(function() {
+                  if (prev >= 0 && prev !== next) hideSection(prev);
+                }, 1000);
+              });
+            });
+          }
+        } else if (next >= 0) {
+          // UP: current section slides down, previous section is revealed underneath
+          var nextInner = getInner(next);
+          var prevInner = getInner(prev);
+
+          // Place previous section behind current, fully visible
+          if (nextInner) {
+            nextInner.style.transition = 'none';
+            nextInner.style.transform = 'translateY(0)';
+            nextInner.style.zIndex = zCounter;
+          }
+
+          // Slide current section down
+          if (prevInner) {
+            zCounter++;
+            prevInner.style.zIndex = zCounter;
+            prevInner.style.transition = 'transform 0.9s cubic-bezier(0.16, 1, 0.3, 1)';
+            prevInner.style.transform = 'translateY(100%)';
+          }
+
+          // Animate in previous section content after slide
+          setTimeout(function() {
+            animateIn(next);
+            if (prevInner) {
+              prevInner.style.transition = 'none';
+              prevInner.style.transform = 'translateY(100%)';
+              resetAnimations(prev);
+            }
+            isTransitioning = false;
+          }, 950);
+        } else {
+          // Going back to hero — slide current section down
+          var prevInner = getInner(prev);
+          if (prevInner) {
+            prevInner.style.transition = 'transform 0.9s cubic-bezier(0.16, 1, 0.3, 1)';
+            prevInner.style.transform = 'translateY(100%)';
+            setTimeout(function() {
+              resetAnimations(prev);
+              isTransitioning = false;
+            }, 1000);
+          } else {
+            isTransitioning = false;
+          }
+        }
+
+        if (next === -1) {
+          document.body.style.overflow = '';
+          heroScrollDone = false;
+        } else {
+          document.body.style.overflow = 'hidden';
+        }
+
+        currentSection = next;
+      }
+
+      // Check if hero scroll is complete
+      function isHeroComplete() {
+        if (!heroWrapper) return true;
+        var wRect = heroWrapper.getBoundingClientRect();
+        var scrollable = wRect.height - window.innerHeight;
+        if (scrollable <= 0) return true;
+        var rawP = Math.min(1, Math.max(0, -wRect.top / scrollable));
+        return rawP >= 0.95;
+      }
+
+      window.addEventListener('wheel', function(e) {
+        if (isTransitioning) { e.preventDefault(); return; }
+
+        if (currentSection === -1) {
+          // In hero — let normal scroll work
+          if (e.deltaY > 0 && isHeroComplete()) {
+            // Hero done, go to first section
+            e.preventDefault();
+            goToSection(0);
+          }
+          // If scrolling up in hero, let default scroll work
+          return;
+        }
+
+        // In a section — prevent default scroll
+        e.preventDefault();
+        if (Math.abs(e.deltaY) < 15) return;
+
+        if (e.deltaY > 0) {
+          // Scroll down — next section
+          if (currentSection < sections.length) {
+            goToSection(currentSection + 1);
+          }
+        } else {
+          // Scroll up — previous section or hero
+          goToSection(currentSection - 1);
+        }
+      }, { passive: false });
+
+      // Nav link clicks should work
+      document.querySelectorAll('.nav-links a[href^="#"]').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          var hash = this.getAttribute('href');
+          if (hash === '#hakkimizda') { e.preventDefault(); goToSection(0); }
+          else if (hash === '#cozumlerimiz') { e.preventDefault(); goToSection(1); }
+          else if (hash === '#iletisim') { e.preventDefault(); goToSection(4); }
+        });
+      });
+    })();
 
 } // end initBlact
 
