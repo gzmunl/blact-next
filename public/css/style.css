@@ -2582,7 +2582,7 @@ img { max-width: 100%; height: auto; display: block; }
     align-items: center !important;
     justify-content: center !important;
     text-align: center !important;
-    padding: 0 1.5rem 0.5rem !important;
+    padding: 0 1.5rem 12rem !important;
     padding-top: max(10vh, 4rem) !important;
     gap: 0 !important;
     width: 100% !important;
@@ -2590,7 +2590,7 @@ img { max-width: 100%; height: auto; display: block; }
     flex: 1 !important;
     box-sizing: border-box !important;
   }
-  .hero-left { width: 100%; position: relative; z-index: 50 !important; }
+  .hero-left { width: 100%; position: relative; z-index: 50 !important; margin-top: -3rem !important; }
   .hero-visual {
     position: absolute !important;
     top: 0 !important;
@@ -2629,9 +2629,12 @@ img { max-width: 100%; height: auto; display: block; }
   /* Engrave after JS moves it to hero-inner (outside hero-left) */
   .hero-inner > .engrave-wrap {
     display: block !important;
-    position: relative !important;
+    position: absolute !important;
+    top: 64vh !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
     width: 280px !important;
-    margin: 6.5rem auto 0 !important;
+    margin: 0 !important;
     z-index: 5 !important;
     opacity: 1 !important;
   }
@@ -2709,6 +2712,7 @@ img { max-width: 100%; height: auto; display: block; }
   .hero-left {
     position: relative !important;
     z-index: 20 !important;
+    margin-top: -3rem !important;
   }
   .hero-knockout {
     width: 100% !important;
@@ -2729,6 +2733,7 @@ img { max-width: 100%; height: auto; display: block; }
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: -1rem !important;
   }
   .hero-desc {
     font-size: 0.78rem !important;

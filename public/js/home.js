@@ -8,7 +8,7 @@ function initBlact() {
     // Title animation is triggered by loading screen block below
 
     // --- Mobile: move engrave-wrap to hero-inner ---
-    if (window.innerWidth <= 768) {
+    if (window.innerWidth <= 1024) {
       const ew = document.querySelector('.hero-visual .engrave-wrap');
       const hi = document.querySelector('.hero-inner');
       if (ew && hi) hi.appendChild(ew);
@@ -90,7 +90,7 @@ function initBlact() {
     const heroReveal = document.getElementById('heroReveal');
     let mouseX = 0, mouseY = 0, glowX = 0, glowY = 0;
 
-    if (window.innerWidth > 768) {
+    if (window.innerWidth > 1024) {
       document.addEventListener('mousemove', e => {
         mouseX = e.clientX;
         mouseY = e.clientY;
