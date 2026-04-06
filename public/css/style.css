@@ -14,7 +14,7 @@
 
 @font-face {
   font-family: 'Industry';
-  src: url('../fonts/Industry Bold.ttf') format('truetype');
+  src: url('../fonts/IndustryBold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -2817,18 +2817,21 @@ img { max-width: 100%; height: auto; display: block; }
   .scroll-indicator { display: none !important; }
 
   .hero-areas {
-    position: relative !important;
+    position: absolute !important;
     bottom: auto !important;
+    top: calc(100% - 12rem) !important;
+    left: 0 !important;
     width: 100% !important;
     padding: 0.6rem 1.5rem !important;
     margin: 0 !important;
-    transform: translateY(-5rem) !important;
+    transform: none !important;
     justify-content: center !important;
     flex-wrap: wrap !important;
     gap: 0.6rem 1.2rem !important;
-    border-top: 1px solid rgba(255,255,255,0.06) !important;
+    border-top: none !important;
     flex-shrink: 0 !important;
-    padding-bottom: env(safe-area-inset-bottom, 0.8rem) !important;
+    padding-bottom: 0 !important;
+    z-index: 30 !important;
   }
   .hero-area {
     font-size: 0.6rem !important;

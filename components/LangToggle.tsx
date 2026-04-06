@@ -1,4 +1,5 @@
 'use client'
+import { useCallback } from 'react'
 import { useLang } from '@/lib/i18n'
 
 function TRFlag() {
@@ -28,19 +29,36 @@ function GBFlag() {
 export default function LangToggle() {
   const { lang, setLang } = useLang()
 
+  const switchLang = useCallback((newLang: 'tr' | 'en') => {
+    if (newLang === lang) return
+    const isHomePage = !!document.getElementById('heroWrapper')
+    if (isHomePage) {
+      // Homepage: update React state + call home.js switchLang for tech bands etc.
+      setLang(newLang)
+      const fn = (window as any).__blactSwitchLang
+      if (fn) fn(newLang)
+    } else {
+      // Sub-pages: save lang and reload for clean translation
+      localStorage.setItem('blact-lang', newLang)
+      window.location.reload()
+    }
+  }, [lang, setLang])
+
   return (
     <div className="lang-toggle" style={{ display: 'flex', gap: '0.4rem', alignItems: 'center' }}>
       <button
-        onClick={() => setLang('tr')}
+        onClick={() => switchLang('tr')}
         className={`lang-flag-btn ${lang === 'tr' ? 'active' : ''}`}
+        data-lang="tr"
         aria-label="Türkçe"
         title="Türkçe"
       >
         <TRFlag />
       </button>
       <button
-        onClick={() => setLang('en')}
+        onClick={() => switchLang('en')}
         className={`lang-flag-btn ${lang === 'en' ? 'active' : ''}`}
+        data-lang="en"
         aria-label="English"
         title="English"
       >

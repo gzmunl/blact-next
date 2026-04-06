@@ -1434,7 +1434,7 @@ function initBlact() {
         { sel: '.solution-card:nth-child(4) p', key: 'solutions.card4Desc' },
         { sel: '.solution-card:nth-child(4) .solution-link', key: 'solutions.card4Link', suffix: ' →' },
         // Blog
-        { sel: '.blog-header .blog-btn', key: 'blog.btnAll', suffix: ' →' },
+        { sel: '.blog-header .btn', key: 'blog.btnAll', suffix: ' →' },
         { sel: '.blog-mag-main .blog-mag-cat', key: 'blog.post1Cat' },
         { sel: '.blog-mag-main h3', key: 'blog.post1Title' },
         { sel: '.blog-mag-main p', key: 'blog.post1Excerpt' },
@@ -1443,7 +1443,7 @@ function initBlact() {
         { sel: '.blog-mag-card:nth-child(2) .blog-mag-cat', key: 'blog.post3Cat' },
         { sel: '.blog-mag-card:nth-child(2) h3', key: 'blog.post3Title' },
         // News
-        { sel: '.news-header .news-btn', key: 'news.btnAll', suffix: ' →' },
+        { sel: '.news-header .btn', key: 'news.btnAll', suffix: ' →' },
         { sel: '.news-card:nth-child(1) .news-card-cat', key: 'news.item1Cat' },
         { sel: '.news-card:nth-child(1) h3', key: 'news.item1Title' },
         { sel: '.news-card:nth-child(1) .news-card-content > p', key: 'news.item1Desc' },
@@ -1460,7 +1460,11 @@ function initBlact() {
         { sel: '.nu-newsletter button', key: 'contact.newsletterBtn' },
         { sel: '.nu-contact .section-label', key: 'contact.label' },
         { sel: '.nu-contact .section-title', key: 'contact.title' },
-        { sel: '.nu-contact .section-desc', key: 'contact.desc' },
+        { sel: '.nu-contact-desc', key: 'contact.desc' },
+        { sel: '.nu-info-card:nth-child(1) .nu-info-label', key: 'contact.emailLabel' },
+        { sel: '.nu-info-card:nth-child(2) .nu-info-label', key: 'contact.locationLabel' },
+        { sel: '.nu-info-card:nth-child(2) .nu-info-value', key: 'contact.locationValue' },
+        { sel: '.nu-info-card:nth-child(3) .nu-info-label', key: 'contact.phoneLabel' },
         { sel: '.nu-contact-right button', key: 'contact.sendBtn', suffix: ' →' },
         // Footer
         { sel: '.footer-headline', key: 'footer.headlineFull', html: true },
@@ -1552,8 +1556,43 @@ function initBlact() {
             });
           }
         });
+
+        // Tech band items — map any known text (TR or EN) to current language
+        var techStrip = translations.techStrip;
+        if (techStrip) {
+          var trTexts = {
+            slm: 'SLM', waam: 'WAAM', lsam: 'LSAM',
+            carbonFiber: 'Karbon Fiber', uavSystems: 'İHA Sistemleri', usvSystems: 'İDA Sistemleri',
+            energySolutions: 'Enerji Çözümleri', composite: 'Kompozit', autonomousSystems: 'Otonom Sistemler',
+            additiveManufacturing: 'Eklemeli İmalat', compositeTech: 'Kompozit Teknolojisi',
+            unmannedVehicles: 'İnsansız Araçlar', sustainability: 'Sürdürülebilirlik',
+            rnd: 'Ar-Ge', engineering: 'Mühendislik'
+          };
+          var enTexts = {
+            slm: 'SLM', waam: 'WAAM', lsam: 'LSAM',
+            carbonFiber: 'Carbon Fiber', uavSystems: 'UAV Systems', usvSystems: 'USV Systems',
+            energySolutions: 'Energy Solutions', composite: 'Composite', autonomousSystems: 'Autonomous Systems',
+            additiveManufacturing: 'Additive Manufacturing', compositeTech: 'Composite Technology',
+            unmannedVehicles: 'Unmanned Vehicles', sustainability: 'Sustainability',
+            rnd: 'R&D', engineering: 'Engineering'
+          };
+          // Build lookup: any known text → target text
+          var techMap = {};
+          Object.keys(trTexts).forEach(function(key) {
+            var target = techStrip[key] || trTexts[key];
+            techMap[trTexts[key]] = target;
+            techMap[enTexts[key]] = target;
+          });
+          document.querySelectorAll('.tech-item, .sol-tech-inner span').forEach(function(el) {
+            var text = el.childNodes[0] ? el.childNodes[0].textContent.trim() : '';
+            if (techMap[text]) {
+              el.childNodes[0].textContent = techMap[text] + ' ';
+            }
+          });
+        }
       }
 
+      window.__blactSwitchLang = switchLang;
       function switchLang(lang) {
         currentLang = lang;
         localStorage.setItem('blact-lang', lang);
@@ -1571,6 +1610,17 @@ function initBlact() {
         btn.addEventListener('click', function() {
           switchLang(this.getAttribute('data-lang'));
         });
+      });
+
+      // Event delegation for React-rendered lang buttons
+      document.addEventListener('click', function(e) {
+        var btn = e.target.closest('.lang-flag-btn[data-lang]');
+        if (btn) {
+          var newLang = btn.getAttribute('data-lang');
+          if (newLang && newLang !== currentLang) {
+            switchLang(newLang);
+          }
+        }
       });
 
       // Apply saved language on load
@@ -1947,3 +1997,47 @@ if (document.readyState === 'loading') {
 } else {
   initBlact();
 }
+
+// --- Contact Form Submit ---
+document.addEventListener('submit', function(e) {
+  var form = e.target.closest('.nu-form');
+  if (!form) return;
+  e.preventDefault();
+
+  var name = (form.querySelector('#nuName') || {}).value || '';
+  var surname = (form.querySelector('#nuSurname') || {}).value || '';
+  var email = (form.querySelector('#nuEmail') || {}).value || '';
+  var subject = (form.querySelector('#nuSubject') || {}).value || '';
+  var message = (form.querySelector('#nuMessage') || {}).value || '';
+
+  if (!name || !surname || !email || !message) return;
+
+  var btn = form.querySelector('.nu-submit');
+  var btnText = btn ? btn.querySelector('span') : null;
+  var origText = btnText ? btnText.textContent : '';
+  if (btnText) btnText.textContent = '...';
+  if (btn) btn.disabled = true;
+
+  fetch('/api/contact', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: name, surname: surname, email: email, subject: subject, message: message })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.id) {
+      var lang = localStorage.getItem('blact-lang') || 'en';
+      if (btnText) btnText.textContent = lang === 'en' ? 'Sent!' : 'Gönderildi!';
+      form.reset();
+      setTimeout(function() { if (btnText) btnText.textContent = origText; }, 3000);
+    } else {
+      if (btnText) btnText.textContent = 'Error';
+      setTimeout(function() { if (btnText) btnText.textContent = origText; }, 3000);
+    }
+  })
+  .catch(function() {
+    if (btnText) btnText.textContent = 'Error';
+    setTimeout(function() { if (btnText) btnText.textContent = origText; }, 3000);
+  })
+  .finally(function() { if (btn) btn.disabled = false; });
+});

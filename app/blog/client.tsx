@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import { useI18n } from '@/lib/i18n'
 
-interface Category { slug: string; name: string; }
+interface Category { slug: string; name: string; nameEn?: string; }
 interface Post { slug: string; title: string; excerpt: string; image: string; category: string; categorySlug: string; date: string; readTime: number; }
 
 const monthsTr = ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'];
@@ -38,7 +38,7 @@ export default function BlogClient({ categories, posts }: { categories: Category
       <div className="bp-filters">
         <button className={`bp-filter ${filter === 'all' ? 'active' : ''}`} onClick={() => setFilter('all')}>{lang === 'en' ? 'All' : 'Tümü'}</button>
         {categories.map(cat => (
-          <button key={cat.slug} className={`bp-filter ${filter === cat.slug ? 'active' : ''}`} onClick={() => setFilter(cat.slug)}>{cat.name}</button>
+          <button key={cat.slug} className={`bp-filter ${filter === cat.slug ? 'active' : ''}`} onClick={() => setFilter(cat.slug)}>{lang === 'en' && cat.nameEn ? cat.nameEn : cat.name}</button>
         ))}
       </div>
       <div className="bp-grid">

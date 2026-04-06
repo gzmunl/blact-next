@@ -3,16 +3,20 @@ import { useEffect, useState } from 'react'
 import AdminLayout from '@/components/admin/AdminLayout'
 
 export default function AdminDashboard() {
-  const [stats, setStats] = useState({ blogCount: 0, newsCount: 0 })
+  const [stats, setStats] = useState({ blogCount: 0, newsCount: 0, msgCount: 0, unreadCount: 0 })
 
   useEffect(() => {
     Promise.all([
       fetch('/api/blog').then(r => r.json()),
       fetch('/api/news').then(r => r.json()),
-    ]).then(([blogs, news]) => {
+      fetch('/api/contact').then(r => r.json()),
+    ]).then(([blogs, news, msgs]) => {
+      const msgArr = Array.isArray(msgs) ? msgs : []
       setStats({
         blogCount: Array.isArray(blogs) ? blogs.length : 0,
         newsCount: Array.isArray(news) ? news.length : 0,
+        msgCount: msgArr.length,
+        unreadCount: msgArr.filter((m: any) => !m.read).length,
       })
     }).catch(() => {})
   }, [])
@@ -29,8 +33,10 @@ export default function AdminDashboard() {
           <div className="admin-stat-label">Haber</div>
         </div>
         <div className="admin-stat-card">
-          <div className="admin-stat-number">{stats.blogCount + stats.newsCount}</div>
-          <div className="admin-stat-label">Toplam İçerik</div>
+          <a href="/admin/messages" style={{ textDecoration: 'none' }}>
+            <div className="admin-stat-number">{stats.unreadCount > 0 ? stats.unreadCount : stats.msgCount}</div>
+            <div className="admin-stat-label">{stats.unreadCount > 0 ? 'Okunmamış Mesaj' : 'Mesaj'}</div>
+          </a>
         </div>
         <div className="admin-stat-card">
           <a href="/admin/blog/new" className="admin-btn admin-btn-primary" style={{ width: '100%', justifyContent: 'center' }}>

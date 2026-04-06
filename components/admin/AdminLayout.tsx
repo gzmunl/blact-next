@@ -13,6 +13,7 @@ const adminStyles = `
   .admin-nav li a:hover { color: #fff; background: rgba(255,255,255,0.03); }
   .admin-nav li a.active { color: #e2771d; border-left-color: #e2771d; background: rgba(226,119,29,0.05); }
   .admin-nav-divider { height: 1px; background: #222; margin: 1rem 1.5rem; }
+  .admin-nav-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 18px; height: 18px; background: #ef4444; color: #fff; font-size: 0.6rem; font-weight: 800; border-radius: 50%; margin-left: auto; line-height: 1; padding: 0 4px; }
   .admin-main { flex: 1; margin-left: 240px; padding: 2rem 2.5rem; }
   .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid #1a1a1a; }
   .admin-header h1 { font-family: 'Industry', sans-serif; font-size: 1.5rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1px; }
@@ -47,11 +48,22 @@ const adminStyles = `
   .admin-empty { text-align: center; padding: 4rem 2rem; color: #555; }
   .admin-empty p { margin-bottom: 1rem; }
   @media (max-width: 768px) {
-    .admin-sidebar { width: 60px; }
+    .admin-sidebar { width: 50px; padding: 1rem 0; }
+    .admin-sidebar-logo { padding: 0 0.6rem; margin-bottom: 1.5rem; }
     .admin-sidebar-logo h2, .admin-sidebar-logo span, .admin-nav li a span { display: none; }
-    .admin-main { margin-left: 60px; padding: 1.5rem; }
-    .admin-stats { grid-template-columns: repeat(2, 1fr); }
+    .admin-nav li a { padding: 0.8rem 0; justify-content: center; border-left: none; border-bottom: 2px solid transparent; font-size: 1.1rem; }
+    .admin-nav li a.active { border-left: none; border-bottom-color: #e2771d; }
+    .admin-nav-divider { margin: 0.5rem 0.5rem; }
+    .admin-main { margin-left: 50px; padding: 1rem 0.8rem; }
+    .admin-header { margin-bottom: 1rem; padding-bottom: 1rem; }
+    .admin-header h1 { font-size: 1.1rem; }
+    .admin-stats { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
+    .admin-stat-card { padding: 1rem; }
+    .admin-stat-number { font-size: 1.5rem; }
     .admin-form-row { grid-template-columns: 1fr; }
+    .admin-table { font-size: 0.75rem; }
+    .admin-table th, .admin-table td { padding: 0.6rem 0.5rem; }
+    .admin-btn { padding: 0.5rem 0.8rem; font-size: 0.7rem; }
   }
 `
 
@@ -59,14 +71,21 @@ const navItems = [
   { href: '/admin', label: 'Dashboard', icon: '◆' },
   { href: '/admin/blog', label: 'Blog Yazıları', icon: '✎' },
   { href: '/admin/news', label: 'Haberler', icon: '☰' },
+  { href: '/admin/messages', label: 'Mesajlar', icon: '✉' },
 ]
 
 export default function AdminLayout({ children, title }: { children: React.ReactNode; title: string }) {
   const pathname = usePathname()
   const router = useRouter()
   const [mounted, setMounted] = useState(false)
+  const [unreadCount, setUnreadCount] = useState(0)
 
-  useEffect(() => { setMounted(true) }, [])
+  useEffect(() => {
+    setMounted(true)
+    fetch('/api/contact').then(r => r.json()).then(msgs => {
+      if (Array.isArray(msgs)) setUnreadCount(msgs.filter((m: any) => !m.read).length)
+    }).catch(() => {})
+  }, [])
 
   const handleLogout = async () => {
     await fetch('/api/auth/logout', { method: 'POST' })
@@ -89,6 +108,9 @@ export default function AdminLayout({ children, title }: { children: React.React
               <li key={item.href}>
                 <a href={item.href} className={pathname === item.href ? 'active' : ''}>
                   {item.icon} <span>{item.label}</span>
+                  {item.href === '/admin/messages' && unreadCount > 0 && (
+                    <span className="admin-nav-badge">{unreadCount}</span>
+                  )}
                 </a>
               </li>
             ))}
@@ -97,7 +119,7 @@ export default function AdminLayout({ children, title }: { children: React.React
               <a href="/" target="_blank">↗ <span>Siteyi Gör</span></a>
             </li>
             <li>
-              <a href="#" onClick={(e) => { e.preventDefault(); handleLogout() }}>⏻ <span>Çıkış</span></a>
+              <a href="#" onClick={(e) => { e.preventDefault(); handleLogout() }} style={{ color: '#ef4444' }}>✕ <span>Çıkış</span></a>
             </li>
           </ul>
         </aside>

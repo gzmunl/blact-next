@@ -11,10 +11,10 @@ export interface BlogPost {
 }
 
 export const blogCategories = [
-  { slug: "eklemeli-imalat", name: "Eklemeli İmalat" },
-  { slug: "kompozit", name: "Kompozit" },
-  { slug: "insansiz-araclar", name: "İnsansız Araçlar" },
-  { slug: "surdurulebilirlik", name: "Sürdürülebilirlik" },
+  { slug: "eklemeli-imalat", name: "Eklemeli İmalat", nameEn: "Additive Manufacturing" },
+  { slug: "kompozit", name: "Kompozit", nameEn: "Composite" },
+  { slug: "insansiz-araclar", name: "İnsansız Araçlar", nameEn: "Unmanned Vehicles" },
+  { slug: "surdurulebilirlik", name: "Sürdürülebilirlik", nameEn: "Sustainability" },
 ];
 
 export const blogPosts: BlogPost[] = [

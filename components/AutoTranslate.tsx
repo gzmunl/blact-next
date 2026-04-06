@@ -55,7 +55,6 @@ async function translateBatch(texts: string[], source: string, target: string): 
     }
   })
 
-  // Batch API calls (max 128 per request)
   for (let i = 0; i < toTranslate.length; i += 100) {
     const batch = toTranslate.slice(i, i + 100)
     const params = new URLSearchParams()
@@ -83,68 +82,46 @@ async function translateBatch(texts: string[], source: string, target: string): 
   }
 
   setCache(cache)
-  // Fill any missing with original
   texts.forEach((text, i) => { if (!results[i]) results[i] = text })
   return results
 }
 
+// Only handles initial page load translation (TR→EN).
+// Language switches on sub-pages are handled by LangToggle via page reload.
 export default function AutoTranslate() {
   const { lang } = useI18n()
-  const originals = useRef<Map<Node, string>>(new Map())
-  const originalPlaceholders = useRef<Map<Element, string>>(new Map())
-  const lastLang = useRef('tr')
+  const translated = useRef(false)
 
   useEffect(() => {
-    if (lang === lastLang.current) return
-    lastLang.current = lang
+    // Skip on homepage — home.js handles translation there
+    if (document.getElementById('heroWrapper')) return
+    // Already translated or Turkish (no translation needed)
+    if (translated.current || lang === 'tr') return
+    translated.current = true
 
     const root = document.body
-
-    if (lang === 'tr') {
-      // Restore originals
-      originals.current.forEach((text, node) => { node.textContent = text })
-      originalPlaceholders.current.forEach((ph, el) => { (el as HTMLInputElement).placeholder = ph })
-      return
-    }
-
-    // Translate to target language
     const textNodes = getTextNodes(root)
     const placeholders = getPlaceholders(root)
 
-    // Save originals
-    textNodes.forEach(node => {
-      if (!originals.current.has(node)) {
-        originals.current.set(node, node.textContent || '')
-      }
-    })
-    placeholders.forEach(el => {
-      if (!originalPlaceholders.current.has(el)) {
-        originalPlaceholders.current.set(el, (el as HTMLInputElement).placeholder)
-      }
-    })
-
     const allTexts = [
-      ...textNodes.map(n => originals.current.get(n) || n.textContent || ''),
-      ...placeholders.map(el => originalPlaceholders.current.get(el) || (el as HTMLInputElement).placeholder)
+      ...textNodes.map(n => n.textContent || ''),
+      ...placeholders.map(el => el.placeholder)
     ]
 
-    // Deduplicate for API efficiency
     const unique = [...new Set(allTexts.filter(t => t.trim().length >= 2))]
 
-    translateBatch(unique, 'tr', lang).then(translated => {
+    translateBatch(unique, 'tr', lang).then(results => {
       const map = new Map<string, string>()
-      unique.forEach((text, i) => map.set(text, translated[i]))
+      unique.forEach((text, i) => map.set(text, results[i]))
 
       textNodes.forEach(node => {
-        const orig = originals.current.get(node) || ''
-        const tr = map.get(orig)
+        const tr = map.get(node.textContent || '')
         if (tr) node.textContent = tr
       })
 
       placeholders.forEach(el => {
-        const orig = originalPlaceholders.current.get(el) || ''
-        const tr = map.get(orig)
-        if (tr) (el as HTMLInputElement).placeholder = tr
+        const tr = map.get(el.placeholder)
+        if (tr) el.placeholder = tr
       })
     })
   }, [lang])

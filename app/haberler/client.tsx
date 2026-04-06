@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import { useI18n } from '@/lib/i18n'
 
-interface Category { slug: string; name: string; }
+interface Category { slug: string; name: string; nameEn?: string; }
 interface Post { slug: string; title: string; excerpt: string; image: string; category: string; categorySlug: string; date: string; }
 
 const monthsTr = ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'];
@@ -39,7 +39,7 @@ export default function HaberlerClient({ categories, posts }: { categories: Cate
         <div className="np-filters">
           <button className={`np-filter ${filter === 'all' ? 'active' : ''}`} onClick={() => setFilter('all')}>{lang === 'en' ? 'All' : 'Tümü'}</button>
           {categories.map(cat => (
-            <button key={cat.slug} className={`np-filter ${filter === cat.slug ? 'active' : ''}`} onClick={() => setFilter(cat.slug)}>{cat.name}</button>
+            <button key={cat.slug} className={`np-filter ${filter === cat.slug ? 'active' : ''}`} onClick={() => setFilter(cat.slug)}>{lang === 'en' && cat.nameEn ? cat.nameEn : cat.name}</button>
           ))}
         </div>
         <div className="np-grid">
@@ -67,7 +67,7 @@ export default function HaberlerClient({ categories, posts }: { categories: Cate
               const count = posts.filter(p => p.categorySlug === cat.slug).length
               return (
                 <li key={cat.slug}>
-                  <a href="#" onClick={(e) => { e.preventDefault(); setFilter(cat.slug); }}>{cat.name} <span className="np-cat-count">({count})</span></a>
+                  <a href="#" onClick={(e) => { e.preventDefault(); setFilter(cat.slug); }}>{lang === 'en' && cat.nameEn ? cat.nameEn : cat.name} <span className="np-cat-count">({count})</span></a>
                 </li>
               )
             })}
