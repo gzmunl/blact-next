@@ -2157,46 +2157,10 @@ img { max-width: 100%; height: auto; display: block; }
   /* Container */
   .container { padding: 0 1.8rem; }
 
-  /* Hero: 2 kolon ama kompakt */
-  .hero-inner {
-    grid-template-columns: 1.3fr 0.7fr;
-    padding: 2rem 1.5rem 1.5rem;
-  }
-  .hero-knockout h1 {
-    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-  }
+  /* Hero: hide desktop grid, use mobile layout from 768px section */
   .hero-char { display: inline !important; }
-  .hero-stats { flex-wrap: wrap; gap: 1.5rem; }
-  .hero-stat-number { font-size: 1.4rem; }
-  .hero-stat-label { font-size: 0.6rem; }
-  .hero-visual { max-height: 350px; overflow: visible; }
-  .engrave-wrap { width: 100% !important; max-width: 400px; }
-  .hero-areas { flex-wrap: wrap; gap: 1.2rem; padding: 1rem 1.5rem 0; }
-  .hero-areas a { font-size: 0.7rem; }
 }
 
-@media (max-width: 900px) {
-  .hero-inner {
-    grid-template-columns: 1fr !important;
-    text-align: center;
-    padding: 5rem 2rem 2rem !important;
-  }
-  .hero-knockout h1 { text-align: center; }
-  .hero-content { text-align: center; }
-  .hero-desc { margin-left: auto; margin-right: auto; }
-  .hero-buttons { justify-content: center; }
-  .hero-stats { justify-content: center; }
-  .hero-visual {
-    position: absolute !important;
-    top: 0; left: 0; right: 0; bottom: 0;
-    width: 100% !important; height: 100% !important;
-    max-height: none !important;
-    pointer-events: none;
-    z-index: 0;
-  }
-  .hero-laser-img { display: none !important; }
-  .hero-areas { position: static; justify-content: center; }
-}
 
 @media (max-width: 1024px) {
   /* Nav: hamburger menüye geç */
@@ -2378,7 +2342,7 @@ img { max-width: 100%; height: auto; display: block; }
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   /* --- Navigation --- */
   .nav-links {
     display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
