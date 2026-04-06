@@ -93,6 +93,7 @@ export default function PostForm({ type, initialData }: PostFormProps) {
       const res = await fetch(endpoint, {
         method,
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify(form),
       })
 

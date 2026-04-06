@@ -82,6 +82,11 @@ export default function AdminLayout({ children, title }: { children: React.React
 
   useEffect(() => {
     setMounted(true)
+    // Auth check
+    fetch('/api/auth/check').then(r => {
+      if (!r.ok) router.push('/admin/login')
+    }).catch(() => router.push('/admin/login'))
+    // Unread messages
     fetch('/api/contact').then(r => r.json()).then(msgs => {
       if (Array.isArray(msgs)) setUnreadCount(msgs.filter((m: any) => !m.read).length)
     }).catch(() => {})
