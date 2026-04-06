@@ -1385,7 +1385,7 @@ function initBlact() {
     // --- Language Toggle: flag buttons switch content ---
     (function() {
       var langBtns = document.querySelectorAll('.lang-flag-btn');
-      var currentLang = localStorage.getItem('blact-lang') || 'tr';
+      var currentLang = localStorage.getItem('blact-lang') || 'en';
 
       // Text mapping: element selector → translation key
       var textMap = [
@@ -1487,6 +1487,33 @@ function initBlact() {
         { sel: '.nav-links li:nth-child(5) a', key: 'nav.contact' },
         // Scroll indicator
         { sel: '.scroll-text', key: 'hero.scroll' },
+        // Footer links
+        { sel: '.footer-col:nth-child(2) li:nth-child(1) a', key: 'footer.sol1' },
+        { sel: '.footer-col:nth-child(2) li:nth-child(2) a', key: 'footer.sol2' },
+        { sel: '.footer-col:nth-child(2) li:nth-child(3) a', key: 'footer.sol3' },
+        { sel: '.footer-col:nth-child(2) li:nth-child(4) a', key: 'footer.sol4' },
+        { sel: '.footer-col:nth-child(3) li:nth-child(1) a', key: 'footer.comp1' },
+        { sel: '.footer-col:nth-child(3) li:nth-child(2) a', key: 'footer.comp2' },
+        { sel: '.footer-col:nth-child(3) li:nth-child(3) a', key: 'footer.comp3' },
+        { sel: '.footer-col:nth-child(3) li:nth-child(4) a', key: 'footer.comp4' },
+        { sel: '.footer-col:nth-child(4) li:nth-child(1) a', key: 'footer.tech1' },
+        { sel: '.footer-col:nth-child(4) li:nth-child(2) a', key: 'footer.tech2' },
+        { sel: '.footer-col:nth-child(4) li:nth-child(3) a', key: 'footer.tech3' },
+        { sel: '.footer-col:nth-child(4) li:nth-child(4) a', key: 'footer.tech4' },
+        // Contact form labels
+        { sel: 'label[for="nuName"]', key: 'contact.nameLabel' },
+        { sel: 'label[for="nuSurname"]', key: 'contact.surnameLabel' },
+        { sel: 'label[for="nuEmail"]', key: 'contact.emailFieldLabel' },
+        { sel: 'label[for="nuSubject"]', key: 'contact.subjectLabel' },
+        { sel: 'label[for="nuMessage"]', key: 'contact.messageLabel' },
+        { sel: '.nu-submit span', key: 'contact.sendBtn' },
+        // Newsletter
+        { sel: '.nu-newsletter input[type="email"]', key: 'contact.newsletterPlaceholder', attr: 'placeholder' },
+        // Dropdown menu
+        { sel: '.dropdown-menu a:nth-child(1)', key: 'footer.sol1' },
+        { sel: '.dropdown-menu a:nth-child(2)', key: 'footer.sol2' },
+        { sel: '.dropdown-menu a:nth-child(3)', key: 'footer.sol3' },
+        { sel: '.dropdown-menu a:nth-child(4)', key: 'footer.sol4' },
       ];
 
       function getNestedValue(obj, path) {
@@ -1547,9 +1574,7 @@ function initBlact() {
       });
 
       // Apply saved language on load
-      if (currentLang !== 'tr') {
-        switchLang(currentLang);
-      }
+      switchLang(currentLang);
     })();
 
     // --- Fullpage Scroll Engine ---

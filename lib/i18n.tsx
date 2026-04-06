@@ -23,7 +23,7 @@ function getInitialLang(): Lang {
     const saved = localStorage.getItem('blact-lang') as Lang
     if (saved === 'tr' || saved === 'en') return saved
   }
-  return 'tr'
+  return 'en'
 }
 
 export function I18nProvider({ children }: { children: ReactNode }) {
